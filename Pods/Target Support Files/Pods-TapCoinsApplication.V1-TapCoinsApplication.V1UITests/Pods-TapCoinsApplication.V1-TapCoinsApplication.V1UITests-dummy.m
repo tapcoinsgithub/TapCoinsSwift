@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests : NSObject
+@end
+@implementation PodsDummy_Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests
+@end

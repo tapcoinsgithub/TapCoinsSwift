@@ -1,0 +1,1321 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4A6F59B68034472B554F7D8A /* Pods_TapCoinsApplication_V1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA83A5984AC1B030B229DEE /* Pods_TapCoinsApplication_V1Tests.framework */; };
+		4C2ABA4261B2724F557E9E69 /* Pods_TapCoinsApplication_V1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420EC31FDA660F28F9DCCCF /* Pods_TapCoinsApplication_V1.framework */; };
+		CF7964562BEC0659008AB68E /* BackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7964552BEC0659008AB68E /* BackButtonView.swift */; };
+		CF7964592BEC15E5008AB68E /* DeleteAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7964582BEC15E5008AB68E /* DeleteAccountView.swift */; };
+		CF79645B2BEC15F2008AB68E /* DeleteAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF79645A2BEC15F2008AB68E /* DeleteAccountViewModel.swift */; };
+		CFA9858A2BA4B47C00177F94 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9854D2BA4B47C00177F94 /* AboutView.swift */; };
+		CFA9858B2BA4B47C00177F94 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9854F2BA4B47C00177F94 /* ContentView.swift */; };
+		CFA9858C2BA4B47C00177F94 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985502BA4B47C00177F94 /* ContentViewModel.swift */; };
+		CFA9858D2BA4B47C00177F94 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985522BA4B47C00177F94 /* ChangePasswordView.swift */; };
+		CFA9858E2BA4B47C00177F94 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985532BA4B47C00177F94 /* ChangePasswordViewModel.swift */; };
+		CFA9858F2BA4B47C00177F94 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985552BA4B47C00177F94 /* ForgotPasswordView.swift */; };
+		CFA985902BA4B47C00177F94 /* ForgotPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985562BA4B47C00177F94 /* ForgotPasswordViewModel.swift */; };
+		CFA985912BA4B47C00177F94 /* ForgotUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985582BA4B47C00177F94 /* ForgotUsernameView.swift */; };
+		CFA985922BA4B47C00177F94 /* ForgotUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985592BA4B47C00177F94 /* ForgotUsernameViewModel.swift */; };
+		CFA985932BA4B47C00177F94 /* SecurityQuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9855B2BA4B47C00177F94 /* SecurityQuestionsView.swift */; };
+		CFA985942BA4B47C00177F94 /* SecurityQuestionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9855C2BA4B47C00177F94 /* SecurityQuestionsViewModel.swift */; };
+		CFA985952BA4B47C00177F94 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9855F2BA4B47C00177F94 /* FriendsView.swift */; };
+		CFA985962BA4B47C00177F94 /* FriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985602BA4B47C00177F94 /* FriendsViewModel.swift */; };
+		CFA985972BA4B47C00177F94 /* CustomGameHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985622BA4B47C00177F94 /* CustomGameHandler.swift */; };
+		CFA985982BA4B47C00177F94 /* GameHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985632BA4B47C00177F94 /* GameHandler.swift */; };
+		CFA985992BA4B47C00177F94 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985642BA4B47C00177F94 /* GameView.swift */; };
+		CFA9859A2BA4B47C00177F94 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985652BA4B47C00177F94 /* GameViewModel.swift */; };
+		CFA9859B2BA4B47C00177F94 /* QueueHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985672BA4B47C00177F94 /* QueueHandler.swift */; };
+		CFA9859C2BA4B47C00177F94 /* QueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985682BA4B47C00177F94 /* QueueView.swift */; };
+		CFA9859D2BA4B47C00177F94 /* QueueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985692BA4B47C00177F94 /* QueueViewModel.swift */; };
+		CFA9859E2BA4B47C00177F94 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9856C2BA4B47C00177F94 /* HomeView.swift */; };
+		CFA9859F2BA4B47C00177F94 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9856D2BA4B47C00177F94 /* HomeViewModel.swift */; };
+		CFA985A02BA4B47C00177F94 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9856F2BA4B47C00177F94 /* LoginView.swift */; };
+		CFA985A12BA4B47C00177F94 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985702BA4B47C00177F94 /* LoginViewModel.swift */; };
+		CFA985A22BA4B47C00177F94 /* PGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985722BA4B47C00177F94 /* PGameView.swift */; };
+		CFA985A32BA4B47C00177F94 /* PGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985732BA4B47C00177F94 /* PGameViewModel.swift */; };
+		CFA985A42BA4B47C00177F94 /* PMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985752BA4B47C00177F94 /* PMenuView.swift */; };
+		CFA985A52BA4B47C00177F94 /* PMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985762BA4B47C00177F94 /* PMenuViewModel.swift */; };
+		CFA985A62BA4B47C00177F94 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985792BA4B47C00177F94 /* ProfileView.swift */; };
+		CFA985A72BA4B47C00177F94 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9857A2BA4B47C00177F94 /* ProfileViewModel.swift */; };
+		CFA985A82BA4B47C00177F94 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9857C2BA4B47C00177F94 /* RegistrationView.swift */; };
+		CFA985A92BA4B47C00177F94 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9857D2BA4B47C00177F94 /* RegistrationViewModel.swift */; };
+		CFA985AA2BA4B47C00177F94 /* AccountInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9857F2BA4B47C00177F94 /* AccountInformationView.swift */; };
+		CFA985AB2BA4B47C00177F94 /* AccountInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985802BA4B47C00177F94 /* AccountInformationViewModel.swift */; };
+		CFA985AC2BA4B47C00177F94 /* CreatePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985812BA4B47C00177F94 /* CreatePasswordView.swift */; };
+		CFA985AD2BA4B47C00177F94 /* ToggleSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985832BA4B47C00177F94 /* ToggleSettingsView.swift */; };
+		CFA985AE2BA4B47C00177F94 /* ToggleSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985842BA4B47C00177F94 /* ToggleSettingsViewModel.swift */; };
+		CFA985AF2BA4B47C00177F94 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985862BA4B47C00177F94 /* SettingsView.swift */; };
+		CFA985B02BA4B47C00177F94 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985872BA4B47C00177F94 /* SettingsViewModel.swift */; };
+		CFA985D02BA4B49100177F94 /* BlueBackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985B12BA4B49100177F94 /* BlueBackButtonView.swift */; };
+		CFA985D12BA4B49100177F94 /* HomePageButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985B22BA4B49100177F94 /* HomePageButtonView.swift */; };
+		CFA985D22BA4B49100177F94 /* RedBackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985B32BA4B49100177F94 /* RedBackButtonView.swift */; };
+		CFA985D32BA4B49100177F94 /* YellowBackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985B42BA4B49100177F94 /* YellowBackButtonView.swift */; };
+		CFA985D42BA4B49100177F94 /* PCoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985B62BA4B49100177F94 /* PCoinView.swift */; };
+		CFA985D52BA4B49100177F94 /* CoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985B72BA4B49100177F94 /* CoinView.swift */; };
+		CFA985D62BA4B49100177F94 /* FriendsListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985B92BA4B49100177F94 /* FriendsListItemView.swift */; };
+		CFA985D72BA4B49100177F94 /* FriendsListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985BA2BA4B49100177F94 /* FriendsListItemViewModel.swift */; };
+		CFA985D82BA4B49100177F94 /* SecurityQuestionsComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985BC2BA4B49100177F94 /* SecurityQuestionsComponentView.swift */; };
+		CFA985D92BA4B49100177F94 /* SecurityQuestionsComponentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985BD2BA4B49100177F94 /* SecurityQuestionsComponentViewModel.swift */; };
+		CFA985DA2BA4B49100177F94 /* ToggleSettingsSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985BF2BA4B49100177F94 /* ToggleSettingsSwitchView.swift */; };
+		CFA985DB2BA4B49100177F94 /* ToggleSettingsSwitchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985C02BA4B49100177F94 /* ToggleSettingsSwitchViewModel.swift */; };
+		CFA985DC2BA4B49100177F94 /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985C32BA4B49100177F94 /* GlobalEnums.swift */; };
+		CFA985DD2BA4B49100177F94 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985C42BA4B49100177F94 /* GlobalFunctions.swift */; };
+		CFA985DE2BA4B49100177F94 /* GlobalValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985C52BA4B49100177F94 /* GlobalValues.swift */; };
+		CFA985DF2BA4B49100177F94 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985C72BA4B49100177F94 /* HapticsManager.swift */; };
+		CFA985E02BA4B49100177F94 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985C82BA4B49100177F94 /* LocationManager.swift */; };
+		CFA985E12BA4B49100177F94 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985C92BA4B49100177F94 /* SoundManager.swift */; };
+		CFA985E22BA4B49100177F94 /* CustomColorsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985CB2BA4B49100177F94 /* CustomColorsModel.swift */; };
+		CFA985E32BA4B49100177F94 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985CC2BA4B49100177F94 /* UserViewModel.swift */; };
+		CFA985E42BA4B49100177F94 /* BannerAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA985CE2BA4B49100177F94 /* BannerAd.swift */; };
+		CFA985E62BA4B4A200177F94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFA985E52BA4B4A200177F94 /* Assets.xcassets */; };
+		CFA985EA2BA4B4E300177F94 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = CFA985E92BA4B4E300177F94 /* SocketIO */; };
+		CFD92ABF2BA4B353001B05DF /* TapCoinsApplication_V1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92ABE2BA4B353001B05DF /* TapCoinsApplication_V1App.swift */; };
+		CFD92AC92BA4B354001B05DF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFD92AC82BA4B354001B05DF /* Preview Assets.xcassets */; };
+		CFD92AD32BA4B354001B05DF /* TapCoinsApplication_V1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92AD22BA4B354001B05DF /* TapCoinsApplication_V1Tests.swift */; };
+		CFD92ADD2BA4B354001B05DF /* TapCoinsApplication_V1UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92ADC2BA4B354001B05DF /* TapCoinsApplication_V1UITests.swift */; };
+		CFD92ADF2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92ADE2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift */; };
+		E4D8CD004A43A6DEFD317DBF /* Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E24BAF757016433AB4790E9 /* Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CFD92ACF2BA4B354001B05DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFD92AB32BA4B353001B05DF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CFD92ABA2BA4B353001B05DF;
+			remoteInfo = TapCoinsApplication.V1;
+		};
+		CFD92AD92BA4B354001B05DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFD92AB32BA4B353001B05DF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CFD92ABA2BA4B353001B05DF;
+			remoteInfo = TapCoinsApplication.V1;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0420EC31FDA660F28F9DCCCF /* Pods_TapCoinsApplication_V1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TapCoinsApplication_V1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		099B42F2CA4A80B5BC6874C5 /* Pods-TapCoinsApplication.V1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapCoinsApplication.V1.debug.xcconfig"; path = "Target Support Files/Pods-TapCoinsApplication.V1/Pods-TapCoinsApplication.V1.debug.xcconfig"; sourceTree = "<group>"; };
+		1FA83A5984AC1B030B229DEE /* Pods_TapCoinsApplication_V1Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TapCoinsApplication_V1Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E24BAF757016433AB4790E9 /* Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D7A35AEE7C782570ACE0CF6 /* Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.release.xcconfig"; path = "Target Support Files/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.release.xcconfig"; sourceTree = "<group>"; };
+		99C3C0FA6F33E7557125F47D /* Pods-TapCoinsApplication.V1Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapCoinsApplication.V1Tests.release.xcconfig"; path = "Target Support Files/Pods-TapCoinsApplication.V1Tests/Pods-TapCoinsApplication.V1Tests.release.xcconfig"; sourceTree = "<group>"; };
+		B52A550B5FB57E41CBBA8C11 /* Pods-TapCoinsApplication.V1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapCoinsApplication.V1.release.xcconfig"; path = "Target Support Files/Pods-TapCoinsApplication.V1/Pods-TapCoinsApplication.V1.release.xcconfig"; sourceTree = "<group>"; };
+		CF7964552BEC0659008AB68E /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
+		CF7964582BEC15E5008AB68E /* DeleteAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountView.swift; sourceTree = "<group>"; };
+		CF79645A2BEC15F2008AB68E /* DeleteAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewModel.swift; sourceTree = "<group>"; };
+		CFA9854D2BA4B47C00177F94 /* AboutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		CFA9854F2BA4B47C00177F94 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		CFA985502BA4B47C00177F94 /* ContentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		CFA985522BA4B47C00177F94 /* ChangePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		CFA985532BA4B47C00177F94 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
+		CFA985552BA4B47C00177F94 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		CFA985562BA4B47C00177F94 /* ForgotPasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewModel.swift; sourceTree = "<group>"; };
+		CFA985582BA4B47C00177F94 /* ForgotUsernameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotUsernameView.swift; sourceTree = "<group>"; };
+		CFA985592BA4B47C00177F94 /* ForgotUsernameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotUsernameViewModel.swift; sourceTree = "<group>"; };
+		CFA9855B2BA4B47C00177F94 /* SecurityQuestionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityQuestionsView.swift; sourceTree = "<group>"; };
+		CFA9855C2BA4B47C00177F94 /* SecurityQuestionsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityQuestionsViewModel.swift; sourceTree = "<group>"; };
+		CFA9855F2BA4B47C00177F94 /* FriendsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
+		CFA985602BA4B47C00177F94 /* FriendsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewModel.swift; sourceTree = "<group>"; };
+		CFA985622BA4B47C00177F94 /* CustomGameHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomGameHandler.swift; sourceTree = "<group>"; };
+		CFA985632BA4B47C00177F94 /* GameHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameHandler.swift; sourceTree = "<group>"; };
+		CFA985642BA4B47C00177F94 /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		CFA985652BA4B47C00177F94 /* GameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		CFA985672BA4B47C00177F94 /* QueueHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueHandler.swift; sourceTree = "<group>"; };
+		CFA985682BA4B47C00177F94 /* QueueView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueView.swift; sourceTree = "<group>"; };
+		CFA985692BA4B47C00177F94 /* QueueViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueViewModel.swift; sourceTree = "<group>"; };
+		CFA9856C2BA4B47C00177F94 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		CFA9856D2BA4B47C00177F94 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		CFA9856F2BA4B47C00177F94 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		CFA985702BA4B47C00177F94 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		CFA985722BA4B47C00177F94 /* PGameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGameView.swift; sourceTree = "<group>"; };
+		CFA985732BA4B47C00177F94 /* PGameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGameViewModel.swift; sourceTree = "<group>"; };
+		CFA985752BA4B47C00177F94 /* PMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMenuView.swift; sourceTree = "<group>"; };
+		CFA985762BA4B47C00177F94 /* PMenuViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMenuViewModel.swift; sourceTree = "<group>"; };
+		CFA985792BA4B47C00177F94 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		CFA9857A2BA4B47C00177F94 /* ProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		CFA9857C2BA4B47C00177F94 /* RegistrationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
+		CFA9857D2BA4B47C00177F94 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
+		CFA9857F2BA4B47C00177F94 /* AccountInformationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInformationView.swift; sourceTree = "<group>"; };
+		CFA985802BA4B47C00177F94 /* AccountInformationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInformationViewModel.swift; sourceTree = "<group>"; };
+		CFA985812BA4B47C00177F94 /* CreatePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePasswordView.swift; sourceTree = "<group>"; };
+		CFA985832BA4B47C00177F94 /* ToggleSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleSettingsView.swift; sourceTree = "<group>"; };
+		CFA985842BA4B47C00177F94 /* ToggleSettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleSettingsViewModel.swift; sourceTree = "<group>"; };
+		CFA985862BA4B47C00177F94 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		CFA985872BA4B47C00177F94 /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		CFA985B12BA4B49100177F94 /* BlueBackButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlueBackButtonView.swift; sourceTree = "<group>"; };
+		CFA985B22BA4B49100177F94 /* HomePageButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageButtonView.swift; sourceTree = "<group>"; };
+		CFA985B32BA4B49100177F94 /* RedBackButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedBackButtonView.swift; sourceTree = "<group>"; };
+		CFA985B42BA4B49100177F94 /* YellowBackButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YellowBackButtonView.swift; sourceTree = "<group>"; };
+		CFA985B62BA4B49100177F94 /* PCoinView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PCoinView.swift; sourceTree = "<group>"; };
+		CFA985B72BA4B49100177F94 /* CoinView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoinView.swift; sourceTree = "<group>"; };
+		CFA985B92BA4B49100177F94 /* FriendsListItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListItemView.swift; sourceTree = "<group>"; };
+		CFA985BA2BA4B49100177F94 /* FriendsListItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListItemViewModel.swift; sourceTree = "<group>"; };
+		CFA985BC2BA4B49100177F94 /* SecurityQuestionsComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityQuestionsComponentView.swift; sourceTree = "<group>"; };
+		CFA985BD2BA4B49100177F94 /* SecurityQuestionsComponentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityQuestionsComponentViewModel.swift; sourceTree = "<group>"; };
+		CFA985BF2BA4B49100177F94 /* ToggleSettingsSwitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleSettingsSwitchView.swift; sourceTree = "<group>"; };
+		CFA985C02BA4B49100177F94 /* ToggleSettingsSwitchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleSettingsSwitchViewModel.swift; sourceTree = "<group>"; };
+		CFA985C32BA4B49100177F94 /* GlobalEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
+		CFA985C42BA4B49100177F94 /* GlobalFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
+		CFA985C52BA4B49100177F94 /* GlobalValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalValues.swift; sourceTree = "<group>"; };
+		CFA985C72BA4B49100177F94 /* HapticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
+		CFA985C82BA4B49100177F94 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		CFA985C92BA4B49100177F94 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		CFA985CB2BA4B49100177F94 /* CustomColorsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomColorsModel.swift; sourceTree = "<group>"; };
+		CFA985CC2BA4B49100177F94 /* UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		CFA985CE2BA4B49100177F94 /* BannerAd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerAd.swift; sourceTree = "<group>"; };
+		CFA985E52BA4B4A200177F94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CFA985EB2BA4B5CD00177F94 /* TapCoinsApplication-V1-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "TapCoinsApplication-V1-Info.plist"; sourceTree = SOURCE_ROOT; };
+		CFD92ABB2BA4B353001B05DF /* TapCoinsApplication.V1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapCoinsApplication.V1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFD92ABE2BA4B353001B05DF /* TapCoinsApplication_V1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapCoinsApplication_V1App.swift; sourceTree = "<group>"; };
+		CFD92AC62BA4B354001B05DF /* TapCoinsApplication_V1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TapCoinsApplication_V1.entitlements; sourceTree = "<group>"; };
+		CFD92AC82BA4B354001B05DF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		CFD92ACE2BA4B354001B05DF /* TapCoinsApplication.V1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TapCoinsApplication.V1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFD92AD22BA4B354001B05DF /* TapCoinsApplication_V1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapCoinsApplication_V1Tests.swift; sourceTree = "<group>"; };
+		CFD92AD82BA4B354001B05DF /* TapCoinsApplication.V1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TapCoinsApplication.V1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFD92ADC2BA4B354001B05DF /* TapCoinsApplication_V1UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapCoinsApplication_V1UITests.swift; sourceTree = "<group>"; };
+		CFD92ADE2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapCoinsApplication_V1UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DA6734F3C1B2EAF71033432A /* Pods-TapCoinsApplication.V1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapCoinsApplication.V1Tests.debug.xcconfig"; path = "Target Support Files/Pods-TapCoinsApplication.V1Tests/Pods-TapCoinsApplication.V1Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		FB61DBE5A1501C47D4BBD340 /* Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.debug.xcconfig"; path = "Target Support Files/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CFD92AB82BA4B353001B05DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFA985EA2BA4B4E300177F94 /* SocketIO in Frameworks */,
+				4C2ABA4261B2724F557E9E69 /* Pods_TapCoinsApplication_V1.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFD92ACB2BA4B354001B05DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A6F59B68034472B554F7D8A /* Pods_TapCoinsApplication_V1Tests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFD92AD52BA4B354001B05DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4D8CD004A43A6DEFD317DBF /* Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		50C329C03B1180073ABFE4CF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				099B42F2CA4A80B5BC6874C5 /* Pods-TapCoinsApplication.V1.debug.xcconfig */,
+				B52A550B5FB57E41CBBA8C11 /* Pods-TapCoinsApplication.V1.release.xcconfig */,
+				FB61DBE5A1501C47D4BBD340 /* Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.debug.xcconfig */,
+				7D7A35AEE7C782570ACE0CF6 /* Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.release.xcconfig */,
+				DA6734F3C1B2EAF71033432A /* Pods-TapCoinsApplication.V1Tests.debug.xcconfig */,
+				99C3C0FA6F33E7557125F47D /* Pods-TapCoinsApplication.V1Tests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		CF7964572BEC15CB008AB68E /* DeleteAccountView */ = {
+			isa = PBXGroup;
+			children = (
+				CF7964582BEC15E5008AB68E /* DeleteAccountView.swift */,
+				CF79645A2BEC15F2008AB68E /* DeleteAccountViewModel.swift */,
+			);
+			path = DeleteAccountView;
+			sourceTree = "<group>";
+		};
+		CFA9854E2BA4B47C00177F94 /* AboutView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA9854D2BA4B47C00177F94 /* AboutView.swift */,
+			);
+			path = AboutView;
+			sourceTree = "<group>";
+		};
+		CFA985512BA4B47C00177F94 /* ContentView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA9854F2BA4B47C00177F94 /* ContentView.swift */,
+				CFA985502BA4B47C00177F94 /* ContentViewModel.swift */,
+			);
+			path = ContentView;
+			sourceTree = "<group>";
+		};
+		CFA985542BA4B47C00177F94 /* ChangePasswordView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985522BA4B47C00177F94 /* ChangePasswordView.swift */,
+				CFA985532BA4B47C00177F94 /* ChangePasswordViewModel.swift */,
+			);
+			path = ChangePasswordView;
+			sourceTree = "<group>";
+		};
+		CFA985572BA4B47C00177F94 /* ForgotPasswordView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985552BA4B47C00177F94 /* ForgotPasswordView.swift */,
+				CFA985562BA4B47C00177F94 /* ForgotPasswordViewModel.swift */,
+			);
+			path = ForgotPasswordView;
+			sourceTree = "<group>";
+		};
+		CFA9855A2BA4B47C00177F94 /* ForgotUsernameView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985582BA4B47C00177F94 /* ForgotUsernameView.swift */,
+				CFA985592BA4B47C00177F94 /* ForgotUsernameViewModel.swift */,
+			);
+			path = ForgotUsernameView;
+			sourceTree = "<group>";
+		};
+		CFA9855D2BA4B47C00177F94 /* SecurityQuestionsView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA9855B2BA4B47C00177F94 /* SecurityQuestionsView.swift */,
+				CFA9855C2BA4B47C00177F94 /* SecurityQuestionsViewModel.swift */,
+			);
+			path = SecurityQuestionsView;
+			sourceTree = "<group>";
+		};
+		CFA9855E2BA4B47C00177F94 /* ForgotCredsViews */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985542BA4B47C00177F94 /* ChangePasswordView */,
+				CFA985572BA4B47C00177F94 /* ForgotPasswordView */,
+				CFA9855A2BA4B47C00177F94 /* ForgotUsernameView */,
+				CFA9855D2BA4B47C00177F94 /* SecurityQuestionsView */,
+			);
+			path = ForgotCredsViews;
+			sourceTree = "<group>";
+		};
+		CFA985612BA4B47C00177F94 /* FriendsView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA9855F2BA4B47C00177F94 /* FriendsView.swift */,
+				CFA985602BA4B47C00177F94 /* FriendsViewModel.swift */,
+			);
+			path = FriendsView;
+			sourceTree = "<group>";
+		};
+		CFA985662BA4B47C00177F94 /* GameView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985622BA4B47C00177F94 /* CustomGameHandler.swift */,
+				CFA985632BA4B47C00177F94 /* GameHandler.swift */,
+				CFA985642BA4B47C00177F94 /* GameView.swift */,
+				CFA985652BA4B47C00177F94 /* GameViewModel.swift */,
+			);
+			path = GameView;
+			sourceTree = "<group>";
+		};
+		CFA9856A2BA4B47C00177F94 /* QueueView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985672BA4B47C00177F94 /* QueueHandler.swift */,
+				CFA985682BA4B47C00177F94 /* QueueView.swift */,
+				CFA985692BA4B47C00177F94 /* QueueViewModel.swift */,
+			);
+			path = QueueView;
+			sourceTree = "<group>";
+		};
+		CFA9856B2BA4B47C00177F94 /* GameViews */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985662BA4B47C00177F94 /* GameView */,
+				CFA9856A2BA4B47C00177F94 /* QueueView */,
+			);
+			path = GameViews;
+			sourceTree = "<group>";
+		};
+		CFA9856E2BA4B47C00177F94 /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA9856C2BA4B47C00177F94 /* HomeView.swift */,
+				CFA9856D2BA4B47C00177F94 /* HomeViewModel.swift */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
+		CFA985712BA4B47C00177F94 /* LoginView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA9856F2BA4B47C00177F94 /* LoginView.swift */,
+				CFA985702BA4B47C00177F94 /* LoginViewModel.swift */,
+			);
+			path = LoginView;
+			sourceTree = "<group>";
+		};
+		CFA985742BA4B47C00177F94 /* PGameView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985722BA4B47C00177F94 /* PGameView.swift */,
+				CFA985732BA4B47C00177F94 /* PGameViewModel.swift */,
+			);
+			path = PGameView;
+			sourceTree = "<group>";
+		};
+		CFA985772BA4B47C00177F94 /* PMenuView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985752BA4B47C00177F94 /* PMenuView.swift */,
+				CFA985762BA4B47C00177F94 /* PMenuViewModel.swift */,
+			);
+			path = PMenuView;
+			sourceTree = "<group>";
+		};
+		CFA985782BA4B47C00177F94 /* PGameViews */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985742BA4B47C00177F94 /* PGameView */,
+				CFA985772BA4B47C00177F94 /* PMenuView */,
+			);
+			path = PGameViews;
+			sourceTree = "<group>";
+		};
+		CFA9857B2BA4B47C00177F94 /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985792BA4B47C00177F94 /* ProfileView.swift */,
+				CFA9857A2BA4B47C00177F94 /* ProfileViewModel.swift */,
+			);
+			path = ProfileView;
+			sourceTree = "<group>";
+		};
+		CFA9857E2BA4B47C00177F94 /* RegistrationView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA9857C2BA4B47C00177F94 /* RegistrationView.swift */,
+				CFA9857D2BA4B47C00177F94 /* RegistrationViewModel.swift */,
+			);
+			path = RegistrationView;
+			sourceTree = "<group>";
+		};
+		CFA985822BA4B47C00177F94 /* AccountInformationView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA9857F2BA4B47C00177F94 /* AccountInformationView.swift */,
+				CFA985802BA4B47C00177F94 /* AccountInformationViewModel.swift */,
+				CFA985812BA4B47C00177F94 /* CreatePasswordView.swift */,
+			);
+			path = AccountInformationView;
+			sourceTree = "<group>";
+		};
+		CFA985852BA4B47C00177F94 /* ToggleSettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985832BA4B47C00177F94 /* ToggleSettingsView.swift */,
+				CFA985842BA4B47C00177F94 /* ToggleSettingsViewModel.swift */,
+			);
+			path = ToggleSettingsView;
+			sourceTree = "<group>";
+		};
+		CFA985882BA4B47C00177F94 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985822BA4B47C00177F94 /* AccountInformationView */,
+				CFA985852BA4B47C00177F94 /* ToggleSettingsView */,
+				CFA985862BA4B47C00177F94 /* SettingsView.swift */,
+				CFA985872BA4B47C00177F94 /* SettingsViewModel.swift */,
+			);
+			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		CFA985892BA4B47C00177F94 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CF7964572BEC15CB008AB68E /* DeleteAccountView */,
+				CFA9854E2BA4B47C00177F94 /* AboutView */,
+				CFA985512BA4B47C00177F94 /* ContentView */,
+				CFA9855E2BA4B47C00177F94 /* ForgotCredsViews */,
+				CFA985612BA4B47C00177F94 /* FriendsView */,
+				CFA9856B2BA4B47C00177F94 /* GameViews */,
+				CFA9856E2BA4B47C00177F94 /* HomeView */,
+				CFA985712BA4B47C00177F94 /* LoginView */,
+				CFA985782BA4B47C00177F94 /* PGameViews */,
+				CFA9857B2BA4B47C00177F94 /* ProfileView */,
+				CFA9857E2BA4B47C00177F94 /* RegistrationView */,
+				CFA985882BA4B47C00177F94 /* SettingsView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CFA985B52BA4B49100177F94 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985B12BA4B49100177F94 /* BlueBackButtonView.swift */,
+				CFA985B22BA4B49100177F94 /* HomePageButtonView.swift */,
+				CFA985B32BA4B49100177F94 /* RedBackButtonView.swift */,
+				CFA985B42BA4B49100177F94 /* YellowBackButtonView.swift */,
+				CF7964552BEC0659008AB68E /* BackButtonView.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		CFA985B82BA4B49100177F94 /* CoinViews */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985B62BA4B49100177F94 /* PCoinView.swift */,
+				CFA985B72BA4B49100177F94 /* CoinView.swift */,
+			);
+			path = CoinViews;
+			sourceTree = "<group>";
+		};
+		CFA985BB2BA4B49100177F94 /* FriendsListItemView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985B92BA4B49100177F94 /* FriendsListItemView.swift */,
+				CFA985BA2BA4B49100177F94 /* FriendsListItemViewModel.swift */,
+			);
+			path = FriendsListItemView;
+			sourceTree = "<group>";
+		};
+		CFA985BE2BA4B49100177F94 /* SecurityQuestionsComponent */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985BC2BA4B49100177F94 /* SecurityQuestionsComponentView.swift */,
+				CFA985BD2BA4B49100177F94 /* SecurityQuestionsComponentViewModel.swift */,
+			);
+			path = SecurityQuestionsComponent;
+			sourceTree = "<group>";
+		};
+		CFA985C12BA4B49100177F94 /* ToggleSettingsSwitchView */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985BF2BA4B49100177F94 /* ToggleSettingsSwitchView.swift */,
+				CFA985C02BA4B49100177F94 /* ToggleSettingsSwitchViewModel.swift */,
+			);
+			path = ToggleSettingsSwitchView;
+			sourceTree = "<group>";
+		};
+		CFA985C22BA4B49100177F94 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985B52BA4B49100177F94 /* Buttons */,
+				CFA985B82BA4B49100177F94 /* CoinViews */,
+				CFA985BB2BA4B49100177F94 /* FriendsListItemView */,
+				CFA985BE2BA4B49100177F94 /* SecurityQuestionsComponent */,
+				CFA985C12BA4B49100177F94 /* ToggleSettingsSwitchView */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		CFA985C62BA4B49100177F94 /* GlobalElements */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985C32BA4B49100177F94 /* GlobalEnums.swift */,
+				CFA985C42BA4B49100177F94 /* GlobalFunctions.swift */,
+				CFA985C52BA4B49100177F94 /* GlobalValues.swift */,
+			);
+			path = GlobalElements;
+			sourceTree = "<group>";
+		};
+		CFA985CA2BA4B49100177F94 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985C72BA4B49100177F94 /* HapticsManager.swift */,
+				CFA985C82BA4B49100177F94 /* LocationManager.swift */,
+				CFA985C92BA4B49100177F94 /* SoundManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		CFA985CD2BA4B49100177F94 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985CB2BA4B49100177F94 /* CustomColorsModel.swift */,
+				CFA985CC2BA4B49100177F94 /* UserViewModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CFA985CF2BA4B49100177F94 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985C22BA4B49100177F94 /* Components */,
+				CFA985C62BA4B49100177F94 /* GlobalElements */,
+				CFA985CA2BA4B49100177F94 /* Managers */,
+				CFA985CD2BA4B49100177F94 /* Models */,
+				CFA985CE2BA4B49100177F94 /* BannerAd.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		CFA985E82BA4B4E300177F94 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0420EC31FDA660F28F9DCCCF /* Pods_TapCoinsApplication_V1.framework */,
+				2E24BAF757016433AB4790E9 /* Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests.framework */,
+				1FA83A5984AC1B030B229DEE /* Pods_TapCoinsApplication_V1Tests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CFD92AB22BA4B353001B05DF = {
+			isa = PBXGroup;
+			children = (
+				CFD92ABD2BA4B353001B05DF /* TapCoinsApplication.V1 */,
+				CFD92AD12BA4B354001B05DF /* TapCoinsApplication.V1Tests */,
+				CFD92ADB2BA4B354001B05DF /* TapCoinsApplication.V1UITests */,
+				CFD92ABC2BA4B353001B05DF /* Products */,
+				CFA985E82BA4B4E300177F94 /* Frameworks */,
+				50C329C03B1180073ABFE4CF /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		CFD92ABC2BA4B353001B05DF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CFD92ABB2BA4B353001B05DF /* TapCoinsApplication.V1.app */,
+				CFD92ACE2BA4B354001B05DF /* TapCoinsApplication.V1Tests.xctest */,
+				CFD92AD82BA4B354001B05DF /* TapCoinsApplication.V1UITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CFD92ABD2BA4B353001B05DF /* TapCoinsApplication.V1 */ = {
+			isa = PBXGroup;
+			children = (
+				CFA985EB2BA4B5CD00177F94 /* TapCoinsApplication-V1-Info.plist */,
+				CFA985CF2BA4B49100177F94 /* Utilities */,
+				CFA985892BA4B47C00177F94 /* Views */,
+				CFD92ABE2BA4B353001B05DF /* TapCoinsApplication_V1App.swift */,
+				CFA985E52BA4B4A200177F94 /* Assets.xcassets */,
+				CFD92AC62BA4B354001B05DF /* TapCoinsApplication_V1.entitlements */,
+				CFD92AC72BA4B354001B05DF /* Preview Content */,
+			);
+			path = TapCoinsApplication.V1;
+			sourceTree = "<group>";
+		};
+		CFD92AC72BA4B354001B05DF /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				CFD92AC82BA4B354001B05DF /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		CFD92AD12BA4B354001B05DF /* TapCoinsApplication.V1Tests */ = {
+			isa = PBXGroup;
+			children = (
+				CFD92AD22BA4B354001B05DF /* TapCoinsApplication_V1Tests.swift */,
+			);
+			path = TapCoinsApplication.V1Tests;
+			sourceTree = "<group>";
+		};
+		CFD92ADB2BA4B354001B05DF /* TapCoinsApplication.V1UITests */ = {
+			isa = PBXGroup;
+			children = (
+				CFD92ADC2BA4B354001B05DF /* TapCoinsApplication_V1UITests.swift */,
+				CFD92ADE2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift */,
+			);
+			path = TapCoinsApplication.V1UITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CFD92ABA2BA4B353001B05DF /* TapCoinsApplication.V1 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFD92AE22BA4B354001B05DF /* Build configuration list for PBXNativeTarget "TapCoinsApplication.V1" */;
+			buildPhases = (
+				9757CA56615220C00BDE1A15 /* [CP] Check Pods Manifest.lock */,
+				CFD92AB72BA4B353001B05DF /* Sources */,
+				CFD92AB82BA4B353001B05DF /* Frameworks */,
+				CFD92AB92BA4B353001B05DF /* Resources */,
+				C0D95684CC84A43DEFD9392A /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TapCoinsApplication.V1;
+			packageProductDependencies = (
+				CFA985E92BA4B4E300177F94 /* SocketIO */,
+			);
+			productName = TapCoinsApplication.V1;
+			productReference = CFD92ABB2BA4B353001B05DF /* TapCoinsApplication.V1.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CFD92ACD2BA4B354001B05DF /* TapCoinsApplication.V1Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFD92AE52BA4B354001B05DF /* Build configuration list for PBXNativeTarget "TapCoinsApplication.V1Tests" */;
+			buildPhases = (
+				2F060354FE1BAA33A1693E49 /* [CP] Check Pods Manifest.lock */,
+				CFD92ACA2BA4B354001B05DF /* Sources */,
+				CFD92ACB2BA4B354001B05DF /* Frameworks */,
+				CFD92ACC2BA4B354001B05DF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CFD92AD02BA4B354001B05DF /* PBXTargetDependency */,
+			);
+			name = TapCoinsApplication.V1Tests;
+			productName = TapCoinsApplication.V1Tests;
+			productReference = CFD92ACE2BA4B354001B05DF /* TapCoinsApplication.V1Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CFD92AD72BA4B354001B05DF /* TapCoinsApplication.V1UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFD92AE82BA4B354001B05DF /* Build configuration list for PBXNativeTarget "TapCoinsApplication.V1UITests" */;
+			buildPhases = (
+				C48C50DCADA834E4FD583DF9 /* [CP] Check Pods Manifest.lock */,
+				CFD92AD42BA4B354001B05DF /* Sources */,
+				CFD92AD52BA4B354001B05DF /* Frameworks */,
+				CFD92AD62BA4B354001B05DF /* Resources */,
+				2D16A07900CEF832411A80AD /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CFD92ADA2BA4B354001B05DF /* PBXTargetDependency */,
+			);
+			name = TapCoinsApplication.V1UITests;
+			productName = TapCoinsApplication.V1UITests;
+			productReference = CFD92AD82BA4B354001B05DF /* TapCoinsApplication.V1UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CFD92AB32BA4B353001B05DF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 1530;
+				TargetAttributes = {
+					CFD92ABA2BA4B353001B05DF = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					CFD92ACD2BA4B354001B05DF = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = CFD92ABA2BA4B353001B05DF;
+					};
+					CFD92AD72BA4B354001B05DF = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = CFD92ABA2BA4B353001B05DF;
+					};
+				};
+			};
+			buildConfigurationList = CFD92AB62BA4B353001B05DF /* Build configuration list for PBXProject "TapCoinsApplication.V1" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CFD92AB22BA4B353001B05DF;
+			packageReferences = (
+				CFA985E72BA4B4D500177F94 /* XCRemoteSwiftPackageReference "socket" */,
+			);
+			productRefGroup = CFD92ABC2BA4B353001B05DF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CFD92ABA2BA4B353001B05DF /* TapCoinsApplication.V1 */,
+				CFD92ACD2BA4B354001B05DF /* TapCoinsApplication.V1Tests */,
+				CFD92AD72BA4B354001B05DF /* TapCoinsApplication.V1UITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CFD92AB92BA4B353001B05DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFA985E62BA4B4A200177F94 /* Assets.xcassets in Resources */,
+				CFD92AC92BA4B354001B05DF /* Preview Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFD92ACC2BA4B354001B05DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFD92AD62BA4B354001B05DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2D16A07900CEF832411A80AD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2F060354FE1BAA33A1693E49 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TapCoinsApplication.V1Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9757CA56615220C00BDE1A15 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TapCoinsApplication.V1-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C0D95684CC84A43DEFD9392A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TapCoinsApplication.V1/Pods-TapCoinsApplication.V1-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TapCoinsApplication.V1/Pods-TapCoinsApplication.V1-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TapCoinsApplication.V1/Pods-TapCoinsApplication.V1-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C48C50DCADA834E4FD583DF9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CFD92AB72BA4B353001B05DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFA9859A2BA4B47C00177F94 /* GameViewModel.swift in Sources */,
+				CF7964562BEC0659008AB68E /* BackButtonView.swift in Sources */,
+				CFA985A92BA4B47C00177F94 /* RegistrationViewModel.swift in Sources */,
+				CFA985942BA4B47C00177F94 /* SecurityQuestionsViewModel.swift in Sources */,
+				CFA985E12BA4B49100177F94 /* SoundManager.swift in Sources */,
+				CFA985902BA4B47C00177F94 /* ForgotPasswordViewModel.swift in Sources */,
+				CFA985D02BA4B49100177F94 /* BlueBackButtonView.swift in Sources */,
+				CFA985E22BA4B49100177F94 /* CustomColorsModel.swift in Sources */,
+				CFA985AB2BA4B47C00177F94 /* AccountInformationViewModel.swift in Sources */,
+				CFA985D92BA4B49100177F94 /* SecurityQuestionsComponentViewModel.swift in Sources */,
+				CFA985932BA4B47C00177F94 /* SecurityQuestionsView.swift in Sources */,
+				CFA9858C2BA4B47C00177F94 /* ContentViewModel.swift in Sources */,
+				CFA9859F2BA4B47C00177F94 /* HomeViewModel.swift in Sources */,
+				CFA985A02BA4B47C00177F94 /* LoginView.swift in Sources */,
+				CFA985E32BA4B49100177F94 /* UserViewModel.swift in Sources */,
+				CFA985D52BA4B49100177F94 /* CoinView.swift in Sources */,
+				CFA985D72BA4B49100177F94 /* FriendsListItemViewModel.swift in Sources */,
+				CFA985A82BA4B47C00177F94 /* RegistrationView.swift in Sources */,
+				CFA9859E2BA4B47C00177F94 /* HomeView.swift in Sources */,
+				CFA985DC2BA4B49100177F94 /* GlobalEnums.swift in Sources */,
+				CFA9859B2BA4B47C00177F94 /* QueueHandler.swift in Sources */,
+				CFA985E02BA4B49100177F94 /* LocationManager.swift in Sources */,
+				CFA985AF2BA4B47C00177F94 /* SettingsView.swift in Sources */,
+				CFA985A22BA4B47C00177F94 /* PGameView.swift in Sources */,
+				CFA985AD2BA4B47C00177F94 /* ToggleSettingsView.swift in Sources */,
+				CFA985B02BA4B47C00177F94 /* SettingsViewModel.swift in Sources */,
+				CFA985982BA4B47C00177F94 /* GameHandler.swift in Sources */,
+				CFA985992BA4B47C00177F94 /* GameView.swift in Sources */,
+				CFA985A72BA4B47C00177F94 /* ProfileViewModel.swift in Sources */,
+				CFA9859D2BA4B47C00177F94 /* QueueViewModel.swift in Sources */,
+				CFA985972BA4B47C00177F94 /* CustomGameHandler.swift in Sources */,
+				CFA985A12BA4B47C00177F94 /* LoginViewModel.swift in Sources */,
+				CFA985962BA4B47C00177F94 /* FriendsViewModel.swift in Sources */,
+				CFA985D12BA4B49100177F94 /* HomePageButtonView.swift in Sources */,
+				CFA985D62BA4B49100177F94 /* FriendsListItemView.swift in Sources */,
+				CF79645B2BEC15F2008AB68E /* DeleteAccountViewModel.swift in Sources */,
+				CFA985DF2BA4B49100177F94 /* HapticsManager.swift in Sources */,
+				CFA985D82BA4B49100177F94 /* SecurityQuestionsComponentView.swift in Sources */,
+				CFA985D32BA4B49100177F94 /* YellowBackButtonView.swift in Sources */,
+				CFA985AA2BA4B47C00177F94 /* AccountInformationView.swift in Sources */,
+				CFA985AC2BA4B47C00177F94 /* CreatePasswordView.swift in Sources */,
+				CFA985AE2BA4B47C00177F94 /* ToggleSettingsViewModel.swift in Sources */,
+				CFA9858F2BA4B47C00177F94 /* ForgotPasswordView.swift in Sources */,
+				CFA985D42BA4B49100177F94 /* PCoinView.swift in Sources */,
+				CFA985922BA4B47C00177F94 /* ForgotUsernameViewModel.swift in Sources */,
+				CFA985A42BA4B47C00177F94 /* PMenuView.swift in Sources */,
+				CFA9858E2BA4B47C00177F94 /* ChangePasswordViewModel.swift in Sources */,
+				CFA9858A2BA4B47C00177F94 /* AboutView.swift in Sources */,
+				CF7964592BEC15E5008AB68E /* DeleteAccountView.swift in Sources */,
+				CFA9858D2BA4B47C00177F94 /* ChangePasswordView.swift in Sources */,
+				CFA985A62BA4B47C00177F94 /* ProfileView.swift in Sources */,
+				CFD92ABF2BA4B353001B05DF /* TapCoinsApplication_V1App.swift in Sources */,
+				CFA985DD2BA4B49100177F94 /* GlobalFunctions.swift in Sources */,
+				CFA985A52BA4B47C00177F94 /* PMenuViewModel.swift in Sources */,
+				CFA985912BA4B47C00177F94 /* ForgotUsernameView.swift in Sources */,
+				CFA9858B2BA4B47C00177F94 /* ContentView.swift in Sources */,
+				CFA9859C2BA4B47C00177F94 /* QueueView.swift in Sources */,
+				CFA985DE2BA4B49100177F94 /* GlobalValues.swift in Sources */,
+				CFA985952BA4B47C00177F94 /* FriendsView.swift in Sources */,
+				CFA985DA2BA4B49100177F94 /* ToggleSettingsSwitchView.swift in Sources */,
+				CFA985A32BA4B47C00177F94 /* PGameViewModel.swift in Sources */,
+				CFA985D22BA4B49100177F94 /* RedBackButtonView.swift in Sources */,
+				CFA985DB2BA4B49100177F94 /* ToggleSettingsSwitchViewModel.swift in Sources */,
+				CFA985E42BA4B49100177F94 /* BannerAd.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFD92ACA2BA4B354001B05DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFD92AD32BA4B354001B05DF /* TapCoinsApplication_V1Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFD92AD42BA4B354001B05DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFD92ADD2BA4B354001B05DF /* TapCoinsApplication_V1UITests.swift in Sources */,
+				CFD92ADF2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CFD92AD02BA4B354001B05DF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CFD92ABA2BA4B353001B05DF /* TapCoinsApplication.V1 */;
+			targetProxy = CFD92ACF2BA4B354001B05DF /* PBXContainerItemProxy */;
+		};
+		CFD92ADA2BA4B354001B05DF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CFD92ABA2BA4B353001B05DF /* TapCoinsApplication.V1 */;
+			targetProxy = CFD92AD92BA4B354001B05DF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		CFD92AE02BA4B354001B05DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CFD92AE12BA4B354001B05DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		CFD92AE32BA4B354001B05DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 099B42F2CA4A80B5BC6874C5 /* Pods-TapCoinsApplication.V1.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TapCoinsApplication.V1/TapCoinsApplication_V1.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"TapCoinsApplication.V1/Preview Content\"";
+				DEVELOPMENT_TEAM = 6XYPZDQ5CV;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "TapCoinsApplication-V1-Info.plist";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "tapcoinsapp.TapCoinsApplication-V1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CFD92AE42BA4B354001B05DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B52A550B5FB57E41CBBA8C11 /* Pods-TapCoinsApplication.V1.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TapCoinsApplication.V1/TapCoinsApplication_V1.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"TapCoinsApplication.V1/Preview Content\"";
+				DEVELOPMENT_TEAM = 6XYPZDQ5CV;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "TapCoinsApplication-V1-Info.plist";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "tapcoinsapp.TapCoinsApplication-V1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CFD92AE62BA4B354001B05DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA6734F3C1B2EAF71033432A /* Pods-TapCoinsApplication.V1Tests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6XYPZDQ5CV;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "tapcoinsapp.TapCoinsApplication-V1Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TapCoinsApplication.V1.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TapCoinsApplication.V1";
+			};
+			name = Debug;
+		};
+		CFD92AE72BA4B354001B05DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99C3C0FA6F33E7557125F47D /* Pods-TapCoinsApplication.V1Tests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6XYPZDQ5CV;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "tapcoinsapp.TapCoinsApplication-V1Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TapCoinsApplication.V1.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TapCoinsApplication.V1";
+			};
+			name = Release;
+		};
+		CFD92AE92BA4B354001B05DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FB61DBE5A1501C47D4BBD340 /* Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6XYPZDQ5CV;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "tapcoinsapp.TapCoinsApplication-V1UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TapCoinsApplication.V1;
+			};
+			name = Debug;
+		};
+		CFD92AEA2BA4B354001B05DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D7A35AEE7C782570ACE0CF6 /* Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6XYPZDQ5CV;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "tapcoinsapp.TapCoinsApplication-V1UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TapCoinsApplication.V1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CFD92AB62BA4B353001B05DF /* Build configuration list for PBXProject "TapCoinsApplication.V1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFD92AE02BA4B354001B05DF /* Debug */,
+				CFD92AE12BA4B354001B05DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFD92AE22BA4B354001B05DF /* Build configuration list for PBXNativeTarget "TapCoinsApplication.V1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFD92AE32BA4B354001B05DF /* Debug */,
+				CFD92AE42BA4B354001B05DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFD92AE52BA4B354001B05DF /* Build configuration list for PBXNativeTarget "TapCoinsApplication.V1Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFD92AE62BA4B354001B05DF /* Debug */,
+				CFD92AE72BA4B354001B05DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFD92AE82BA4B354001B05DF /* Build configuration list for PBXNativeTarget "TapCoinsApplication.V1UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFD92AE92BA4B354001B05DF /* Debug */,
+				CFD92AEA2BA4B354001B05DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CFA985E72BA4B4D500177F94 /* XCRemoteSwiftPackageReference "socket" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CFA985E92BA4B4E300177F94 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CFA985E72BA4B4D500177F94 /* XCRemoteSwiftPackageReference "socket" */;
+			productName = SocketIO;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = CFD92AB32BA4B353001B05DF /* Project object */;
+}
