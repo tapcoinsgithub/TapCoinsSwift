@@ -42,7 +42,7 @@ final class SettingsViewModel: ObservableObject {
         guard let session = logged_in_user else{
             return
         }
-        if debug ?? true{
+        if debug ?? false{
             usersAddress = session
         }
         else{
@@ -55,7 +55,7 @@ final class SettingsViewModel: ObservableObject {
         
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/tapcoinsbc/saveWallet"
         }
@@ -130,13 +130,13 @@ final class SettingsViewModel: ObservableObject {
         
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/logout"
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/user/logout"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/logout"
         }
         
         guard let session = logged_in_user else {

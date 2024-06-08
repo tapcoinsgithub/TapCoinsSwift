@@ -56,20 +56,28 @@ final class FriendsListItemViewModel: ObservableObject {
     func declineRequestTask(friend:String){
         Task {
             do {
-                pressed_remove_friend = true
+                DispatchQueue.main.async {
+                    self.pressed_decline_request = true
+                }
                 let rNameSplit = friend.split(separator: " ")
                 let rUsername = rNameSplit[3]
                 let result:Bool = try await declineFriendRequest(requestName: String(rUsername))
                 if result{
-                    removeFriendFromList(requestName: friend)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                    }
                 }
                 else{
                     print("Something went wrong.")
                 }
-                pressed_remove_friend = false
+                DispatchQueue.main.async {
+                    self.pressed_decline_request = false
+                }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
-                pressed_remove_friend = false
+                DispatchQueue.main.async {
+                    self.pressed_decline_request = false
+                }
             }
         }
     }
@@ -77,13 +85,13 @@ final class FriendsListItemViewModel: ObservableObject {
     func declineFriendRequest(requestName:String) async throws -> Bool{
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/dfr"
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/friend/dfr"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/friend/dfr"
         }
         
         guard let session = logged_in_user else {
@@ -120,32 +128,28 @@ final class FriendsListItemViewModel: ObservableObject {
     func acceptRequestTask(friend:String){
         Task {
             do {
-                pressed_accept_request = true
+                DispatchQueue.main.async {
+                    self.pressed_accept_request = true
+                }
                 let rNameSplit = friend.split(separator: " ")
                 let rUsername = rNameSplit[3]
                 let result:Bool = try await acceptFriendRequest(requestName: String(rUsername))
                 if result{
-                    normalFriendName = String(rNameSplit[3])
-                    DispatchQueue.main.async {
-                        if self.num_friends == nil{
-                            self.num_friends = 1
-                        }
-                        else{
-                            self.num_friends! += 1
-                        }
-                        self.friend_state = FriendItemState.NormalFriend
-                    }
                     DispatchQueue.main.async { [weak self] in
-                        self?.globalFunctions.getUser(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                        self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
                     }
                 }
                 else{
                     print("Something went wrong.")
                 }
-                pressed_accept_request = false
+                DispatchQueue.main.async {
+                    self.pressed_accept_request = false
+                }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
-                pressed_accept_request = false
+                DispatchQueue.main.async {
+                    self.pressed_accept_request = false
+                }
             }
         }
     }
@@ -153,13 +157,13 @@ final class FriendsListItemViewModel: ObservableObject {
     func acceptFriendRequest(requestName:String) async throws -> Bool{
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/afr"
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/friend/afr"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/friend/afr"
         }
         
         guard let session = logged_in_user else {
@@ -199,16 +203,20 @@ final class FriendsListItemViewModel: ObservableObject {
                 let result:Bool = try await removeFriendFunction(requestName: friend)
                 if result{
                     DispatchQueue.main.async { [weak self] in
-                        self?.globalFunctions.getUser(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                        self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
                     }
                 }
                 else{
                     print("Something went wrong.")
                 }
-                pressed_remove_friend = false
+                DispatchQueue.main.async {
+                    self.pressed_remove_friend = false
+                }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
-                pressed_remove_friend = false
+                DispatchQueue.main.async {
+                    self.pressed_remove_friend = false
+                }
             }
         }
     }
@@ -224,13 +232,13 @@ final class FriendsListItemViewModel: ObservableObject {
             sending_username = requestName
         }
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/remove_friend"
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/friend/remove_friend"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/friend/remove_friend"
         }
         
         guard let session = logged_in_user else {
@@ -327,7 +335,7 @@ final class FriendsListItemViewModel: ObservableObject {
         
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/ad_invite"
         }
@@ -402,7 +410,7 @@ final class FriendsListItemViewModel: ObservableObject {
                 let result:Bool = try await declineInvite(inviteName: _inviteName, curr_user_name: curr_user_name)
                 if result{
                     DispatchQueue.main.async { [weak self] in
-                        self?.globalFunctions.getUser(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                        self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
                     }
                 }
                 else{
@@ -421,7 +429,7 @@ final class FriendsListItemViewModel: ObservableObject {
         var url_string:String = ""
         let rNameSplit = inviteName.split(separator: " ")
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/ad_invite"
         }
@@ -471,7 +479,7 @@ final class FriendsListItemViewModel: ObservableObject {
         pressed_send_invite = true
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/send_invite"
         }

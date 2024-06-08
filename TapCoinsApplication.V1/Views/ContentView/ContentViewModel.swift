@@ -22,8 +22,8 @@ final class ContentViewModel: ObservableObject {
 //        in_game = false
 //        in_queue = false
 //        logged_in_user = nil
-        debug = true
-        if debug ?? true {
+        debug = false
+        if debug ?? false {
             print("DEBUG IS TRUE")
         }
         else{
@@ -37,7 +37,7 @@ final class ContentViewModel: ObservableObject {
     func guestLogin(){
         glPressed = true
         var url_string:String = ""
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/guestLogin"
         }

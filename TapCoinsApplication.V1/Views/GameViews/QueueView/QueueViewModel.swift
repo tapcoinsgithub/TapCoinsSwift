@@ -238,7 +238,7 @@ final class QueueViewModel: ObservableObject{
         
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/game/createGame"
         }
@@ -295,7 +295,7 @@ final class QueueViewModel: ObservableObject{
     func getUsersAndGame(user1Token:String, user2Token:String, curr_user:Int){
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/game/get_user_and_game"
         }
@@ -383,7 +383,7 @@ final class QueueViewModel: ObservableObject{
     func return_home(){
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/game/end_user_streak"
         }

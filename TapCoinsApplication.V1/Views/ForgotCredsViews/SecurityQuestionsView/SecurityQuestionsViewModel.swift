@@ -35,7 +35,7 @@ final class SecurityQuestionsViewModel: ObservableObject {
         submit_pressed = true
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/check_has_questions"
         }
@@ -90,7 +90,7 @@ final class SecurityQuestionsViewModel: ObservableObject {
         submit_pressed = true
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/check_users_answers"
         }

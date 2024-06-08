@@ -23,7 +23,7 @@ final class ForgotUsernameViewModel: ObservableObject {
         
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/send_username"
         }

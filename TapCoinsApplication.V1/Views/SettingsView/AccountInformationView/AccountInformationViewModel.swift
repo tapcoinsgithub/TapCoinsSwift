@@ -191,7 +191,7 @@ final class AccountInformationViewModel: ObservableObject {
         
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/save"
         }
@@ -294,7 +294,7 @@ final class AccountInformationViewModel: ObservableObject {
             else{
                 self.loaded_get_user = false
                 DispatchQueue.main.async { [weak self] in
-                    self?.globalFunctions.getUser(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                    self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
                 }
                 DispatchQueue.main.async { [weak self] in
                     self?.userData = UserViewModel(self?.userViewModel ?? Data())
@@ -402,7 +402,7 @@ final class AccountInformationViewModel: ObservableObject {
         
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/change_password"
         }
@@ -485,7 +485,7 @@ final class AccountInformationViewModel: ObservableObject {
         confirm_password_error = false
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/confirm_password"
         }
@@ -565,7 +565,7 @@ final class AccountInformationViewModel: ObservableObject {
         print("IN THE SEND CODE FUNCTION")
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/send_code"
         }
@@ -665,7 +665,7 @@ final class AccountInformationViewModel: ObservableObject {
     func confirm_code() async throws -> Bool {
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/confirm_code"
         }
@@ -739,7 +739,7 @@ final class AccountInformationViewModel: ObservableObject {
                                 self.loaded_get_user = false
                             }
                             DispatchQueue.main.async { [weak self] in
-                                self?.globalFunctions.getUser(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                                self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
                             }
                             DispatchQueue.main.async { [weak self] in
                                 self?.userData = UserViewModel(self?.userViewModel ?? Data())
@@ -756,7 +756,7 @@ final class AccountInformationViewModel: ObservableObject {
                             self.send_code_pressed = false
                         }
                         DispatchQueue.main.async { [weak self] in
-                            self?.globalFunctions.getUser(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                            self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
                         }
                         DispatchQueue.main.async { [weak self] in
                             self?.userData = UserViewModel(self?.userViewModel ?? Data())

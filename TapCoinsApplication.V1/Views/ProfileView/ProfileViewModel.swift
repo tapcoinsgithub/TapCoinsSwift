@@ -141,78 +141,97 @@ final class ProfileViewModel: ObservableObject {
         }
     }
     
-    func sendRequest(){
-        self.pressed_send_request = true
-        self.usernameRes = false
-        if sUsername.count > 0{
-            var url_string:String = ""
-            
-            if debug ?? true{
-                print("DEBUG IS TRUE")
-                url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/sfr"
-            }
-            else{
-                print("DEBUG IS FALSE")
-                url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/friend/sfr"
-            }
-            
-            guard let url = URL(string: url_string) else{
-                return
-            }
-            var request = URLRequest(url: url)
-            
-            guard let session = logged_in_user else{
-                return
-            }
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            let body: [String: AnyHashable] = [
-                "username": sUsername,
-                "token": session
-            ]
-            request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-            let task = URLSession.shared.dataTask(with: request, completionHandler: {[weak self] data, _, error in
-                guard let data = data, error == nil else {
+    func sendRequestTask(){
+        Task {
+            do {
+                DispatchQueue.main.async {
+                    self.pressed_send_request = true
+                    self.usernameRes = false
+                }
+                
+                if sUsername.count <= 0 {
+                    DispatchQueue.main.async {
+                        self.result = "Invalid entry."
+                        self.pressed_send_request = false
+                        self.invalid_entry = true
+                    }
                     return
                 }
-                do {
-                    let response = try JSONDecoder().decode(rResponse.self, from: data)
-                    DispatchQueue.main.async {
-                        if response.result != "Success"{
-                            self?.invalid_entry = true
-                            self?.result = response.result + response.friends
+                
+                let result:Bool = try await sendRequest()
+                if result{
+                    print("SUCCESS")
+                }
+                else{
+                    print("Something went wrong.")
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+            }
+        }
+    }
+    
+    func sendRequest() async throws -> Bool{
+        
+        var url_string:String = ""
+        
+        if debug ?? false{
+            print("DEBUG IS TRUE")
+            url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/sfr"
+        }
+        else{
+            print("DEBUG IS FALSE")
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/friend/sfr"
+        }
+        
+        guard let url = URL(string: url_string) else{
+            throw PostDataError.invalidURL
+        }
+        
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let requestBody = "username=" + sUsername + "&token=" + session
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+            do {
+                let response = try JSONDecoder().decode(rResponse.self, from: data)
+                DispatchQueue.main.async {
+                    if response.result != "Success"{
+                        self.invalid_entry = true
+                        self.result = response.result + response.friends
+                    }
+                    else{
+                        self.usernameRes = true
+                        self.result = "Sent Friend Request"
+                        self.loaded_get_user = false
+                        DispatchQueue.main.async { [weak self] in
+                            self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                        }
+                        DispatchQueue.main.async { [weak self] in
+                            self?.userModel = UserViewModel(self?.userViewModel ?? Data()) ?? UserViewModel(Data())!
+                        }
+                        if self.userModel.is_guest == false {
+    //                                self?.result = self?.globalFunctions.addRequest(sender: self?.userModel.username ?? "None", receiver: self?.sUsername ?? "None", requestType: "FriendRequest") ?? "ErrorOccured"
                         }
                         else{
-                            self?.usernameRes = true
-                            self?.result = "Sent Friend Request"
-                            self?.loaded_get_user = false
-                            DispatchQueue.main.async { [weak self] in
-                                self?.globalFunctions.getUser(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
-                            }
-                            DispatchQueue.main.async { [weak self] in
-                                self?.userModel = UserViewModel(self?.userViewModel ?? Data()) ?? UserViewModel(Data())!
-                            }
-                            if self?.userModel.is_guest == false {
-//                                self?.result = self?.globalFunctions.addRequest(sender: self?.userModel.username ?? "None", receiver: self?.sUsername ?? "None", requestType: "FriendRequest") ?? "ErrorOccured"
-                            }
-                            else{
-                                self?.result = "IS A GUEST"
-                            }
+                            self.result = "IS A GUEST"
                         }
                     }
                 }
-                catch{
-                    print(error)
-                }
-            })
-            task.resume()
-        }
-        else{
-            self.result = "Invalid entry."
-            self.pressed_send_request = false
-            self.invalid_entry = true
-        }
+            }
+            catch{
+                print(error)
+            }
+        return true
     }
 
     struct rResponse:Codable {

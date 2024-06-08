@@ -29,21 +29,41 @@ struct GlobalFunctions {
     @AppStorage("tap_dash_time_left") var tap_dash_time_left:String?
     private var in_get_user:Bool = false
     
-    func getUser(token:String, this_user:Int?, curr_user:Int?){
+    func getUserTask(token:String, this_user:Int?, curr_user:Int?){
+        Task {
+            do {
+                
+                let result:Bool = try await getUser(token: token, this_user: this_user, curr_user: curr_user)
+                if result{
+                    print("SUCCESS")
+                }
+                else{
+                    print("Something went wrong.")
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+            }
+        }
+    }
+    
+    func getUser(token:String, this_user:Int?, curr_user:Int?) async throws -> Bool{
+        
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/info"
         }
         else{
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/user/info"
+            print("DEBUG IS FALSE")
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/info"
         }
+        
         guard var urlComponents = URLComponents(string: url_string) else {
-            return
+            throw PostDataError.invalidURL
         }
-        guard let session = logged_in_user else{
-            return
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
         }
         
         // Add query parameters to the URL
@@ -54,113 +74,116 @@ struct GlobalFunctions {
         
         // Ensure the URL is valid
         guard let url = urlComponents.url else {
-            return
+            throw PostDataError.invalidURL
         }
         
         var request = URLRequest(url: url)
-        
-        // Set the HTTP method to GET
         request.httpMethod = "GET"
         
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {data, _, error in
-            guard let data = data, error == nil else {
-                return
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            print("IN THE DO Home")
+            let response = try JSONDecoder().decode(Response.self, from: data)
+            print(response)
+            if response.has_location{
+                print("HAS LOCATION")
+                DispatchQueue.main.async {
+                    self.location_on = true
+                    self.show_location = 1
+                }
             }
-            print("DATA BELOW")
-            print(data)
-            DispatchQueue.main.async {
-                do {
-                    print("IN THE DO Home")
-                    let response = try JSONDecoder().decode(Response.self, from: data)
-                    print(response)
-                    if response.has_location{
-                        print("HAS LOCATION")
-                        self.location_on = true
-                        self.show_location = 1
-                    }
-                    else{
-                        print("DOESNT HAVE LOCATION")
-                        self.location_on = false
-                        self.show_location = 0
-                    }
-                    var myData = UserViewModel(
-                        first_name: response.first_name,
-                        last_name: response.last_name,
-                        response: response.response,
-                        username: response.username,
-                        phone_number: response.phone_number,
-                        email_address: response.email_address,
-                        friends: response.friends,
-                        active_friends_index_list: response.active_friends_index_list,
-                        hasInvite: response.hasInvite,
-                        free_play_wins: response.free_play_wins,
-                        free_play_losses: response.free_play_losses,
-                        free_play_best_streak: response.free_play_best_streak,
-                        free_play_win_streak: response.free_play_win_streak,
-                        free_play_games: response.free_play_games,
-                        free_play_league: response.free_play_league,
-                        tap_dash_wins: response.tap_dash_wins,
-                        tap_dash_losses: response.tap_dash_losses,
-                        tap_dash_best_streak: response.tap_dash_best_streak,
-                        tap_dash_win_streak: response.tap_dash_win_streak,
-                        tap_dash_games: response.tap_dash_games,
-                        tap_dash_league: response.tap_dash_league,
-                        tap_coin: response.tap_coin,
-                        hasPhoneNumber: response.HPN,
-                        hasEmailAddress: response.HEA,
-                        is_guest: response.is_guest,
+            else{
+                DispatchQueue.main.async {
+                    print("DOESNT HAVE LOCATION")
+                    self.location_on = false
+                    self.show_location = 0
+                }
+            }
+            var myData = UserViewModel(
+                first_name: response.first_name,
+                last_name: response.last_name,
+                response: response.response,
+                username: response.username,
+                phone_number: response.phone_number,
+                email_address: response.email_address,
+                friends: response.friends,
+                active_friends_index_list: response.active_friends_index_list,
+                hasInvite: response.hasInvite,
+                free_play_wins: response.free_play_wins,
+                free_play_losses: response.free_play_losses,
+                free_play_best_streak: response.free_play_best_streak,
+                free_play_win_streak: response.free_play_win_streak,
+                free_play_games: response.free_play_games,
+                free_play_league: response.free_play_league,
+                tap_dash_wins: response.tap_dash_wins,
+                tap_dash_losses: response.tap_dash_losses,
+                tap_dash_best_streak: response.tap_dash_best_streak,
+                tap_dash_win_streak: response.tap_dash_win_streak,
+                tap_dash_games: response.tap_dash_games,
+                tap_dash_league: response.tap_dash_league,
+                tap_coin: response.tap_coin,
+                hasPhoneNumber: response.HPN,
+                hasEmailAddress: response.HEA,
+                is_guest: response.is_guest,
 //                        has_wallet: response.has_wallet,
-                        has_security_questions: response.has_security_questions
-                    )
-                    print("SET MY DATA")
-                    if response.friends.count > 0{
-                        if response.friends[0] == "0"{
-                            myData.numFriends = 0
-                        }
-                        else{
-                            var count = 0
-                            for friend in response.friends{
-                                if !friend.contains("requested|"){
-                                    if !friend.contains("sentTo|"){
-                                        count += 1
-                                        if response.hasInvite{
-                                            myData.hasGI = true
-                                        }
-                                    }
-                                    else{
-                                        myData.hasST = true
-                                    }
-                                }
-                                else{
-                                    myData.hasRQ = true
+                has_security_questions: response.has_security_questions
+            )
+            print("SET MY DATA")
+            if response.friends.count > 0{
+                if response.friends[0] == "0"{
+                    myData.numFriends = 0
+                }
+                else{
+                    var count = 0
+                    for friend in response.friends{
+                        if !friend.contains("requested|"){
+                            if !friend.contains("sentTo|"){
+                                count += 1
+                                if response.hasInvite{
+                                    myData.hasGI = true
                                 }
                             }
-                            myData.numFriends = count
-                            myData.fArrayCount = response.friends.count
+                            else{
+                                myData.hasST = true
+                            }
+                        }
+                        else{
+                            myData.hasRQ = true
                         }
                     }
-                    else{
-                        myData.numFriends = 0
-                        myData.fArrayCount = 0
-                    }
-                    myData.hasPhoneNumber = response.HPN
-                    tapDashIsActive = response.tapDashIsActive
-                    tapDashLeft = response.tapDashLeft
-                    tap_dash_time_left = response.tap_dash_time_left
-                    if response.tapDashIsActive == false{
-                        self.tapDash = false
-                    }
-                    self.de_queue = nil
-                    self.userViewModel = myData.storageValue
-                    self.loaded_get_user = true
-                }
-                catch{
-                    self.logged_in_user = nil
-                    print(error)
+                    myData.numFriends = count
+                    myData.fArrayCount = response.friends.count
                 }
             }
-        })
-        task.resume()
+            else{
+                myData.numFriends = 0
+                myData.fArrayCount = 0
+            }
+            myData.hasPhoneNumber = response.HPN
+            DispatchQueue.main.async {
+                self.tapDashIsActive = response.tapDashIsActive
+                self.tapDashLeft = response.tapDashLeft
+                self.tap_dash_time_left = response.tap_dash_time_left
+                if response.tapDashIsActive == false{
+                    self.tapDash = false
+                }
+                self.de_queue = nil
+                self.userViewModel = myData.storageValue
+                self.loaded_get_user = true
+            }
+            return true
+        }
+        catch{
+            DispatchQueue.main.async {
+                self.logged_in_user = nil
+            }
+            print(error)
+            return false
+        }
     }
     
     // Response for Home View Get User Call
@@ -264,7 +287,7 @@ struct GlobalFunctions {
         var _error:Bool = false
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/get_security_questions_text"
         }

@@ -56,7 +56,7 @@ struct RegistrationView: View {
                         }
                         .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.6, alignment: .bottom)
                         .scrollContentBackground(.hidden)
-                        Button(action: {viewModel.reg_pressed ? nil : viewModel.register()}, label: {
+                        Button(action: {viewModel.reg_pressed ? nil : viewModel.registerTask()}, label: {
                             Text("Register")
                                 .frame(width: 200, height: 50, alignment: .center)
                                 .background(newCustomColorsModel.colorSchemeFour)

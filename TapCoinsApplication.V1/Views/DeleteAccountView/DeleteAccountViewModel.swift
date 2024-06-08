@@ -23,7 +23,7 @@ final class DeleteAccountViewModel: ObservableObject {
         confirm_password_error = false
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/confirm_password"
         }
@@ -105,7 +105,7 @@ final class DeleteAccountViewModel: ObservableObject {
     func delete_account() async throws -> Bool{
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/delete_account"
         }

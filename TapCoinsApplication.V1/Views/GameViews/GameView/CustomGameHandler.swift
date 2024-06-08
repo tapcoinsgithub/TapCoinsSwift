@@ -10,7 +10,7 @@ import SocketIO
 import SwiftUI
 //
 class CustomGameHandler: NSObject{
-    @AppStorage("debug") private var debug: Bool?
+    @AppStorage("false") private var debug: Bool?
     static let sharedInstance = CustomGameHandler()
     let socket = SocketManager(socketURL: URL(string: "https://tapped-game.herokuapp.com")!, config: [.log(true), .compress])
     let devSocket = SocketManager(socketURL: URL(string: "ws://localhost:8763")!, config: [.log(true), .compress])

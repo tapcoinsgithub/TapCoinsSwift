@@ -33,7 +33,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     func save_questions_and_answers(){
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/save_users_security_questions"
         }
@@ -115,7 +115,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     func get_security_questions_text(){
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/get_security_questions_text"
         }
@@ -160,7 +160,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     func get_users_questions_and_answers(){
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/get_users_questions_answers"
         }
@@ -223,7 +223,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
         password_error = false
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/confirm_password"
         }

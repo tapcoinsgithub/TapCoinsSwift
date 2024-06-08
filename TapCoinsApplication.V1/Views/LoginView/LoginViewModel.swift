@@ -20,79 +20,95 @@ final class LoginViewModel: ObservableObject {
     @Published var password_error:Error_States?
     private var globalFunctions = GlobalFunctions()
     
-    func login(){
-        is_error = false
-        log_pressed = true
-        if check_errors_function(state: Error_States.RequiredLogin, user:username, password:password) == false{
-            return
+    func loginTask(){
+        Task {
+            do {
+                DispatchQueue.main.async {
+                    self.is_error = false
+                    self.log_pressed = true
+                    if self.check_errors_function(state: Error_States.RequiredLogin, user:self.username, password:self.password) == false{
+                        return
+                    }
+                }
+                
+                let result:Bool = try await login()
+                if result{
+                    print("SUCCESS")
+                }
+                else{
+                    print("Something went wrong.")
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+            }
         }
+    }
+    
+    func login() async throws -> Bool{
+        
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/login"
         }
         else{
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/user/login"
+            print("DEBUG IS FALSE")
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/login"
         }
         
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
-
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "username":username,
-            "password":password
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
+        let requestBody = "username=" + username + "&password=" + password
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        DispatchQueue.main.async {
+            do {
+                let response = try JSONDecoder().decode(Response.self, from: data)
+                self.logged_in_user = response.token
+                self.show_security_questions = false
             }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(Response.self, from: data)
-                    self?.logged_in_user = response.token
-                    self?.show_security_questions = false
-                }
-                catch{
-                    do{
-                        let response2 = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
-                        let error_dict: NSDictionary = response2 as? NSDictionary ?? [
-                            "user" : "No user",
-                            "password" : "No password",
-                        ]
-                        let user_error = error_dict["user"] as? String ?? ""
-                        let password_error = error_dict["password"] as? String ?? ""
+            catch{
+                do{
+                    let response2 = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+                    let error_dict: NSDictionary = response2 as? NSDictionary ?? [
+                        "user" : "No user",
+                        "password" : "No password",
+                    ]
+                    let user_error = error_dict["user"] as? String ?? ""
+                    let password_error = error_dict["password"] as? String ?? ""
 
-                        if user_error.count > 0{
-                            if self?.check_errors_function(state: Error_States.No_Match_User, user:user_error, password:password_error) == false{
-                                return
-                            }
-                            else {
-                                self?.is_error = false
-                            }
+                    if user_error.count > 0{
+                        if self.check_errors_function(state: Error_States.No_Match_User, user:user_error, password:password_error) == false{
+                            return
+                        }
+                        else {
+                            self.is_error = false
+                        }
+                    }
+                    else{
+                        if self.check_errors_function(state: Error_States.No_Match_Password, user:user_error, password:password_error) == false{
+                            return
                         }
                         else{
-                            if self?.check_errors_function(state: Error_States.No_Match_Password, user:user_error, password:password_error) == false{
-                                return
-                            }
-                            else{
-                                self?.is_error = false
-                            }
+                            self.is_error = false
                         }
                     }
-                    catch{
-                        print(error)
-                    }
+                }
+                catch{
+                    print(error)
                 }
             }
-        })
-        task.resume()
+        }
+        return true
     }
     
     struct Response:Codable {

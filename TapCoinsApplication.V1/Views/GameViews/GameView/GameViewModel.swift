@@ -570,7 +570,7 @@ final class GameViewModel: ObservableObject {
         self.send_points_count = self.send_points_count + 1
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/game/sendPoints"
         }
@@ -644,7 +644,7 @@ final class GameViewModel: ObservableObject {
         // Look into if I need it here
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/ad_invite"
         }
@@ -722,7 +722,7 @@ final class GameViewModel: ObservableObject {
         
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/game/end_user_streak"
         }

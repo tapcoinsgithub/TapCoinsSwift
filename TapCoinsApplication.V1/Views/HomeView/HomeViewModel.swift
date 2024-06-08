@@ -58,7 +58,7 @@ final class HomeViewModel: ObservableObject {
     
     init() {
         DispatchQueue.main.async { [weak self] in
-            self?.globalFunctions.getUser(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+            self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
         }
         DispatchQueue.main.async { [weak self] in
             self?.userModel = UserViewModel(self?.userViewModel ?? Data())
@@ -90,13 +90,13 @@ final class HomeViewModel: ObservableObject {
     
     func start_user_streak(){
         var url_string:String = ""
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/game/start_user_streak"
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/game/start_user_streak"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/game/start_user_streak"
         }
         
         guard let url = URL(string: url_string) else{
@@ -141,13 +141,13 @@ final class HomeViewModel: ObservableObject {
     func get_security_questions_text(){
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/get_security_questions_text"
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/securityquestions/get_security_questions_text"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/get_security_questions_text"
         }
         
         guard let url = URL(string: url_string) else{
@@ -185,13 +185,13 @@ final class HomeViewModel: ObservableObject {
     func save_questions_and_answers(){
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/save_users_security_questions"
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/securityquestions/save_users_security_questions"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/save_users_security_questions"
         }
         
         guard let url = URL(string: url_string) else{

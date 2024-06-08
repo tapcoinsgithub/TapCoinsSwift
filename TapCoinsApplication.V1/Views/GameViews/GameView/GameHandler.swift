@@ -17,7 +17,7 @@ class GameHandler: NSObject{
     var mSocket: SocketIOClient!
     override init(){
         super.init()
-        if debug ?? true {
+        if debug ?? false {
             mSocket = devSocket.defaultSocket
         }
         else{

@@ -33,88 +33,108 @@ final class RegistrationViewModel: ObservableObject {
     @Published var register_error_string:String = ""
     private var globalFunctions = GlobalFunctions()
     
-    func register(){
-        phone_info = false
-        reg_pressed = true
-        is_phone_error = false
-        is_uName_error = false
-        is_password_error = false
-        self.register_error = false
-        if check_errors_function(state: Error_States.Required, _phone_number: "", uName: username, p1: password, p2:confirm_password) == false{
-            return
+    func registerTask(){
+        Task {
+            do {
+                DispatchQueue.main.async {
+                    self.phone_info = false
+                    self.reg_pressed = true
+                    self.is_phone_error = false
+                    self.is_uName_error = false
+                    self.is_password_error = false
+                    self.register_error = false
+                }
+                
+                DispatchQueue.main.async {
+                    if self.check_errors_function(state: Error_States.Required, _phone_number: "", uName: self.username, p1: self.password, p2:self.confirm_password) == false{
+                        return
+                    }
+                    if self.check_errors_function(state: Error_States.Password_Match, _phone_number: "",  uName: self.username, p1: self.password, p2:self.confirm_password) == false{
+                        return
+                    }
+                }
+                
+                let result:Bool = try await register()
+                if result{
+                    print("SUCCESS")
+                }
+                else{
+                    print("Something went wrong.")
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+            }
         }
-        if check_errors_function(state: Error_States.Password_Match, _phone_number: "",  uName: username, p1: password, p2:confirm_password) == false{
-            return
-        }
+    }
+    
+    func register() async throws -> Bool{
+        
         var url_string:String = ""
         
-        if debug ?? true{
+        if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/register"
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/user/register"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/register"
         }
         
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "first_name":first_name,
-            "last_name":last_name,
-            "username":username,
-            "password":password,
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
+        
+        let names = "first_name=" + first_name + "&last_name=" + last_name
+        let _data = "&username=" + username + "&password=" + password
+        let requestBody = names + _data
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(Response.self, from: data)
+            if response.response == "Success"{
+                self.logged_in_user = response.token
+                self.show_security_questions = true
+                return true
             }
-
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(Response.self, from: data)
-                    if response.response == "Success"{
-                        self?.logged_in_user = response.token
-                        self?.show_security_questions = true
-                    }
-                    else if response.response == "Invalid phone number."{
-                        self?.phone_error = Error_States.Invalid_Phone_Number
-                        self?.is_phone_error = true
-                        self?.reg_pressed = false
-                    }
+            else if response.response == "Invalid phone number."{
+                self.phone_error = Error_States.Invalid_Phone_Number
+                self.is_phone_error = true
+                self.reg_pressed = false
+                return false
+            }
+        }
+        catch{
+            do {
+                let response2 = try JSONDecoder().decode(ErrResponse.self, from: data)
+                if response2.isErr == true{
+                    self.register_error_string = response2.error
+                    self.register_error = true
+                    self.reg_pressed = false
+                    return false
                 }
-                catch{
-                    do {
-                        let response2 = try JSONDecoder().decode(ErrResponse.self, from: data)
-                        if response2.isErr == true{
-                            self?.register_error_string = response2.error
-                            self?.register_error = true
-                            self?.reg_pressed = false
-                            return
-                        }
-                        else {
-                            self?.is_phone_error = false
-                            self?.is_uName_error = false
-                            self?.is_password_error = false
-                        }
-                    }
-                    catch{
-                        self?.reg_pressed = false
-                        self?.username = ""
-                        self?.password = ""
-                        self?.confirm_password = ""
-                    }
+                else {
+                    self.is_phone_error = false
+                    self.is_uName_error = false
+                    self.is_password_error = false
+                    return true
                 }
             }
-
-        })
-        task.resume()
+            catch{
+                self.reg_pressed = false
+                self.username = ""
+                self.password = ""
+                self.confirm_password = ""
+                throw PostDataError.invalidData
+            }
+        }
+        return false
     }
     struct Response:Codable {
         let response: String

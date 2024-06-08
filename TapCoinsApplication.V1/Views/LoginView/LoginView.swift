@@ -44,7 +44,7 @@ struct LoginView: View {
                     }
                     .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
                     .scrollContentBackground(.hidden)
-                    Button(action: {viewModel.log_pressed ? nil : viewModel.login()}, label: {
+                    Button(action: {viewModel.log_pressed ? nil : viewModel.loginTask()}, label: {
                         Text("Login")
                             .frame(width: 200, height: 50, alignment: .center)
                             .background(newCustomColorsModel.colorSchemeOne)

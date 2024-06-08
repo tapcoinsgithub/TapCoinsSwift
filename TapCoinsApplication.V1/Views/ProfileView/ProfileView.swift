@@ -95,7 +95,7 @@ struct ProfileView: View {
                                                             .cornerRadius(8)
                                                             .shadow(color: newCustomColorsModel.colorSchemeTen, radius: UIScreen.main.bounds.width * 0.005, x: 0, y: UIScreen.main.bounds.width * 0.02)
                                                     }).padding()
-                                                    Button(action: {viewModel.pressed_send_request ? nil : viewModel.sendRequest()}, label: {
+                                                    Button(action: {viewModel.pressed_send_request ? nil : viewModel.sendRequestTask()}, label: {
                                                         Text("Send")
                                                             .frame(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
                                                             .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
