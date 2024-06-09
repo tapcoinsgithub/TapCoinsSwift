@@ -169,7 +169,7 @@ struct GameView: View {
                             .cornerRadius(10)
                             Spacer()
                         }
-                        Button(action: {viewModel.cancel_game()}, label: {
+                        Button(action: {viewModel.got_in_cancel_points ? nil : viewModel.cancelGameTask()}, label: {
                             Text("Cancel")
                                 .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
                                 .background(newCustomColorsModel.colorSchemeFour)
@@ -216,7 +216,7 @@ struct GameView: View {
                         .foregroundColor(newCustomColorsModel.colorSchemeOne)
                         .cornerRadius(5)
                         Button(action: {
-                            viewModel.return_home(exit:false)
+                            viewModel.returnHomeTask(exit:false)
                         }, label: {
                             Text("Return Home")
                         })
@@ -244,7 +244,7 @@ struct GameView: View {
                         .foregroundColor(newCustomColorsModel.colorSchemeOne)
                         .cornerRadius(5)
                         Button(action: {
-                            viewModel.return_home(exit: false)
+                            viewModel.returnHomeTask(exit: false)
                         }, label: {
                             Text("Return Home")
                         })
@@ -261,7 +261,7 @@ struct GameView: View {
             VStack{
                 Button(action: {
                     print("PRESSING EXIT BUTTON")
-                    viewModel.return_home(exit: true)
+                    viewModel.returnHomeTask(exit: true)
                 }, label: {
                     Text("Exit")
                         .foregroundColor(newCustomColorsModel.colorSchemeOne)

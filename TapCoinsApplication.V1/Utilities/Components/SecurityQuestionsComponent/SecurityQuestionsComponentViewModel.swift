@@ -39,7 +39,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/securityquestions/save_users_security_questions"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/save_users_security_questions"
         }
         
         guard let url = URL(string: url_string) else{
@@ -121,7 +121,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/securityquestions/get_security_questions_text"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/get_security_questions_text"
         }
         
         guard let url = URL(string: url_string) else{
@@ -166,7 +166,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/securityquestions/get_users_questions_answers"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/get_users_questions_answers"
         }
         
         guard let url = URL(string: url_string) else{
@@ -229,7 +229,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/user/confirm_password"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/confirm_password"
         }
         
         guard let url = URL(string: url_string) else{

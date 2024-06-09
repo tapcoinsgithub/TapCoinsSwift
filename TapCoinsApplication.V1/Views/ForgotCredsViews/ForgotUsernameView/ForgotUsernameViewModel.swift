@@ -29,7 +29,7 @@ final class ForgotUsernameViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/user/send_username"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/send_username"
         }
         
         guard let url = URL(string: url_string) else{

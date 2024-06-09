@@ -35,7 +35,7 @@ struct QueueView: View {
                     }
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.2)
                 Button(action: {
-                    viewModel.return_home()
+                    viewModel.returnHomeTask()
                 }, label: {
                     Text("Home")
                         .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.height * 0.06, alignment: .center)

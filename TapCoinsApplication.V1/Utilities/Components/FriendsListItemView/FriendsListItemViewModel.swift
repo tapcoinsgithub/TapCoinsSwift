@@ -341,7 +341,7 @@ final class FriendsListItemViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/friend/ad_invite"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/friend/ad_invite"
         }
         
         guard let session = logged_in_user else {
@@ -435,7 +435,7 @@ final class FriendsListItemViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/friend/ad_invite"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/friend/ad_invite"
         }
         
         guard let session = logged_in_user else {
@@ -485,7 +485,7 @@ final class FriendsListItemViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/friend/send_invite"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/friend/send_invite"
         }
         
         guard let session = logged_in_user else {

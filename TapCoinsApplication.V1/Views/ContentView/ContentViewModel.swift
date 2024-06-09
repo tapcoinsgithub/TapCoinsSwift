@@ -22,7 +22,7 @@ final class ContentViewModel: ObservableObject {
 //        in_game = false
 //        in_queue = false
 //        logged_in_user = nil
-        debug = false
+        debug = true
         if debug ?? false {
             print("DEBUG IS TRUE")
         }
@@ -42,7 +42,7 @@ final class ContentViewModel: ObservableObject {
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/guestLogin"
         }
         else{
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/user/guestLogin"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/guestLogin"
         }
         
         guard let url = URL(string: url_string) else{

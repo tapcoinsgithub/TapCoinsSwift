@@ -91,6 +91,7 @@ final class GameViewModel: ObservableObject {
     @Published var tapDashIsActive:Bool = true
     @Published var curr_username = ""
     @Published var opp_tap_dash:String = "false"
+    @Published var got_in_cancel_points:Bool = false
     private enum coin_val:String {
         case Yellow = "Custom_Color_1_TC"
         case Blue = "Custom_Color_3_TC"
@@ -102,8 +103,9 @@ final class GameViewModel: ObservableObject {
     private var startingGame:Bool = false
     private var oppLeft:Bool = false
     private var time_is_up = false
-    private var got_in_send_points: Bool = false
+    private var got_in_send_points:Bool = false
     private var send_points_count:Int = 0
+    private var globalFunctions = GlobalFunctions()
     
     init(){
         let convertedData = UserViewModel(self.userViewModel ?? Data())
@@ -250,10 +252,16 @@ final class GameViewModel: ObservableObject {
             
             mSocket.on("CANCELLED") {(dataArr, ack) -> Void in
                 self.waitingStatus = "Opponent cancelled."
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.cancelGameTask()
+                }
             }
             
             mSocket.on("OPDISCONNECT") {(dataArr, ack) -> Void in
                 self.waitingStatus = "Opponent disconnected ..."
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.cancelGameTask()
+                }
             }
             
             mSocket.on("STARTCGAME") {(dataArr, ack) -> Void in
@@ -307,7 +315,7 @@ final class GameViewModel: ObservableObject {
                 customMSocket.on("DECLINED") {(dataArr, ack) -> Void in
                     self.waitingStatus = "Opponent declined"
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        self.cancel_game()
+                        self.cancelGameTask()
                     }
                 }
 
@@ -453,7 +461,7 @@ final class GameViewModel: ObservableObject {
         in_game = false
     }
     
-    
+    // MSocket function
     func start_game(){
         if (self.custom_game ?? false){
             customMSocket.emit("start_game", game_id ?? "No ID")
@@ -477,6 +485,7 @@ final class GameViewModel: ObservableObject {
         }
     }
     
+    // MSocket function
     func ready_up(username:String){
         if (self.custom_game ?? false){
             customMSocket.emit("ready", username + "|" + (game_id ?? "NO ID"))
@@ -493,6 +502,7 @@ final class GameViewModel: ObservableObject {
         }
     }
     
+    // MSocket function
     func sendTap(x:Int, y:Int){
         print("IT IS GETTING IN SEND TAP FUNCTION HERE")
         let x_index = String(x)
@@ -549,10 +559,22 @@ final class GameViewModel: ObservableObject {
         }
     }
     
+    // Task function
     func send_points_task(location: String){
         Task{
             do {
+                if self.got_in_send_points{
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.gameStart = "END"
+                    self.got_in_send_points = true
+                    self.send_points_count = self.send_points_count + 1
+                }
                 try await self.send_points(location:location)
+                DispatchQueue.main.async {
+                    self.got_in_send_points = false
+                }
             }
             catch{
                 print(location)
@@ -561,13 +583,9 @@ final class GameViewModel: ObservableObject {
         }
     }
     
+    // API call function
     func send_points(location:String) async throws{
-        gameStart = "END"
-        if self.got_in_send_points{
-            return
-        }
-        self.got_in_send_points = true
-        self.send_points_count = self.send_points_count + 1
+        
         var url_string:String = ""
         
         if debug ?? false{
@@ -576,7 +594,7 @@ final class GameViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/game/sendPoints"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/game/sendPoints"
         }
         
         guard let url = URL(string: url_string) else{
@@ -633,15 +651,32 @@ final class GameViewModel: ObservableObject {
         }
     }
     
-    func cancel_game(){
-        print("IN CANCEL GAME FUNCTION")
-        print("***********************")
-        print("***********************")
-        print("***********************")
-        // add end streak call here
-        // add end streak call here
-        // add end streak call here
-        // Look into if I need it here
+    // Task function
+    func cancelGameTask(){
+        Task{
+            do {
+                if self.got_in_cancel_points{
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.gameStart = "END"
+                    self.got_in_cancel_points = true
+                    self.send_points_count = self.send_points_count + 1
+                }
+                try await self.cancel_game()
+                DispatchQueue.main.async {
+                    self.got_in_cancel_points = false
+                }
+            }
+            catch{
+                print("IN THE CATCH")
+            }
+        }
+    }
+    
+    // API call function
+    func cancel_game() async throws{
+        
         var url_string:String = ""
         
         if debug ?? false{
@@ -650,16 +685,17 @@ final class GameViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/friend/ad_invite"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/friend/ad_invite"
         }
         
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
-        var request = URLRequest(url: url)
-        guard let session = logged_in_user else{
-            return
+        
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
         }
+        
         var cancelled = false
         if waitingStatus == "Opponent connected"{
             if (self.custom_game ?? false){
@@ -670,43 +706,36 @@ final class GameViewModel: ObservableObject {
                 mSocket.emit("cancelled", curr_username + "|" + (game_id ?? "NO ID"))
             }
         }
-        print("CANCELLED VALUE IS BELOW")
-        print(cancelled)
-        print(self.custom_game)
+        
+        var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "second_player": self.second_player ?? "No Second",
-            "first_player": self.first_player ?? "No First",
-            "token": session,
-            "adRequest": "delete",
-            "cancelled":cancelled
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
+        let players = "second_player=" + (self.second_player ?? "No Second") + "&first_player=" + (self.first_player ?? "No First")
+        let other_data = "&token=" + session + "&adRequest=delete&cancelled=" + String(cancelled)
+        let requestBody = players + other_data
+        
+        request.httpBody = requestBody.data(using: .utf8)
+        let (data, response) = try await URLSession.shared.data(for:request)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(ADRequest.self, from: data)
+            if response.result == "Cancelled"{
+                self.from_queue = false
+                self.custom_game = false
+                self.is_first = false
+                GameHandler.sharedInstance.closeConnection()
+                CustomGameHandler.sharedInstance.closeConnection()
+                self.in_game = false
             }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(ADRequest.self, from: data)
-                    if response.result == "Cancelled"{
-                        self?.from_queue = false
-                        self?.custom_game = false
-                        self?.is_first = false
-                        GameHandler.sharedInstance.closeConnection()
-                        CustomGameHandler.sharedInstance.closeConnection()
-                        self?.in_game = false
-                    }
-                }
-                catch{
-                    print(error)
-                }
-            }
-        })
-        task.resume()
+        }
+        catch{
+            print(error)
+            throw PostDataError.invalidData
+        }
     }
 
+    // MSocket function
     func play_again(){
         if (self.custom_game ?? false){
             self.customMSocket.emit("play_again", curr_username + "|" + (game_id ?? "NO ID"))
@@ -718,81 +747,69 @@ final class GameViewModel: ObservableObject {
         currPaPressed = true
     }
     
-    func return_home(exit:Bool){
-        
-        var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/game/end_user_streak"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/game/end_user_streak"
-        }
-        
-        guard let url = URL(string: url_string) else{
-            return
-        }
-        var request = URLRequest(url: url)
-        guard let session = logged_in_user else{
-            return
-        }
-        
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "token": session,
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(EndStreakResponse.self, from: data)
-                    if response.result == true{
-                        print("ENDED USERS STREAK SUCCESSFULLY")
-                        print("ENDED USERS STREAK SUCCESSFULLY")
-                        print("ENDED USERS STREAK SUCCESSFULLY")
-                        print("ENDED USERS STREAK SUCCESSFULLY")
+    // Task function to Global Function
+    func returnHomeTask(exit:Bool){
+        Task {
+            do {
+                let result:Bool = try await self.globalFunctions.return_home()
+                if !result{
+                    print("Something went wrong.")
+                }
+                if self.custom_game ?? false{
+                    if !(self.oppLeft){
+                        DispatchQueue.main.async {
+                            self.oppLeft = true
+                        }
+                        self.customMSocket.emit("opponent_left", self.curr_username + "|" + (self.game_id ?? "NO ID"))
+                        self.customMSocket.emit("remove_game_client", "HOME|" + (self.game_id ?? "NO ID"))
                     }
                     else{
-                        print("UNABLE TO END THE USERS STREAK")
-                        print("UNABLE TO END THE USERS STREAK")
-                        print("UNABLE TO END THE USERS STREAK")
-                        print("UNABLE TO END THE USERS STREAK")
+                        self.customMSocket.emit("remove_game_client", "HOME|" + (self.game_id ?? "NO ID"))
                     }
-                    if self?.custom_game ?? false{
-                        if !(self?.oppLeft ?? false){
-                            self?.oppLeft = true
-                            self?.customMSocket.emit("opponent_left", (self?.curr_username ?? "") + "|" + (self?.game_id ?? "NO ID"))
-                            self?.customMSocket.emit("remove_game_client", "HOME|" + (self?.game_id ?? "NO ID"))
+                }
+                else{
+                    if exit{
+                        self.mSocket.emit("remove_game_client", "EXIT|" + (self.game_id ?? "NO ID"))
+                    }
+                    else{
+                        self.mSocket.emit("remove_game_client", "HOME|" + (self.game_id ?? "NO ID"))
+                    }
+                }
+            } catch {
+                do{
+                    if self.custom_game ?? false{
+                        if !(self.oppLeft){
+                            DispatchQueue.main.async {
+                                self.oppLeft = true
+                            }
+                            self.customMSocket.emit("opponent_left", self.curr_username + "|" + (self.game_id ?? "NO ID"))
+                            self.customMSocket.emit("remove_game_client", "HOME|" + (self.game_id ?? "NO ID"))
                         }
                         else{
-                            self?.customMSocket.emit("remove_game_client", "HOME|" + (self?.game_id ?? "NO ID"))
+                            self.customMSocket.emit("remove_game_client", "HOME|" + (self.game_id ?? "NO ID"))
                         }
                     }
                     else{
                         if exit{
-                            self?.mSocket.emit("remove_game_client", "EXIT|" + (self?.game_id ?? "NO ID"))
+                            self.mSocket.emit("remove_game_client", "EXIT|" + (self.game_id ?? "NO ID"))
                         }
                         else{
-                            self?.mSocket.emit("remove_game_client", "HOME|" + (self?.game_id ?? "NO ID"))
+                            self.mSocket.emit("remove_game_client", "HOME|" + (self.game_id ?? "NO ID"))
                         }
                     }
                 }
                 catch{
-                    print(error)
+                    let catch_error = "Error: \(error.localizedDescription)"
+                    print(catch_error)
+                    GameHandler.sharedInstance.closeConnection()
+                    self.in_game = false
                 }
+                
             }
-        })
-        task.resume()
+        }
     }
-    
-    
-    
+
+    // MSocket function
     func next_game(){
         if (self.custom_game ?? false){
             customMSocket.emit("remove_game_client", "NEXT|" + (game_id ?? "NO ID"))
@@ -802,13 +819,15 @@ final class GameViewModel: ObservableObject {
         }
     }
     
+    // Call API Task Function
     func disconnected(){
         opp_disconnected = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
-            self?.return_home(exit: false)
+            self?.returnHomeTask(exit: false)
         }
     }
     
+    // Call API Task Function
     func times_up(){
         if time_is_up == false{
             time_is_up = true
@@ -858,10 +877,6 @@ final class GameViewModel: ObservableObject {
     }
     struct ISRequest:Codable {
         let status: String
-    }
-    
-    struct EndStreakResponse:Codable {
-        let result: Bool
     }
 
 }

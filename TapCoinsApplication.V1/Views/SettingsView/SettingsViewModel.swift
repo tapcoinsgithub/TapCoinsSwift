@@ -61,7 +61,7 @@ final class SettingsViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/tapcoinsbc/saveWallet"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/tapcoinsbc/saveWallet"
         }
         
         guard let url = URL(string: url_string) else{

@@ -49,6 +49,8 @@ final class QueueViewModel: ObservableObject{
     private var queue_count:Int = 0
     private var userModel: UserViewModel?
     private var checked_queue:Bool = false
+    private var globalFunctions = GlobalFunctions()
+    private var inGetUsersAndGame: Bool = false
     
     init() {
         self.custom_game = false
@@ -185,7 +187,7 @@ final class QueueViewModel: ObservableObject{
             self.ad_loaded = false
         }
         mSocket.on("DISCONNECT") {(dataArr, ack) -> Void in
-            self.return_home()
+            self.returnHomeTask()
         }
     }
     
@@ -205,7 +207,7 @@ final class QueueViewModel: ObservableObject{
                     guard let loading_player2 = self?.player2 else {
                            return
                     }
-                    self?.getUsersAndGame(user1Token: loading_player1, user2Token: loading_player2, curr_user: 1)
+                    self?.getUsersAndGameTask(user1Token: loading_player1, user2Token: loading_player2, curr_user: 1)
                 }
             }
             else{
@@ -216,7 +218,7 @@ final class QueueViewModel: ObservableObject{
                     guard let loading_player2 = self?.player2 else {
                            return
                     }
-                    self?.getUsersAndGame(user1Token: loading_player1, user2Token: loading_player2, curr_user: 2)
+                    self?.getUsersAndGameTask(user1Token: loading_player1, user2Token: loading_player2, curr_user: 2)
                 }
             }
             from_queue = true
@@ -224,17 +226,26 @@ final class QueueViewModel: ObservableObject{
         }
     }
     
-    func createGame(first:String, second:String){
-        guard let session = logged_in_user else{
-            return
+    func createGameTask(first:String, second:String){
+        Task {
+            do {
+                if first == "None"{
+                    return
+                }
+                else if second == "None"{
+                    return
+                }
+                let result:Bool = try await createGame(first: first, second: second)
+                if !result{
+                    print("Something went wrong.")
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+            }
         }
-        
-        if first == "None"{
-            return
-        }
-        else if second == "None"{
-            return
-        }
+    }
+    
+    func createGame(first:String, second:String) async throws -> Bool {
         
         var url_string:String = ""
         
@@ -244,55 +255,96 @@ final class QueueViewModel: ObservableObject{
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/game/createGame"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/game/createGame"
+        }
+        
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
         }
         
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
-        
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "first": first,
-            "second": second,
-            "token": session
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
+        // set body variable for if it is confirming phone number or email code
         
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
+        let requestBody = "first=" + first + "&second=" + second + "&token=" + session
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(Game_Id.self, from: data)
             DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(Game_Id.self, from: data)
-                    self?.game_id = response.gameId
-                    self?.got_gameId = true
-                    self?.is_first = true
-                    if (self?.sent_create2game == false){
-                        self?.sent_create2game = true;
-                        let msg1 = second + "|"
-                        let msg2 = (self?.player1 ?? "None") + "|" + (self?.player2 ?? "None")
-                        let message = msg1 + msg2 + "|" + response.gameId
-                        print("CREATED GAME")
-                        print(message)
-                        self?.mSocket.emit("created_game", message)
-                    }
-                }
-                catch{
-                    print(error)
-                    self?.de_queue = true
-                    self?.in_game = false
-                    self?.in_queue = false
-                }
+                self.game_id = response.gameId
+                self.got_gameId = true
+                self.is_first = true
             }
-        })
-        task.resume()
+            if (self.sent_create2game == false){
+                DispatchQueue.main.async {
+                    self.sent_create2game = true
+                }
+                let msg1 = second + "|"
+                let msg2 = (self.player1 ?? "None") + "|" + (self.player2 ?? "None")
+                let message = msg1 + msg2 + "|" + response.gameId
+                print("CREATED GAME")
+                print(message)
+                self.mSocket.emit("created_game", message)
+            }
+            return true
+        }
+        catch{
+            DispatchQueue.main.async {
+                self.de_queue = true
+                self.in_game = false
+                self.in_queue = false
+                print(error)
+            }
+            return false
+        }
     }
     
-    func getUsersAndGame(user1Token:String, user2Token:String, curr_user:Int){
+    func getUsersAndGameTask(user1Token:String, user2Token:String, curr_user:Int){
+        Task {
+            do {
+                if inGetUsersAndGame == false{
+                    DispatchQueue.main.async {
+                        self.inGetUsersAndGame = true
+                    }
+                }
+                else{
+                    return
+                }
+                if user1Token == "None" {
+                    print("IN HERE 1")
+                    return
+                }
+                
+                if user2Token == "None" {
+                    print("IN HERE 1")
+                    return
+                }
+                print("USER TOKENS HERE: \(user1Token) | \(user2Token)")
+                
+                let result:Bool = try await getUsersAndGame(user1Token: user1Token, user2Token: user2Token, curr_user: curr_user)
+                DispatchQueue.main.async {
+                    self.inGetUsersAndGame = false
+                }
+                if !result{
+                    print("Something went wrong.")
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+            }
+        }
+    }
+    
+    func getUsersAndGame(user1Token:String, user2Token:String, curr_user:Int) async throws -> Bool{
+        print("IN GET USERS GAMES")
         var url_string:String = ""
         
         if debug ?? false{
@@ -301,69 +353,67 @@ final class QueueViewModel: ObservableObject{
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/game/get_user_and_game"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/game/get_user_and_game"
+        }
+        
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
         }
         
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
-        
-        if user1Token == "None" {
-            return
-        }
-        
-        if user2Token == "None" {
-            return
-        }
-        
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "player1_token": user1Token,
-            "player2_token": user2Token,
-            "de_queue": false
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
+        print("USER TOKENS HERE: \(user1Token) | \(user2Token)")
+        // set body variable for if it is confirming phone number or email code
+        let tokens = "player1_token=" + user1Token + "&player2_token=" + user2Token
+        let requestBody = tokens + "&de_queue=false"
+        request.httpBody = requestBody.data(using: .utf8)
         
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(Response.self, from: data)
-                    if response.response == true{
-                        if curr_user == 1{
-                            self?.first_player = response.player1_username
-                            self?.second_player = response.player2_username
-                            print("USER 1 GOT USER DATA")
-                            self?.createGame(first: user1Token, second: user2Token)
-                        }
-                        else{
-                            print("USER 2 GOT USER DATA")
-                            self?.first_player = response.player1_username
-                            self?.second_player = response.player2_username
-                            let msg = user1Token + "|" + user2Token
-                            self?.mSocket.emit("remove_from_server", msg)
-                        }
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(Response.self, from: data)
+            if response.response == true{
+                if curr_user == 1{
+                    DispatchQueue.main.async {
+                        self.first_player = response.player1_username
+                        self.second_player = response.player2_username
                     }
-                    else{
-                        self?.de_queue = true
-                        self?.in_game = false
-                        self?.in_queue = false
+                    print("USER 1 GOT USER DATA")
+                    self.createGameTask(first: user1Token, second: user2Token)
+                }
+                else{
+                    print("USER 2 GOT USER DATA")
+                    DispatchQueue.main.async {
+                        self.first_player = response.player1_username
+                        self.second_player = response.player2_username
                     }
+                    let msg = user1Token + "|" + user2Token
+                    self.mSocket.emit("remove_from_server", msg)
                 }
-                catch{
-                    print(error)
-                    self?.de_queue = true
-                    self?.in_game = false
-                    self?.in_queue = false
-                }
+                return true
             }
-        })
-        task.resume()
-        return
+            else{
+                DispatchQueue.main.async {
+                    self.de_queue = true
+                    self.in_game = false
+                    self.in_queue = false
+                }
+                return false
+            }
+        }
+        catch{
+            print(error)
+            self.de_queue = true
+            self.in_game = false
+            self.in_queue = false
+            return false
+        }
     }
     
     func game_made() -> Bool{
@@ -380,61 +430,26 @@ final class QueueViewModel: ObservableObject{
         return false
     }
     
-    func return_home(){
-        var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/game/end_user_streak"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/game/end_user_streak"
-        }
-        
-        guard let url = URL(string: url_string) else{
-            return
-        }
-        var request = URLRequest(url: url)
-        guard let session = logged_in_user else{
-            return
-        }
-        
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "token": session,
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(EndStreakResponse.self, from: data)
-                    if response.result == true{
-                        print("ENDED USERS STREAK SUCCESSFULLY")
-                        print("ENDED USERS STREAK SUCCESSFULLY")
-                        print("ENDED USERS STREAK SUCCESSFULLY")
-                        print("ENDED USERS STREAK SUCCESSFULLY")
-                    }
-                    else{
-                        print("UNABLE TO END THE USERS STREAK")
-                        print("UNABLE TO END THE USERS STREAK")
-                        print("UNABLE TO END THE USERS STREAK")
-                        print("UNABLE TO END THE USERS STREAK")
-                    }
-                    QueueHandler.sharedInstance.closeConnection()
-                    self?.in_queue = false
-                    self?.connected = false
+    func returnHomeTask(){
+        Task {
+            do {
+                let result:Bool = try await self.globalFunctions.return_home()
+                if !result{
+                    print("Something went wrong.")
                 }
-                catch{
-                    print(error)
+                DispatchQueue.main.async {
+                    self.in_queue = false
+                    self.connected = false
                 }
+                QueueHandler.sharedInstance.closeConnection()
+            } catch {
+                DispatchQueue.main.async {
+                    self.in_queue = false
+                    self.connected = false
+                }
+                QueueHandler.sharedInstance.closeConnection()
             }
-        })
-        task.resume()
+        }
     }
     
     struct Response:Codable {
@@ -446,14 +461,5 @@ final class QueueViewModel: ObservableObject{
     struct Game_Id:Codable {
         let gameId: String
         let first: String
-    }
-    
-    struct QResponse:Codable {
-        let q_name:String
-        let q_count:Int
-    }
-    
-    struct EndStreakResponse:Codable {
-        let result: Bool
     }
 }

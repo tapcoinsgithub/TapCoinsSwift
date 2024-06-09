@@ -29,7 +29,7 @@ final class DeleteAccountViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/user/confirm_password"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/confirm_password"
         }
         
         guard let url = URL(string: url_string) else{
@@ -111,7 +111,7 @@ final class DeleteAccountViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/user/delete_account"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/delete_account"
         }
         
         guard let session = logged_in_user else {

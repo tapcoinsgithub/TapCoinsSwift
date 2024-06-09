@@ -186,6 +186,63 @@ struct GlobalFunctions {
         }
     }
     
+    func return_home() async throws -> Bool{
+        
+        var url_string:String = ""
+        
+        if debug ?? false{
+            print("DEBUG IS TRUE")
+            url_string = "http://127.0.0.1:8000/tapcoinsapi/game/end_user_streak"
+        }
+        else{
+            print("DEBUG IS FALSE")
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/game/end_user_streak"
+        }
+        
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
+        }
+        
+        guard let url = URL(string: url_string) else{
+            throw PostDataError.invalidURL
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        // set body variable for if it is confirming phone number or email code
+        let requestBody = "token=" + session
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(EndStreakResponse.self, from: data)
+            if response.result == true{
+                print("ENDED USERS STREAK SUCCESSFULLY")
+                print("ENDED USERS STREAK SUCCESSFULLY")
+                print("ENDED USERS STREAK SUCCESSFULLY")
+                print("ENDED USERS STREAK SUCCESSFULLY")
+            }
+            else{
+                print("UNABLE TO END THE USERS STREAK")
+                print("UNABLE TO END THE USERS STREAK")
+                print("UNABLE TO END THE USERS STREAK")
+                print("UNABLE TO END THE USERS STREAK")
+            }
+            return true
+        }
+        catch{
+            print(error)
+            return false
+        }
+    }
+    
+    struct EndStreakResponse:Codable {
+        let result: Bool
+    }
+    
     // Response for Home View Get User Call
     struct Response:Codable {
         let first_name: String
@@ -292,7 +349,7 @@ struct GlobalFunctions {
             url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/get_security_questions_text"
         }
         else{
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/securityquestions/get_security_questions_text"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/get_security_questions_text"
         }
         
         guard let url = URL(string: url_string) else{

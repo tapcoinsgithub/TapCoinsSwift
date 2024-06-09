@@ -41,7 +41,7 @@ final class SecurityQuestionsViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/securityquestions/check_has_questions"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/check_has_questions"
         }
         
         guard let url = URL(string: url_string) else{
@@ -96,7 +96,7 @@ final class SecurityQuestionsViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoin1.herokuapp.com/tapcoinsapi/securityquestions/check_users_answers"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/check_users_answers"
         }
         
         guard let url = URL(string: url_string) else{
