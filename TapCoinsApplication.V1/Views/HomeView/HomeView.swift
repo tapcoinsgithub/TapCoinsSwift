@@ -11,7 +11,6 @@ import SwiftUI
 @available(iOS 17.0, *)
 struct HomeView: View {
     @AppStorage("in_queue") var in_queue: Bool?
-    @AppStorage("show_security_questions") var show_security_questions:Bool?
     @AppStorage("darkMode") var darkMode: Bool?
     @StateObject private var viewModel = HomeViewModel()
     var newCustomColorsModel = CustomColorsModel()
@@ -104,11 +103,6 @@ struct HomeView: View {
                     .frame(width: UIScreen.main.bounds.width * 0.7)
                 }
                 Spacer()
-//                if show_security_questions ?? true{
-//                    if viewModel.userModel?.is_guest == false{
-//                        SecurityQuestionsComponentView(is_settings:false)
-//                    }
-//                }
             }
             else{
                 ProgressView()

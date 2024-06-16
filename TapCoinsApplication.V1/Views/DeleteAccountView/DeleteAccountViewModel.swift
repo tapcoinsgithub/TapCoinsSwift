@@ -17,87 +17,72 @@ final class DeleteAccountViewModel: ObservableObject {
     @Published var confirm_password_error:Bool = false
     @Published var confirmed_current_password:Bool = false
     @Published var deleteAccountError:Bool = false
+    private var globalFunctions = GlobalFunctions()
     
-    func confirm_password(){
-        pressed_confirm_password = true
-        confirm_password_error = false
-        var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/confirm_password"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/confirm_password"
-        }
-        
-        guard let url = URL(string: url_string) else{
-            return
-        }
-        var request = URLRequest(url: url)
-        
-        guard let session = logged_in_user else{
-            return
-        }
-        if password == ""{
-            pressed_confirm_password = false
-            confirm_password_error = true
-            return
-        }
-        
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "token": session,
-            "password": password
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(ResponseCP.self, from: data)
-                    if response.result{
-                        self?.confirmed_current_password = true
-                        self?.pressed_confirm_password = false
+    func confirmPasswordTask(){
+        Task {
+            do {
+                DispatchQueue.main.async{
+                    self.pressed_confirm_password = true
+                    self.confirm_password_error = false
+                }
+                if password == ""{
+                    DispatchQueue.main.async{
+                        self.pressed_confirm_password = false
+                        self.confirm_password_error = true
                     }
-                    else{
-                        self?.confirm_password_error = true
-                        self?.pressed_confirm_password = false
+                    return
+                }
+                let result:Bool = try await globalFunctions.confirmPassword(password: password)
+                if result{
+                    DispatchQueue.main.async{
+                        self.confirmed_current_password = true
                     }
                 }
-                catch{
-                    print(error)
+                else{
+                    DispatchQueue.main.async{
+                        self.confirm_password_error = true
+                    }
+                }
+                DispatchQueue.main.async{
+                    self.pressed_confirm_password = true
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async{
+                    self.pressed_confirm_password = true
                 }
             }
-        })
-        task.resume()
-    }
-    struct ResponseCP:Codable {
-        let result:Bool
+        }
     }
     
     func deleteAccountTask(){
         Task {
             do {
-                delete_pressed = true
+                DispatchQueue.main.async{
+                    self.delete_pressed = true
+                }
                 let result:Bool = try await delete_account()
                 if result{
-                    logged_in_user = nil
+                    DispatchQueue.main.async{
+                        self.logged_in_user = nil
+                    }
                 }
                 else{
                     print("Something went wrong.")
-                    deleteAccountError = true
+                    DispatchQueue.main.async{
+                        self.deleteAccountError = true
+                    }
                 }
-                delete_pressed = false
+                DispatchQueue.main.async{
+                    self.delete_pressed = false
+                }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
-                delete_pressed = false
-                deleteAccountError = true
+                DispatchQueue.main.async{
+                    self.delete_pressed = false
+                    self.deleteAccountError = true
+                }
             }
         }
     }

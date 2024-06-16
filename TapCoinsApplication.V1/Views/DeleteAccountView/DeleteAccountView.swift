@@ -60,7 +60,7 @@ struct DeleteAccountView: View {
                             Label("Invalid Password.", systemImage: "xmark.octagon")
                                 .foregroundColor(newCustomColorsModel.colorSchemeFive)
                         }
-                        Button(action: {viewModel.pressed_confirm_password ? nil : viewModel.confirm_password()}, label: {
+                        Button(action: {viewModel.pressed_confirm_password ? nil : viewModel.confirmPasswordTask()}, label: {
                             Text("Confirm")
                                 .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
                                 .background(newCustomColorsModel.colorSchemeOne)

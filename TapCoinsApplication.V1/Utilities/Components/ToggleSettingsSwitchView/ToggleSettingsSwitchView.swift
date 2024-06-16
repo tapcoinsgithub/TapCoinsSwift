@@ -82,7 +82,9 @@ struct ToggleSettingsSwitchView: View {
             .disabled(viewModel.has_contact_info == false || viewModel.tapDashIsActive == false)
             .onTapGesture {
                 if viewModel.has_contact_info == true && viewModel.tapDashIsActive ?? false {
-                    viewModel.set_tap_dash()
+                    if viewModel.settingTapDash == false{
+                        viewModel.setTapDashTask()
+                    }
                 }
             }
         }

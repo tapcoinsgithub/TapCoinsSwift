@@ -16,7 +16,6 @@ final class AccountInformationViewModel: ObservableObject {
     @AppStorage("selectedOption1") var selectedOption1:Int?
     @AppStorage("selectedOption2") var selectedOption2:Int?
     @AppStorage("loadedUser") var loaded_get_user:Bool?
-    @AppStorage("show_security_questions") var show_security_questions:Bool?
     @AppStorage("gsave_pressed") var gsave_pressed:Bool?
     @Published var first_name:String = ""
     @Published var last_name:String = ""
@@ -479,71 +478,45 @@ final class AccountInformationViewModel: ObservableObject {
         let error_type: Int
     }
     
-    func confirm_password(){
-        pressed_confirm_password = true
-        save_p_pressed = true
-        confirm_password_error = false
-        var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/confirm_password"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/confirm_password"
-        }
-        
-        guard let url = URL(string: url_string) else{
-            return
-        }
-        var request = URLRequest(url: url)
-        
-        guard let session = logged_in_user else{
-            return
-        }
-        if password == ""{
-            pressed_confirm_password = false
-            save_p_pressed = false
-            confirm_password_error = true
-            return
-        }
-        
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "token": session,
-            "password": password
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(ResponseCP.self, from: data)
-                    if response.result{
-                        self?.pressed_confirm_password = false
-                        self?.save_p_pressed = false
-                        self?.confirmed_current_password = true
+    func confirmPasswordTask(){
+        Task {
+            do {
+                DispatchQueue.main.async{
+                    self.pressed_confirm_password = true
+                    self.save_p_pressed = true
+                    self.confirm_password_error = false
+                }
+                if password == ""{
+                    DispatchQueue.main.async{
+                        self.pressed_confirm_password = false
+                        self.save_p_pressed = false
+                        self.confirm_password_error = true
                     }
-                    else{
-                        self?.confirm_password_error = true
-                        self?.pressed_confirm_password = false
-                        self?.save_p_pressed = false
+                    return
+                }
+                let result:Bool = try await globalFunctions.confirmPassword(password: password)
+                if result{
+                    DispatchQueue.main.async{
+                        self.confirmed_current_password = true
                     }
                 }
-                catch{
-                    print(error)
+                else{
+                    DispatchQueue.main.async{
+                        self.confirm_password_error = true
+                    }
+                }
+                DispatchQueue.main.async{
+                    self.pressed_confirm_password = false
+                    self.save_p_pressed = false
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async{
+                    self.pressed_confirm_password = false
+                    self.save_p_pressed = false
                 }
             }
-        })
-        task.resume()
-    }
-    struct ResponseCP:Codable {
-        let result:Bool
+        }
     }
     
     func sendCodeTask(){

@@ -21,11 +21,46 @@ final class ChangePasswordViewModel: ObservableObject {
     @Published var c_password:String = ""
     @Published var submit_pressed:Bool = false
     
-    func change_password(){
-        submit_pressed = true
-        is_error = false
-        is_match_error = false
-        submitted = false
+    func changePasswordTask(){
+        Task {
+            do {
+                print("IN SEND CODE TASK")
+                DispatchQueue.main.async{
+                    self.submit_pressed = true
+                    self.is_error = false
+                    self.is_match_error = false
+                    self.submitted = false
+                }
+                
+                if password != c_password{
+                    DispatchQueue.main.async{
+                        self.is_match_error = true
+                        self.is_password_error = false
+                        self.submit_pressed = false
+                    }
+                    return
+                }
+                
+                if password == "" {
+                    DispatchQueue.main.async{
+                        self.is_password_error = true
+                        self.is_match_error = false
+                        self.submit_pressed = false
+                    }
+                    return
+                }
+                
+                let result:Bool = try await changePassword()
+                if !result{
+                    print("Something went wrong.")
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+            }
+        }
+    }
+    
+    func changePassword() async throws -> Bool{
         
         var url_string:String = ""
         
@@ -38,72 +73,58 @@ final class ChangePasswordViewModel: ObservableObject {
             url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/change_password"
         }
         
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
+        }
+        
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
-        
-        if password != c_password{
-            is_match_error = true
-            is_password_error = false
-            submit_pressed = false
-            return
-        }
-        
-        if password == "" {
-            is_password_error = true
-            is_match_error = false
-            submit_pressed = false
-            return
-        }
-        
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "code": "Change_Password",
-            "username": self.logged_in_user,
-            "password": password
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
+        let userInfo = "&username=" + session + "&password=" + password
+        let requestBody = "code=Change_Password" + userInfo
+        request.httpBody = requestBody.data(using: .utf8)
         
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(Response3.self, from: data)
+            if response.response{
+                self.submitted = true
+                self.submit_pressed = false
+                self.changing_password = false
+                self.logged_in_user = nil
+                return true
             }
-            
+            else{
+                self.submit_pressed = false
+                let errorType = Error_Types.allCases.first(where: { $0.index == response.error_type })
+                if errorType == Error_Types.BlankPassword{
+                    self.is_error = true
+                    self.error = response.message
+                }
+                if errorType == Error_Types.PreviousPassword{
+                    self.is_error = true
+                    self.error = response.message
+                }
+                if errorType == Error_Types.SomethingWentWrong{
+                    self.is_error = true
+                    self.error = response.message
+                }
+                return false
+            }
+        }
+        catch {
             DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(Response3.self, from: data)
-                    if response.response{
-                        self?.submitted = true
-                        self?.submit_pressed = false
-                        self?.changing_password = false
-                        self?.logged_in_user = nil
-                    }
-                    else{
-                        self?.submit_pressed = false
-                        let errorType = Error_Types.allCases.first(where: { $0.index == response.error_type })
-                        if errorType == Error_Types.BlankPassword{
-                            self?.is_error = true
-                            self?.error = response.message
-                        }
-                        if errorType == Error_Types.PreviousPassword{
-                            self?.is_error = true
-                            self?.error = response.message
-                        }
-                        if errorType == Error_Types.SomethingWentWrong{
-                            self?.is_error = true
-                            self?.error = response.message
-                        }
-                    }
-                }
-                catch{
-                    self?.is_error = true
-                    self?.error = "Something went wrong!"
-                }
+                self.is_error = true
+                self.error = "Something went wrong!"
             }
-        })
-        task.resume()
+            throw PostDataError.invalidData
+        }
     }
     
     struct Response3:Codable {

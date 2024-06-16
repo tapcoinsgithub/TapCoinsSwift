@@ -51,7 +51,7 @@ struct FriendsListItemView: View {
                                 })
                                 if viewModel.show_friend_actions_bool {
                                     HStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.01){
-                                        Button(action: {viewModel.pressed_send_invite ? nil : viewModel.sendInvite(inviteName: viewModel.normalFriendName)}, label: {
+                                        Button(action: {viewModel.pressed_send_invite ? nil : viewModel.sendInviteTask(_inviteName: viewModel.normalFriendName)}, label: {
                                             HStack{
                                                 Text("Custom game")
                                                 Image(systemName: "arrow.up.square.fill")
@@ -175,7 +175,7 @@ struct FriendsListItemView: View {
                                 .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
                                 .fontWeight(.bold)
                             HStack{
-                                Button(action: {viewModel.pressed_accept_invite ? nil : viewModel.acceptInvite(inviteName: friend)}, label: {
+                                Button(action: {viewModel.pressed_accept_invite ? nil : viewModel.acceptInviteTask(_inviteName: friend)}, label: {
                                     HStack{
                                         Text("Accept")
                                         Image(systemName: "checkmark.square.fill")
@@ -235,7 +235,7 @@ struct FriendsListItemView: View {
                                 })
                                 if viewModel.show_friend_actions_bool {
                                     HStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.01){
-                                        Button(action: {viewModel.pressed_send_invite ? nil : viewModel.sendInvite(inviteName: friend)}, label: {
+                                        Button(action: {viewModel.pressed_send_invite ? nil : viewModel.sendInviteTask(_inviteName: friend)}, label: {
                                             HStack{
                                                 Text("Custom game")
                                                 Image(systemName: "arrow.up.square.fill")

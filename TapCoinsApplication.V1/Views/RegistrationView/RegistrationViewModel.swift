@@ -11,7 +11,6 @@ import SwiftUI
 final class RegistrationViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("debug") private var debug: Bool?
-    @AppStorage("show_security_questions") var show_security_questions:Bool?
     @Published var first_name:String = ""
     @Published var last_name:String = ""
     @Published var username:String = ""
@@ -100,7 +99,6 @@ final class RegistrationViewModel: ObservableObject {
             let response = try JSONDecoder().decode(Response.self, from: data)
             if response.response == "Success"{
                 self.logged_in_user = response.token
-                self.show_security_questions = true
                 return true
             }
             else if response.response == "Invalid phone number."{

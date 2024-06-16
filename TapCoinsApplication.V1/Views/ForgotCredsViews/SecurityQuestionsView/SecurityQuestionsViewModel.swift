@@ -30,9 +30,34 @@ final class SecurityQuestionsViewModel: ObservableObject {
     @Published var is_error = false
     @Published var username_error:String = ""
     
-    func check_if_user_has_questions(){
-        username_sent = true
-        submit_pressed = true
+    func checkIfUserHasQuestionsTask(){
+        Task {
+            do {
+                DispatchQueue.main.async {
+                    self.username_sent = true
+                    self.submit_pressed = true
+                }
+                let result:Bool = try await checkIfUserHasQuestions()
+                if result{
+                    print("Success")
+                }
+                else{
+                    print("Something went wrong.")
+                }
+                DispatchQueue.main.async {
+                    self.submit_pressed = false
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.submit_pressed = false
+                }
+            }
+        }
+    }
+    
+    func checkIfUserHasQuestions() async throws -> Bool{
+        
         var url_string:String = ""
         
         if debug ?? false{
@@ -45,49 +70,86 @@ final class SecurityQuestionsViewModel: ObservableObject {
         }
         
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
-
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "username":_username,
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(Response.self, from: data)
-                    if response.result == "Success"{
-                        self?.valid_userename = true
-                        self?.submit_pressed = false
-                        self?.question_1 = response.question_1
-                        self?.question_2 = response.question_2
-                    }
-                    else{
-                        self?.submit_pressed = false
-                    }
+        let requestBody = "username=" + _username
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(Response.self, from: data)
+            if response.result == "Success"{
+                DispatchQueue.main.async {
+                    self.valid_userename = true
+                    self.submit_pressed = false
+                    self.question_1 = response.question_1
+                    self.question_2 = response.question_2
                 }
-                catch{
-                    print(error)
-                }
+                return true
             }
-        })
-        task.resume()
+            return false
+        }
+        catch {
+            throw PostDataError.invalidData
+        }
     }
     struct Response:Codable {
         let result:String
         let question_1:String
         let question_2:String
     }
-    func check_answers_to_questions(){
-        username_sent = true
-        submit_pressed = true
+    
+    func checkAnswersToQuestionsTask(){
+        Task {
+            do {
+                DispatchQueue.main.async {
+                    self.username_sent = true
+                    self.submit_pressed = true
+                }
+                if answer_1 == ""{
+                    DispatchQueue.main.async {
+                        self.username_sent = false
+                        self.submit_pressed = false
+                        self.incorrect_answers_errors = true
+                    }
+                    return
+                }
+                
+                if answer_2 == ""{
+                    DispatchQueue.main.async {
+                        self.username_sent = false
+                        self.submit_pressed = false
+                        self.incorrect_answers_errors = true
+                    }
+                    return
+                }
+                let result:Bool = try await checkAnswersToQuestions()
+                if result{
+                    print("Success")
+                }
+                else{
+                    print("Something went wrong.")
+                }
+                DispatchQueue.main.async {
+                    self.submit_pressed = false
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.submit_pressed = false
+                }
+            }
+        }
+    }
+    
+    func checkAnswersToQuestions() async throws -> Bool{
+        
         var url_string:String = ""
         
         if debug ?? false{
@@ -100,56 +162,42 @@ final class SecurityQuestionsViewModel: ObservableObject {
         }
         
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
-        
-        if answer_1 == ""{
-            submit_pressed = false
-            incorrect_answers_errors = true
-            return
-        }
-        
-        if answer_2 == ""{
-            submit_pressed = false
-            incorrect_answers_errors = true
-            return
-        }
-
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "username":_username,
-            "answer_1": answer_1,
-            "answer_2": answer_2
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(Response2.self, from: data)
-                    if response.result == true{
-                        self?.correct_answers = true
-                        self?.incorrect_answers_errors = false
-                        self?.submit_pressed = false
-                        self?.logged_in_user = self?._username
-                        self?.changing_password = true
-                    }
-                    else{
-                        self?.submit_pressed = false
-                        self?.incorrect_answers_errors = true
-                    }
+        let answers = "&answer_1=" + answer_1 + "&answer_2=" + answer_2
+        let requestBody = "username=" + _username + answers
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(Response2.self, from: data)
+            if response.result == true{
+                DispatchQueue.main.async {
+                    self.correct_answers = true
+                    self.incorrect_answers_errors = false
+                    self.submit_pressed = false
+                    self.logged_in_user = self._username
+                    self.changing_password = true
                 }
-                catch{
-                    print(error)
-                }
+                return true
             }
-        })
-        task.resume()
+            else{
+                DispatchQueue.main.async {
+                    self.submit_pressed = false
+                    self.incorrect_answers_errors = true
+                }
+                return false
+            }
+        }
+        catch {
+            throw PostDataError.invalidData
+        }
     }
     
     struct Response2:Codable {

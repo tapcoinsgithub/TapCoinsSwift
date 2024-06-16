@@ -327,13 +327,40 @@ final class FriendsListItemViewModel: ObservableObject {
     struct FriendRequestResponse:Codable {
         let result: String
     }
+    
+    func acceptInviteTask(_inviteName:String){
+        Task {
+            do {
+                DispatchQueue.main.async {
+                    self.pressed_accept_invite = true
+                }
+                let result:Bool = try await acceptInvite(inviteName: _inviteName)
+                if result{
+                    DispatchQueue.main.async {
+                        self.custom_game = true
+                        self.in_game = true
+                    }
+                }
+                else{
+                    print("Something went wrong.")
+                }
+                DispatchQueue.main.async {
+                    self.pressed_accept_invite = false
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.pressed_accept_invite = false
+                }
+            }
+        }
+    }
 
     
-    func acceptInvite(inviteName:String){
-        pressed_accept_invite = true
-        let rNameSplit = inviteName.split(separator: " ")
+    func acceptInvite(inviteName:String) async throws -> Bool{
         
         var url_string:String = ""
+        let rNameSplit = inviteName.split(separator: " ")
         
         if debug ?? false{
             print("DEBUG IS TRUE")
@@ -345,55 +372,49 @@ final class FriendsListItemViewModel: ObservableObject {
         }
         
         guard let session = logged_in_user else {
-            return
+            throw UserErrors.invalidSession
         }
         
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "username": rNameSplit[3],
-            "token": session,
-            "adRequest": "accept"
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            do {
-                let response = try JSONDecoder().decode(AIResponse.self, from: data)
-                if response.result == "Accepted"{
-                    DispatchQueue.main.async {
-                        var index = 0
-                        for friend in self?.userModel?.friends ?? ["NO FRIENDS"]{
-                            if friend.contains(inviteName){
-                                self?.userModel?.friends?[index] = String(rNameSplit[3])
-                                break
-                            }
-                            index += 1
+        let other_data = "username=" + rNameSplit[3] + "&token=" + session
+        let requestBody = other_data + "&adRequest=accept"
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(AIResponse.self, from: data)
+            if response.result == "Accepted"{
+                DispatchQueue.main.async {
+                    var index = 0
+                    for friend in self.userModel?.friends ?? ["NO FRIENDS"]{
+                        if friend.contains(inviteName){
+                            self.userModel?.friends?[index] = String(rNameSplit[3])
+                            break
                         }
-                        self?.userViewModel = self?.userModel?.storageValue
-                        self?.first_player = response.first
-                        self?.second_player = response.second
-                        self?.game_id = response.gameId
-                        self?.from_queue = false
-                        self?.is_first = false
-                        self?.custom_game = true
-                        self?.in_game = true
-                        self?.pressed_accept_invite = false
+                        index += 1
                     }
+                    self.userViewModel = self.userModel?.storageValue
+                    self.first_player = response.first
+                    self.second_player = response.second
+                    self.game_id = response.gameId
+                    self.from_queue = false
+                    self.is_first = false
                 }
+                return true
             }
-            catch{
-                print(error)
-            }
-        })
-        task.resume()
+            return false
+        }
+        catch {
+            throw PostDataError.invalidData
+        }
     }
     
     struct AIResponse:Codable {
@@ -406,7 +427,9 @@ final class FriendsListItemViewModel: ObservableObject {
     func declineInviteTask(_inviteName:String, curr_user_name:String){
         Task {
             do {
-                pressed_decline_invite = true
+                DispatchQueue.main.async {
+                    self.pressed_decline_invite = true
+                }
                 let result:Bool = try await declineInvite(inviteName: _inviteName, curr_user_name: curr_user_name)
                 if result{
                     DispatchQueue.main.async { [weak self] in
@@ -416,10 +439,14 @@ final class FriendsListItemViewModel: ObservableObject {
                 else{
                     print("Something went wrong.")
                 }
-                pressed_decline_invite = false
+                DispatchQueue.main.async {
+                    self.pressed_decline_invite = false
+                }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
-                pressed_decline_invite = false
+                DispatchQueue.main.async {
+                    self.pressed_decline_invite = false
+                }
             }
         }
     }
@@ -475,8 +502,36 @@ final class FriendsListItemViewModel: ObservableObject {
         let gameId: String
     }
     
-    func sendInvite(inviteName:String){
-        pressed_send_invite = true
+    func sendInviteTask(_inviteName:String){
+        Task {
+            do {
+                DispatchQueue.main.async {
+                    self.pressed_send_invite = true
+                }
+                let result:Bool = try await sendInvite(inviteName: _inviteName)
+                if result{
+                    DispatchQueue.main.async {
+                        self.custom_game = true
+                        self.in_game = true
+                    }
+                }
+                else{
+                    print("Something went wrong.")
+                }
+                DispatchQueue.main.async {
+                    self.pressed_send_invite = false
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.pressed_send_invite = false
+                }
+            }
+        }
+    }
+    
+    func sendInvite(inviteName:String) async throws -> Bool{
+        
         var url_string:String = ""
         
         if debug ?? false{
@@ -489,45 +544,39 @@ final class FriendsListItemViewModel: ObservableObject {
         }
         
         guard let session = logged_in_user else {
-            return
+            throw UserErrors.invalidSession
         }
         
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "username": inviteName,
-            "token": session
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            do {
-                let response = try JSONDecoder().decode(CGResponse.self, from: data)
-                if response.first != "ALREADY EXISTS"{
-                    DispatchQueue.main.async {
-                        self?.first_player = response.first
-                        self?.second_player = response.second
-                        self?.game_id = response.gameId
-                        self?.from_queue = false
-                        self?.custom_game = true
-                        self?.is_first = true
-                        self?.in_game = true
-                        self?.pressed_send_invite = false
-                    }
+        let requestBody = "username=" + inviteName + "&token=" + session
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(CGResponse.self, from: data)
+            if response.first != "ALREADY EXISTS"{
+                DispatchQueue.main.async {
+                    self.first_player = response.first
+                    self.second_player = response.second
+                    self.game_id = response.gameId
+                    self.from_queue = false
+                    self.is_first = true
                 }
+                return true
             }
-            catch{
-                print(error)
-            }
-        })
-        task.resume()
+            return false
+        }
+        catch {
+            throw PostDataError.invalidData
+        }
     }
     
     struct CGResponse:Codable {

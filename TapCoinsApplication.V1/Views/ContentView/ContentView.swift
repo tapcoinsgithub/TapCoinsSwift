@@ -39,7 +39,7 @@ struct ContentView: View {
                     else{
                         LoginView()
                             .navigationBarItems(leading: Button(action: {
-                                viewModel.guestLogin()
+                                viewModel.guestLoginTask()
                             }, label: {
                                 HStack{
                                     Text(viewModel.glPressed ? "Logging in..." : "Continue as Guest")

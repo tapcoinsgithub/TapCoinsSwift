@@ -37,7 +37,56 @@ final class ForgotPasswordViewModel: ObservableObject {
                     self.successfully_sent = false
                     self.submitted = false
                 }
-                let result:Bool = try await send_code()
+                var has_phone_number = false
+                var has_email_address = false
+                if phone_number == ""{
+                    print("DOES NOT HAVE PHONE NUMBER")
+                    if email_address == ""{
+                        print("DOES NOT HAVE EMAIL ADDRESS")
+                        DispatchQueue.main.async{
+                            self.is_phone_error = true
+                            self.is_email_error = true
+                            self.send_pressed = false
+                            self.successfully_sent = false
+                            self.submitted = false
+                        }
+                        return
+                    }
+                    else{
+                        print("HAS EMAIL ADDRESS")
+                        has_email_address = true
+                    }
+                }
+                else{
+                    print("HAS PHONE NUMBER")
+                    has_phone_number = true
+                }
+                
+                if has_phone_number{
+                    if self.globalFunctions.check_errors(state: Error_States.Invalid_Phone_Number, _phone_number: phone_number, uName: "", p1: "", p2: "", _email_address: "") == "PHError" {
+                        DispatchQueue.main.async{
+                            self.is_phone_error = true
+                            self.is_email_error = false
+                            self.send_pressed = false
+                            self.successfully_sent = false
+                        }
+                        return
+                    }
+                }
+                else if has_email_address{
+                    print("CHECKING FOR EMAIL ERROR")
+                    if self.globalFunctions.check_errors(state: Error_States.Invalid_Email_Address, _phone_number: "", uName: "", p1: "", p2: "", _email_address: email_address) == "EAError" {
+                        print("HAS AN EMAIL ERROR")
+                        DispatchQueue.main.async{
+                            self.is_email_error = true
+                            self.is_phone_error = false
+                            self.send_pressed = false
+                            self.successfully_sent = false
+                        }
+                        return
+                    }
+                }
+                let result:Bool = try await send_code(has_phone_number: has_phone_number, has_email_address: has_email_address)
                 if !result{
                     print("Something went wrong.")
                 }
@@ -47,7 +96,7 @@ final class ForgotPasswordViewModel: ObservableObject {
         }
     }
     
-    func send_code() async throws -> Bool{
+    func send_code(has_phone_number:Bool, has_email_address:Bool) async throws -> Bool{
         
         var url_string:String = ""
         
@@ -59,55 +108,7 @@ final class ForgotPasswordViewModel: ObservableObject {
             print("DEBUG IS FALSE")
             url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/send_code"
         }
-        var has_phone_number = false
-        var has_email_address = false
-        if phone_number == ""{
-            print("DOES NOT HAVE PHONE NUMBER")
-            if email_address == ""{
-                print("DOES NOT HAVE EMAIL ADDRESS")
-                DispatchQueue.main.async{
-                    self.is_phone_error = true
-                    self.is_email_error = true
-                    self.send_pressed = false
-                    self.successfully_sent = false
-                    self.submitted = false
-                }
-                return false
-            }
-            else{
-                print("HAS EMAIL ADDRESS")
-                has_email_address = true
-            }
-        }
-        else{
-            print("HAS PHONE NUMBER")
-            has_phone_number = true
-        }
         
-        if has_phone_number{
-            if self.globalFunctions.check_errors(state: Error_States.Invalid_Phone_Number, _phone_number: phone_number, uName: "", p1: "", p2: "", _email_address: "") == "PHError" {
-                DispatchQueue.main.async{
-                    self.is_phone_error = true
-                    self.is_email_error = false
-                    self.send_pressed = false
-                    self.successfully_sent = false
-                }
-                return false
-            }
-        }
-        else if has_email_address{
-            print("CHECKING FOR EMAIL ERROR")
-            if self.globalFunctions.check_errors(state: Error_States.Invalid_Email_Address, _phone_number: "", uName: "", p1: "", p2: "", _email_address: email_address) == "EAError" {
-                print("HAS AN EMAIL ERROR")
-                DispatchQueue.main.async{
-                    self.is_email_error = true
-                    self.is_phone_error = false
-                    self.send_pressed = false
-                    self.successfully_sent = false
-                }
-                return false
-            }
-        }
         
         guard let url = URL(string: url_string) else{
             DispatchQueue.main.async{
@@ -200,8 +201,14 @@ final class ForgotPasswordViewModel: ObservableObject {
                 if !result{
                     print("Something went wrong.")
                 }
+                DispatchQueue.main.async{
+                    self.send_pressed = false
+                }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async{
+                    self.send_pressed = false
+                }
             }
         }
     }
@@ -221,7 +228,6 @@ final class ForgotPasswordViewModel: ObservableObject {
         
         guard let url = URL(string: url_string) else{
             DispatchQueue.main.async{
-                self.send_pressed = false
                 self.is_error = true
                 self.error = "Something went wrong."
             }
@@ -237,7 +243,6 @@ final class ForgotPasswordViewModel: ObservableObject {
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             DispatchQueue.main.async{
                 print("IN HERE IN HERE")
-                self.send_pressed = false
                 self.is_error = true
                 self.error = "Something went wrong."
             }
@@ -248,7 +253,6 @@ final class ForgotPasswordViewModel: ObservableObject {
             if response.response{
                 if response.expired{
                     DispatchQueue.main.async{
-                        self.send_pressed = false
                         self.is_error = true
                         self.error = "Expired code."
                     }
@@ -256,9 +260,7 @@ final class ForgotPasswordViewModel: ObservableObject {
                 }
                 else{
                     DispatchQueue.main.async{
-                        self.send_pressed = false
                         self.submitted = true
-                        self.send_pressed = false
                     }
                 }
             }
@@ -266,7 +268,6 @@ final class ForgotPasswordViewModel: ObservableObject {
                 let errorType = Error_Types.allCases.first(where: { $0.index == response.error_type })
                 if errorType == Error_Types.BlankPassword{
                     DispatchQueue.main.async{
-                        self.send_pressed = false
                         self.is_error = true
                         self.error = response.message
                     }
@@ -274,7 +275,6 @@ final class ForgotPasswordViewModel: ObservableObject {
                 }
                 if errorType == Error_Types.PreviousPassword{
                     DispatchQueue.main.async{
-                        self.send_pressed = false
                         self.is_error = true
                         self.error = response.message
                     }
@@ -282,7 +282,6 @@ final class ForgotPasswordViewModel: ObservableObject {
                 }
                 if errorType == Error_Types.SomethingWentWrong{
                     DispatchQueue.main.async{
-                        self.send_pressed = false
                         self.is_error = true
                         self.error = response.message
                     }
@@ -290,7 +289,6 @@ final class ForgotPasswordViewModel: ObservableObject {
                 }
                 if errorType == Error_Types.TimeLimitCode{
                     DispatchQueue.main.async{
-                        self.send_pressed = false
                         self.is_error = true
                         self.error = response.message
                     }
@@ -300,7 +298,6 @@ final class ForgotPasswordViewModel: ObservableObject {
         }
         catch{
             DispatchQueue.main.async{
-                self.send_pressed = false
                 self.is_error = true
                 self.error = "Something went wrong!"
             }

@@ -22,6 +22,7 @@ final class ToggleSettingsSwitchViewModel: ObservableObject {
     @Published var userModel:UserViewModel?
     @Published var is_guest:Bool = false
     @Published var has_contact_info:Bool = false
+    @Published var settingTapDash:Bool = false
     
     init(){
         self.userModel = UserViewModel(self.userViewModel ?? Data())
@@ -56,7 +57,33 @@ final class ToggleSettingsSwitchViewModel: ObservableObject {
         
     }
     
-    func set_tap_dash(){
+    func setTapDashTask(){
+        Task {
+            do {
+                DispatchQueue.main.async{
+                    self.settingTapDash = true
+                }
+                let result:Bool = try await setTapDash()
+                if result{
+                    print("Success")
+                }
+                else{
+                    print("Something went wrong.")
+                }
+                DispatchQueue.main.async{
+                    self.settingTapDash = false
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async{
+                    self.settingTapDash = false
+                }
+            }
+        }
+    }
+    
+    func setTapDash() async throws -> Bool{
+        
         var url_string:String = ""
         
         if debug ?? false{
@@ -68,42 +95,38 @@ final class ToggleSettingsSwitchViewModel: ObservableObject {
             url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/game/tap_dash_toggle"
         }
         
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
+        }
+        
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
-        
-        guard let session = logged_in_user else{
-            return
-        }
-        
         var request = URLRequest(url: url)
-        
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "token": session
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
+        
+        let requestBody = "token=" + session
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(Response.self, from: data)
+            if response.response == "success"{
+                print("success")
+                return true
             }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(Response.self, from: data)
-                    if response.response == "success"{
-                        print("success")
-                    }
-                    else{
-                        print("something went wrong")
-                    }
-                }
-                catch{
-                    print(error)
-                }
+            else{
+                print("something went wrong")
+                return false
             }
-        })
-        task.resume()
+        }
+        catch {
+            throw PostDataError.invalidData
+        }
     }
     
     struct Response:Codable {

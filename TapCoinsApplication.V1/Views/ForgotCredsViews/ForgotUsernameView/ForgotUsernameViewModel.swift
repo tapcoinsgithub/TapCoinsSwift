@@ -16,10 +16,51 @@ final class ForgotUsernameViewModel: ObservableObject {
     @Published var successfully_sent = false
     private var globalFunctions = GlobalFunctions()
     
-    func send_username(){
-        send_pressed = true
-        is_phone_error = false
-        successfully_sent = false
+    func sendUsernameTask(){
+        Task {
+            do {
+                DispatchQueue.main.async {
+                    self.send_pressed = true
+                    self.is_phone_error = false
+                    self.successfully_sent = false
+                }
+                if phone_number == ""{
+                    DispatchQueue.main.async {
+                        self.is_phone_error = true
+                        self.send_pressed = false
+                        self.successfully_sent = false
+                    }
+                    return
+                }
+                
+                if self.globalFunctions.check_errors(state: Error_States.Invalid_Phone_Number, _phone_number: phone_number, uName: "", p1: "", p2: "", _email_address: "") == "PHError" {
+                    DispatchQueue.main.async {
+                        self.is_phone_error = true
+                        self.send_pressed = false
+                        self.successfully_sent = false
+                    }
+                    return
+                }
+                let result:Bool = try await sendUsername()
+                if result{
+                    print("Success")
+                }
+                else{
+                    print("Something went wrong.")
+                }
+                DispatchQueue.main.async {
+                    self.send_pressed = false
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.send_pressed = false
+                }
+            }
+        }
+    }
+    
+    func sendUsername() async throws -> Bool{
         
         var url_string:String = ""
         
@@ -33,55 +74,36 @@ final class ForgotUsernameViewModel: ObservableObject {
         }
         
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
-        
-        if phone_number == ""{
-            is_phone_error = true
-            send_pressed = false
-            successfully_sent = false
-            return
-        }
-        
-        if self.globalFunctions.check_errors(state: Error_States.Invalid_Phone_Number, _phone_number: phone_number, uName: "", p1: "", p2: "", _email_address: "") == "PHError" {
-            is_phone_error = true
-            send_pressed = false
-            successfully_sent = false
-            return
-        }
-        
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "phone_number": phone_number,
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
+        let requestBody = "phone_number=" + phone_number
+        request.httpBody = requestBody.data(using: .utf8)
         
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(Response.self, from: data)
-                    if response.response{
-                        self?.successfully_sent = true
-                        self?.send_pressed = false
-                    }
-                    else{
-                        self?.is_phone_error = true
-                    }
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(Response.self, from: data)
+            if response.response{
+                DispatchQueue.main.async {
+                    self.successfully_sent = true
                 }
-                catch{
-                    print("Something went wrong.")
-                }
-                self?.send_pressed = false
+                return true
             }
-            
-        })
-        task.resume()
+            else{
+                DispatchQueue.main.async {
+                    self.is_phone_error = true
+                }
+                return false
+            }
+        }
+        catch {
+            throw PostDataError.invalidData
+        }
     }
     
     struct Response:Codable {

@@ -29,6 +29,7 @@ struct GlobalFunctions {
     @AppStorage("tap_dash_time_left") var tap_dash_time_left:String?
     private var in_get_user:Bool = false
     
+    // Task
     func getUserTask(token:String, this_user:Int?, curr_user:Int?){
         Task {
             do {
@@ -46,6 +47,7 @@ struct GlobalFunctions {
         }
     }
     
+    // API Call
     func getUser(token:String, this_user:Int?, curr_user:Int?) async throws -> Bool{
         
         var url_string:String = ""
@@ -186,6 +188,42 @@ struct GlobalFunctions {
         }
     }
     
+    // Response Get User Call
+    struct Response:Codable {
+        let first_name: String
+        let last_name: String
+        let response: String
+        let username: String
+        let phone_number: String
+        let email_address: String
+        let friends:Array<String>
+        let active_friends_index_list:Array<Int>
+        let hasInvite:Bool
+        let HPN:Bool
+        let HEA:Bool
+        let is_guest:Bool
+        let free_play_wins: Int
+        let free_play_losses: Int
+        let free_play_best_streak: Int
+        let free_play_win_streak: Int
+        let free_play_games: Int
+        let free_play_league: Int
+        let tap_dash_wins: Int
+        let tap_dash_losses: Int
+        let tap_dash_best_streak: Int
+        let tap_dash_win_streak: Int
+        let tap_dash_games: Int
+        let tap_dash_league: Int
+        let tap_coin: Int
+//        let has_wallet: Bool
+        let has_location: Bool
+        let has_security_questions: Bool
+        let tapDashIsActive: Bool
+        let tapDashLeft: Int
+        let tap_dash_time_left: String
+    }
+    
+    // API Call
     func return_home() async throws -> Bool{
         
         var url_string:String = ""
@@ -243,41 +281,56 @@ struct GlobalFunctions {
         let result: Bool
     }
     
-    // Response for Home View Get User Call
-    struct Response:Codable {
-        let first_name: String
-        let last_name: String
-        let response: String
-        let username: String
-        let phone_number: String
-        let email_address: String
-        let friends:Array<String>
-        let active_friends_index_list:Array<Int>
-        let hasInvite:Bool
-        let HPN:Bool
-        let HEA:Bool
-        let is_guest:Bool
-        let free_play_wins: Int
-        let free_play_losses: Int
-        let free_play_best_streak: Int
-        let free_play_win_streak: Int
-        let free_play_games: Int
-        let free_play_league: Int
-        let tap_dash_wins: Int
-        let tap_dash_losses: Int
-        let tap_dash_best_streak: Int
-        let tap_dash_win_streak: Int
-        let tap_dash_games: Int
-        let tap_dash_league: Int
-        let tap_coin: Int
-//        let has_wallet: Bool
-        let has_location: Bool
-        let has_security_questions: Bool
-        let tapDashIsActive: Bool
-        let tapDashLeft: Int
-        let tap_dash_time_left: String
+    func confirmPassword(password:String) async throws -> Bool{
+        
+        var url_string:String = ""
+        
+        if debug ?? false{
+            print("DEBUG IS TRUE")
+            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/confirm_password"
+        }
+        else{
+            print("DEBUG IS FALSE")
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/confirm_password"
+        }
+        
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
+        }
+        
+        guard let url = URL(string: url_string) else{
+            throw PostDataError.invalidURL
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        // set body variable for if it is confirming phone number or email code
+        let requestBody = "token=" + session + "&password=" + password
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(ResponseCP.self, from: data)
+            if response.result{
+                return true
+            }
+            return false
+        }
+        catch{
+            print(error)
+            throw PostDataError.invalidData
+        }
     }
+    struct ResponseCP:Codable {
+        let result:Bool
+    }
+
     
+    
+    // Simple function
     func validate_phone_number(value: String) -> Bool {
         let int_phone_number = Int(value) ?? 0
         if int_phone_number == 0 {
@@ -292,11 +345,13 @@ struct GlobalFunctions {
         }
     }
     
+    // Simple function
     func validate_email_address(value: String) -> Bool {
         let email_regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         return NSPredicate(format: "SELF MATCHES %@", email_regex).evaluate(with: value)
     }
     
+    // Simple function
     func check_errors(state:Error_States, _phone_number:String, uName:String, p1:String, p2:String, _email_address:String) -> String{
         var is_uName_error = false
         var is_password_error = false
@@ -337,125 +392,5 @@ struct GlobalFunctions {
         }
         return "Pass"
     }
-    
-    func get_security_questions_text() -> [String: Any]?{
-        var got_response = false
-        var return_data: [String: Any]?
-        var _error:Bool = false
-        var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/get_security_questions_text"
-        }
-        else{
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/get_security_questions_text"
-        }
-        
-        guard let url = URL(string: url_string) else{
-            return nil
-        }
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = "GET"
-        DispatchQueue.main.async {
-            let task = URLSession.shared.dataTask(with: request, completionHandler: {[] data, _, error in
-                guard let data = data, error == nil else {
-                    return
-                }
-                print("DATA BELOW")
-                print(data)
-                DispatchQueue.main.async {
-                    do {
-                        print("IN THE DO")
-                        let response = try JSONDecoder().decode(SecurityQResponse.self, from: data)
-                        print("RESPONSE BELOW")
-                        print(response)
-                        let joined1 = response.options_1.joined(separator: ";")
-                        let joined2 = response.options_2.joined(separator: ";")
-                        let joined3 = joined1 + "|" + joined2
-                        let response_data: [String: Any] = [
-                            "security_questions": joined3,
-                            "options1": response.options_1,
-                            "options2": response.options_2
-                        ]
-                        return_data = response_data
-                        got_response = true
-                    }
-                    catch{
-                        // return nil
-                        _error = true
-                        print(error)
-                    }
-                }
-            })
-            task.resume()
-        }
-        if (got_response == true){
-            return return_data
-        }
-        else{
-            if (_error){
-                return nil
-            }
-            var count = 0
-            while(got_response == false){
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    if (count == 3){
-                        _error = true
-                    }
-                    else{
-                        count += 1
-                    }
-                }
-                if (_error == true){
-                    break
-                }
-            }
-            return return_data
-        }
-    }
-    
-    struct SecurityQResponse:Codable {
-        let options_1: [String]
-        let options_2: [String]
-    }
-    
-//    func addRequest(sender:String, receiver:String, requestType: String) -> String{
-//        var newRequest: CKRecord?
-//        if requestType == "FriendRequest"{
-//            newRequest = CKRecord(recordType: "FriendRequest")
-//        }
-//        else if requestType == "GameInvite"{
-//            newRequest = CKRecord(recordType: "GameInvite")
-//        }
-//        else{
-//            newRequest = nil
-//        }
-//        if newRequest == nil{
-//            return "NilRequest"
-//        }
-//        newRequest!["sender"] = sender
-//        newRequest!["receiver"] = receiver
-//        let result = (newRequest!["sender"] ?? "No Sender") + " | " + (newRequest!["receiver"] ?? "No Receiver")
-//        if saveRequest(record: newRequest!){
-//            return result
-//        }
-//        else{
-//            return "SaveFail"
-//        }
-//    }
-//
-//    func saveRequest(record:CKRecord) -> Bool{
-//        var passed = false
-//        CKContainer(identifier: "iCloud.com.ericviera.TapTapCoin").publicCloudDatabase.save(record) { [self] returnedRecord, returnedError in
-//            if returnedError != nil{
-//                passed = false
-//            }
-//            if returnedRecord != nil{
-//                passed = true
-//            }
-//        }
-//        return passed
-//    }
+
 }

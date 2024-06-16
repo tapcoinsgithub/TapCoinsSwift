@@ -64,7 +64,7 @@ struct ChangePasswordView: View {
                         print("SUBMITTING")
                         if !viewModel.submit_pressed{
                             print("SUBMIT PRESSED IS FALSE")
-                            viewModel.change_password()
+                            viewModel.changePasswordTask()
                         }
                     }, label: {
                         Text("Submit")

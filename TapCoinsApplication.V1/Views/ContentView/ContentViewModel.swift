@@ -22,6 +22,7 @@ final class ContentViewModel: ObservableObject {
 //        in_game = false
 //        in_queue = false
 //        logged_in_user = nil
+        // https://tapcoins-queue-server-86d685f7f051.herokuapp.com Queue Server
         debug = true
         if debug ?? false {
             print("DEBUG IS TRUE")
@@ -34,50 +35,67 @@ final class ContentViewModel: ObservableObject {
         }
     }
     
-    func guestLogin(){
-        glPressed = true
+    func guestLoginTask(){
+        Task {
+            do {
+                DispatchQueue.main.async{
+                    self.glPressed = true
+                }
+                let result:Bool = try await guestLogin()
+                if !result{
+                    print("Something went wrong.")
+                }
+                DispatchQueue.main.async{
+                    self.glPressed = false
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async{
+                    self.glPressed = false
+                }
+            }
+        }
+    }
+    
+    func guestLogin() async throws -> Bool{
+        
         var url_string:String = ""
+        
         if debug ?? false{
             print("DEBUG IS TRUE")
             url_string = "http://127.0.0.1:8000/tapcoinsapi/user/guestLogin"
         }
         else{
+            print("DEBUG IS FALSE")
             url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/guestLogin"
         }
         
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
-        
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "guest":"login",
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
+        let requestBody = "guest=login"
+        request.httpBody = requestBody.data(using: .utf8)
         
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(GLResponse.self, from: data)
-                    if response.error == false{
-                        self?.logged_in_user = response.token
-                        self?.glPressed = false
-                    }
-                    else{
-                        self?.glPressed = false
-                    }
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(GLResponse.self, from: data)
+            if response.error == false{
+                DispatchQueue.main.async{
+                    self.logged_in_user = response.token
                 }
-                catch{
-                    self?.glPressed = false
-                }
+                return true
             }
-        })
-        task.resume()
+            return false
+        }
+        catch {
+            throw PostDataError.invalidData
+        }
     }
     
     struct GLResponse:Codable {

@@ -71,12 +71,12 @@ struct SecurityQuestionsView: View {
                             print("USERNAME IS NOT BLANK")
                             if viewModel.username_sent{
                                 if viewModel.valid_userename{
-                                    viewModel.check_answers_to_questions()
+                                    viewModel.checkAnswersToQuestionsTask()
                                 }
                             }
                             else{
                                 print("GOT IN HERE")
-                                viewModel.check_if_user_has_questions()
+                                viewModel.checkIfUserHasQuestionsTask()
                             }
                         }
                         else{

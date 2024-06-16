@@ -11,7 +11,6 @@ import SwiftUI
 final class LoginViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("debug") private var debug: Bool?
-    @AppStorage("show_security_questions") var show_security_questions:Bool?
     @Published var username:String = ""
     @Published var password:String = ""
     @Published var is_error:Bool = false
@@ -74,7 +73,6 @@ final class LoginViewModel: ObservableObject {
             do {
                 let response = try JSONDecoder().decode(Response.self, from: data)
                 self.logged_in_user = response.token
-                self.show_security_questions = false
             }
             catch{
                 do{

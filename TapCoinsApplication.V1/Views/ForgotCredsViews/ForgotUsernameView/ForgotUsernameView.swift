@@ -47,7 +47,7 @@ struct ForgotUsernameView: View {
                         .padding()
                     Spacer()
                 }
-                Button(action: {viewModel.send_pressed ? nil : viewModel.send_username()}, label: {
+                Button(action: {viewModel.send_pressed ? nil : viewModel.sendUsernameTask()}, label: {
                     Text("Send")
                         .frame(width: 200, height: 50, alignment: .center)
                         .background(newCustomColorsModel.colorSchemeFour)

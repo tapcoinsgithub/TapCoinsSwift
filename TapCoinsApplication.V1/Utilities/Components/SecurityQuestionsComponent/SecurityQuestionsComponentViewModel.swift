@@ -25,12 +25,28 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     @Published var saved_questions_answers:Bool = false
     public var options1:[String] = ["Loading ..."]
     public var options2:[String] = ["Loading ..."]
+    private var globalFunctions = GlobalFunctions()
     
     init(){
-        get_security_questions_text()
+        getSecurityQuestionsTextTask()
     }
     
-    func save_questions_and_answers(){
+    func saveQuestionsAndAnswersTask(){
+        Task {
+            do {
+                
+                let result:Bool = try await getSecurityQuestionsText()
+                if !result{
+                    print("Something went wrong.")
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+            }
+        }
+    }
+    
+    func saveQuestionsAndAnswers() async throws -> Bool{
+        
         var url_string:String = ""
         
         if debug ?? false{
@@ -42,44 +58,38 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
             url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/save_users_security_questions"
         }
         
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
+        }
+        
         guard let url = URL(string: url_string) else{
-            return
+            throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
-        
-        guard let session = logged_in_user else{
-            return
-        }
-        
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "token": session,
-            "question_1":options1[question_1],
-            "answer_1": answer_1,
-            "question_2":options2[question_2],
-            "answer_2": answer_2
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
+        let qa_1 = "&question_1=" + options1[question_1] + "&answer_1=" + answer_1
+        let qa_2 = "&question_2=" + options2[question_2] + "&answer_2=" + answer_2
+        let requestBody = "token=" + session + qa_1 + qa_2
+        request.httpBody = requestBody.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            _ = try JSONDecoder().decode(Save_SQ_Response.self, from: data)
             DispatchQueue.main.async {
-                do {
-                    _ = try JSONDecoder().decode(Save_SQ_Response.self, from: data)
-                    self?.show_security_questions = false
-                    self?.pressed_check_and_set_sqs = false
-                    self?.is_loading = false
-                    self?.saved_questions_answers = true
-                }
-                catch{
-                    print(error)
-                }
+                self.show_security_questions = false
+                self.pressed_check_and_set_sqs = false
+                self.is_loading = false
+                self.saved_questions_answers = true
             }
-        })
-        task.resume()
+            return true
+        }
+        catch {
+            throw PostDataError.invalidData
+        }
     }
     
     struct Save_SQ_Response:Codable{
@@ -109,10 +119,25 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
             self.is_loading = false
             return
         }
-        save_questions_and_answers()
+        saveQuestionsAndAnswersTask()
     }
     
-    func get_security_questions_text(){
+    func getSecurityQuestionsTextTask(){
+        Task {
+            do {
+                
+                let result:Bool = try await getSecurityQuestionsText()
+                if !result{
+                    print("Something went wrong.")
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+            }
+        }
+    }
+    
+    func getSecurityQuestionsText() async throws -> Bool{
+        
         var url_string:String = ""
         
         if debug ?? false{
@@ -124,32 +149,38 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
             url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/get_security_questions_text"
         }
         
-        guard let url = URL(string: url_string) else{
-            return
+        guard var urlComponents = URLComponents(string: url_string) else {
+            throw PostDataError.invalidURL
         }
-        var request = URLRequest(url: url)
         
+        // Ensure the URL is valid
+        guard let url = urlComponents.url else {
+            throw PostDataError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(SecurityQResponse.self, from: data)
             DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(SecurityQResponse.self, from: data)
-                    self?.options1 = response.options_1
-                    self?.options2 = response.options_2
-                    print("OPTIONS 1 BELOW")
-                    print(response.options_1)
-                    self?.got_security_questions = true
-                }
-                catch{
-                    print(error)
-                }
+                self.options1 = response.options_1
+                self.options2 = response.options_2
+                print("OPTIONS 1 BELOW")
+                print(response.options_1)
+                self.got_security_questions = true
             }
-        })
-        task.resume()
+            return true
+        }
+        catch{
+            print(error)
+            return false
+        }
     }
     
     struct SecurityQResponse:Codable {
@@ -157,7 +188,22 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
         let options_2: [String]
     }
     
-    func get_users_questions_and_answers(){
+    func getUsersQuestionsAndAnswersTask(){
+        Task {
+            do {
+                
+                let result:Bool = try await getUsersQuestionsAndAnswers()
+                if !result{
+                    print("Something went wrong.")
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+            }
+        }
+    }
+    
+    func getUsersQuestionsAndAnswers() async throws -> Bool{
+        
         var url_string:String = ""
         
         if debug ?? false{
@@ -169,45 +215,58 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
             url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/securityquestions/get_users_questions_answers"
         }
         
-        guard let url = URL(string: url_string) else{
-            return
+        guard var urlComponents = URLComponents(string: url_string) else {
+            throw PostDataError.invalidURL
         }
-        var request = URLRequest(url: url)
-
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "token":logged_in_user,
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
+        }
+        
+        // Add query parameters to the URL
+        urlComponents.queryItems = [
+            URLQueryItem(name: "token", value: session)
         ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
+        
+        // Ensure the URL is valid
+        guard let url = urlComponents.url else {
+            throw PostDataError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(ResponseSQA.self, from: data)
+            if response.result == "Success"{
+                DispatchQueue.main.async {
+                    self.question_1 = self.options1.firstIndex(of: response.question_1) ?? 0
+                    self.question_2 = self.options2.firstIndex(of: response.question_2) ?? 0
+                    self.answer_1 = response.answer_1
+                    self.answer_2 = response.answer_2
+                }
+            }
+            else{
+                DispatchQueue.main.async {
+                    self.question_1 = 0
+                    self.question_2 = 0
+                    self.answer_1 = ""
+                    self.answer_2 = ""
+                }
+                return false
             }
             DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(ResponseSQA.self, from: data)
-                    if response.result == "Success"{
-                        self?.question_1 = self?.options1.firstIndex(of: response.question_1) ?? 0
-                        self?.question_2 = self?.options2.firstIndex(of: response.question_2) ?? 0
-                        self?.answer_1 = response.answer_1
-                        self?.answer_2 = response.answer_2
-                    }
-                    else{
-                        self?.question_1 = 0
-                        self?.question_2 = 0
-                        self?.answer_1 = ""
-                        self?.answer_2 = ""
-                    }
-                    self?.got_security_questions = true
-                }
-                catch{
-                    print(error)
-                }
+                self.got_security_questions = true
             }
-        })
-        task.resume()
+            return true
+        }
+        catch{
+            return false
+        }
     }
     struct ResponseSQA:Codable {
         let result:String
@@ -217,73 +276,46 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
         let answer_2:String
     }
     
-    func confirm_password(){
-        pressed_confirm_password = true
-        is_loading = true
-        password_error = false
-        var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/confirm_password"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/confirm_password"
-        }
-        
-        guard let url = URL(string: url_string) else{
-            return
-        }
-        var request = URLRequest(url: url)
-        
-        guard let session = logged_in_user else{
-            return
-        }
-        
-        if password == ""{
-            pressed_confirm_password = false
-            is_loading = false
-            password_error = true
-            return
-        }
-        
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: AnyHashable] = [
-            "token": session,
-            "password": password
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                do {
-                    let response = try JSONDecoder().decode(ResponseCP.self, from: data)
-                    if response.result{
-                        self?.pressed_confirm_password = false
-                        self?.is_loading = false
-                        self?.confirmed_password = true
-                        self?.got_security_questions = false
-                        self?.get_users_questions_and_answers()
+    func confirmPasswordTask(){
+        Task {
+            do {
+                DispatchQueue.main.async{
+                    self.pressed_confirm_password = true
+                    self.is_loading = true
+                    self.password_error = false
+                }
+                if password == ""{
+                    DispatchQueue.main.async{
+                        self.pressed_confirm_password = false
+                        self.is_loading = false
+                        self.password_error = true
                     }
-                    else{
-                        self?.password_error = true
-                        self?.pressed_confirm_password = false
-                        self?.is_loading = false
+                    return
+                }
+                let result:Bool = try await globalFunctions.confirmPassword(password: password)
+                if result{
+                    DispatchQueue.main.async{
+                        self.confirmed_password = true
+                        self.got_security_questions = false
+                        self.getUsersQuestionsAndAnswersTask()
                     }
                 }
-                catch{
-                    print(error)
+                else{
+                    DispatchQueue.main.async{
+                        self.password_error = true
+                    }
+                }
+                DispatchQueue.main.async{
+                    self.pressed_confirm_password = false
+                    self.is_loading = false
+                }
+            } catch {
+                _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async{
+                    self.pressed_confirm_password = false
+                    self.is_loading = false
                 }
             }
-        })
-        task.resume()
-    }
-    struct ResponseCP:Codable {
-        let result:Bool
+        }
     }
 }
