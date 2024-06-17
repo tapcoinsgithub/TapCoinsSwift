@@ -105,6 +105,12 @@ final class AccountInformationViewModel: ObservableObject {
     func checkValuesChanged() -> Bool{
         print("CHECKING VALUES HAVE CHANGED")
         if userData?.is_guest ?? false{
+            if initialFirstName != first_name{
+                return true
+            }
+            if initialLastName != last_name{
+                return true
+            }
             if initialUserName != username{
                 return true
             }
@@ -116,10 +122,10 @@ final class AccountInformationViewModel: ObservableObject {
             if initialLastName != last_name{
                 return true
             }
-            if initialPhoneNumber != phone_number{
+            if initialUserName != username{
                 return true
             }
-            if initialUserName != username{
+            if initialPhoneNumber != phone_number{
                 return true
             }
             if initialEmailAddress != email_address{

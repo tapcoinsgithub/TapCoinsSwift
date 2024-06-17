@@ -475,7 +475,7 @@ final class FriendsListItemViewModel: ObservableObject {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         let players_names = "first_player=" + rNameSplit[3] + "&second_player=" + curr_user_name
-        let other_data = "&token=" + session + "&adRequest=delete&cancelled=" + String(true)
+        let other_data = "&token=" + session + "&adRequest=delete"
         let requestBody = players_names + other_data
         request.httpBody = requestBody.data(using: .utf8)
         

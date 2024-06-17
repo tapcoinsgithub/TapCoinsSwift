@@ -224,7 +224,7 @@ struct GlobalFunctions {
     }
     
     // API Call
-    func return_home() async throws -> Bool{
+    func endUserStreak() async throws -> Bool{
         
         var url_string:String = ""
         
