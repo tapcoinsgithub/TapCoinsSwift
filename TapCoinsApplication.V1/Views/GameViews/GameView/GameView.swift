@@ -115,67 +115,90 @@ struct GameView: View {
             if (viewModel.startGame == false){
                 if viewModel.ready_uped == false{
                     VStack{
-                        Text(viewModel.waitingStatus)
-                            .foregroundColor(newCustomColorsModel.colorSchemeFour)
-                        HStack{
-                            Spacer()
-                            VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.04){
-                                Text(viewModel.first)
-                                Button(action: {
-                                    if viewModel.is_first ?? false{
-                                        if !viewModel.ready{
-                                            if viewModel.waitingStatus == "Opponent connected"{
-                                                viewModel.ready_up(username: viewModel.first)
-                                            }
-                                        }
-                                    }
-                                }, label: {
-                                    Text("Ready up")
+                        if viewModel.showCancelledPopUp{
+                            Text("Are you sure you want to cancel? You will lose your current TapDash!")
+                            HStack{
+                                Button(action: {viewModel.gotInCancelOptional ? nil : viewModel.cancellGameOptional()}, label: {
+                                    Text("Yes")
                                         .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
-                                        .background(viewModel.fColor)
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFour)
+                                        .background(viewModel.newCustomColorsModel.colorSchemeFour)
+                                        .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                                        .cornerRadius(10)
+                                })
+                                Button(action: {
+                                    viewModel.showCancelledPopUp = false
+                                }, label: {
+                                    Text("No")
+                                        .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
+                                        .background(viewModel.newCustomColorsModel.colorSchemeFour)
+                                        .foregroundColor(newCustomColorsModel.colorSchemeOne)
                                         .cornerRadius(10)
                                 })
                             }
-                            .frame(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.15, alignment: .center)
-                            .background(newCustomColorsModel.colorSchemeFour)
-                            .foregroundColor(newCustomColorsModel.colorSchemeOne)
-                            .cornerRadius(10)
-                            Spacer()
-                            VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.04){
-                                Text(viewModel.second)
-                                Button(action: {
-                                    if viewModel.is_first ?? false{
-                                        //pass
-                                    }
-                                    else{
-                                        if !viewModel.ready{
-                                            if viewModel.waitingStatus == "Opponent connected"{
-                                                viewModel.ready_up(username: viewModel.second)
-                                            }
-                                        }
-                                    }
-                                }, label: {
-                                    Text("Ready up")
-                                        .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
-                                        .background(viewModel.sColor)
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFour)
-                                        .cornerRadius(10)
-                                })
-                            }
-                            .frame(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.15, alignment: .center)
-                            .background(newCustomColorsModel.colorSchemeFour)
-                            .foregroundColor(newCustomColorsModel.colorSchemeOne)
-                            .cornerRadius(10)
-                            Spacer()
                         }
-                        Button(action: {viewModel.got_in_cancel_points ? nil : viewModel.cancelGameTask()}, label: {
-                            Text("Cancel")
-                                .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
+                        else{
+                            Text(viewModel.waitingStatus)
+                                .foregroundColor(newCustomColorsModel.colorSchemeFour)
+                            HStack{
+                                Spacer()
+                                VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.04){
+                                    Text(viewModel.first)
+                                    Button(action: {
+                                        if viewModel.is_first ?? false{
+                                            if !viewModel.ready{
+                                                if viewModel.waitingStatus == "Opponent connected"{
+                                                    viewModel.ready_up(username: viewModel.first)
+                                                }
+                                            }
+                                        }
+                                    }, label: {
+                                        Text("Ready up")
+                                            .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
+                                            .background(viewModel.fColor)
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFour)
+                                            .cornerRadius(10)
+                                    })
+                                }
+                                .frame(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.15, alignment: .center)
                                 .background(newCustomColorsModel.colorSchemeFour)
                                 .foregroundColor(newCustomColorsModel.colorSchemeOne)
                                 .cornerRadius(10)
-                        })
+                                Spacer()
+                                VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.04){
+                                    Text(viewModel.second)
+                                    Button(action: {
+                                        if viewModel.is_first ?? false{
+                                            //pass
+                                        }
+                                        else{
+                                            if !viewModel.ready{
+                                                if viewModel.waitingStatus == "Opponent connected"{
+                                                    viewModel.ready_up(username: viewModel.second)
+                                                }
+                                            }
+                                        }
+                                    }, label: {
+                                        Text("Ready up")
+                                            .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
+                                            .background(viewModel.sColor)
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFour)
+                                            .cornerRadius(10)
+                                    })
+                                }
+                                .frame(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.15, alignment: .center)
+                                .background(newCustomColorsModel.colorSchemeFour)
+                                .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                                .cornerRadius(10)
+                                Spacer()
+                            }
+                            Button(action: {viewModel.gotInCancelOptional ? nil : viewModel.cancellGameOptional()}, label: {
+                                Text("Cancel")
+                                    .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
+                                    .background(newCustomColorsModel.colorSchemeFour)
+                                    .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                                    .cornerRadius(10)
+                            })
+                        }
                     }
                     .frame(width: UIScreen.main.bounds.width * 0.7, height: UIScreen.main.bounds.height * 0.25, alignment: .center)
                     .background(newCustomColorsModel.colorSchemeOne)
