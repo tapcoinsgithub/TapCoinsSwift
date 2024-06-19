@@ -79,6 +79,7 @@
 		CFD92AD32BA4B354001B05DF /* TapCoinsApplication_V1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92AD22BA4B354001B05DF /* TapCoinsApplication_V1Tests.swift */; };
 		CFD92ADD2BA4B354001B05DF /* TapCoinsApplication_V1UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92ADC2BA4B354001B05DF /* TapCoinsApplication_V1UITests.swift */; };
 		CFD92ADF2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92ADE2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift */; };
+		CFDC570B2C229031000EBCBE /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC570A2C229031000EBCBE /* TimeManager.swift */; };
 		E4D8CD004A43A6DEFD317DBF /* Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E24BAF757016433AB4790E9 /* Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -181,6 +182,7 @@
 		CFD92AD82BA4B354001B05DF /* TapCoinsApplication.V1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TapCoinsApplication.V1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFD92ADC2BA4B354001B05DF /* TapCoinsApplication_V1UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapCoinsApplication_V1UITests.swift; sourceTree = "<group>"; };
 		CFD92ADE2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapCoinsApplication_V1UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CFDC570A2C229031000EBCBE /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
 		DA6734F3C1B2EAF71033432A /* Pods-TapCoinsApplication.V1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapCoinsApplication.V1Tests.debug.xcconfig"; path = "Target Support Files/Pods-TapCoinsApplication.V1Tests/Pods-TapCoinsApplication.V1Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		FB61DBE5A1501C47D4BBD340 /* Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.debug.xcconfig"; path = "Target Support Files/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -527,6 +529,7 @@
 				CFA985C72BA4B49100177F94 /* HapticsManager.swift */,
 				CFA985C82BA4B49100177F94 /* LocationManager.swift */,
 				CFA985C92BA4B49100177F94 /* SoundManager.swift */,
+				CFDC570A2C229031000EBCBE /* TimeManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -900,6 +903,7 @@
 				CFA985972BA4B47C00177F94 /* CustomGameHandler.swift in Sources */,
 				CFA985A12BA4B47C00177F94 /* LoginViewModel.swift in Sources */,
 				CFA985962BA4B47C00177F94 /* FriendsViewModel.swift in Sources */,
+				CFDC570B2C229031000EBCBE /* TimeManager.swift in Sources */,
 				CFA985D12BA4B49100177F94 /* HomePageButtonView.swift in Sources */,
 				CFA985D62BA4B49100177F94 /* FriendsListItemView.swift in Sources */,
 				CF79645B2BEC15F2008AB68E /* DeleteAccountViewModel.swift in Sources */,

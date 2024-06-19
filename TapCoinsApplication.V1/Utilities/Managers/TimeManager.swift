@@ -2,7 +2,7 @@
 //  TimeManager.swift
 //  TapCoinsApplication.V1
 //
-//  Created by Eric Viera on 6/18/24.
+//  Created by Eric Viera on 6/19/24.
 //
 
 import Foundation
