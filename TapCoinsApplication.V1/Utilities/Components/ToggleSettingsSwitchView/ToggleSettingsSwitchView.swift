@@ -93,14 +93,19 @@ struct ToggleSettingsSwitchView: View {
                 set: { viewModel.tapDash = $0 }
             ),
                    label: {
-                if viewModel.tapDashIsActive ?? false{
-                    Text(viewModel.has_contact_info ?? false ? toggle_label : "Please add the phone number/email associated with your Zelle account to activate Streak Dash.").foregroundColor(.black)
+                if viewModel.is_guest {
+                    Text("Please create an account to enable TapDash.").foregroundColor(.black)
                 }
                 else{
-                    Text("Streak Dash has been disabled for the day, please come back tomorrow.").foregroundColor(.black)
+                    if viewModel.tapDashIsActive ?? false{
+                        Text(viewModel.has_contact_info ?? false ? toggle_label : "Please add the phone number/email associated with your Zelle account to activate Tap Dash.").foregroundColor(.black)
+                    }
+                    else{
+                        Text("Tap Dash has been disabled for the day, please come back tomorrow.").foregroundColor(.black)
+                    }
                 }
             })
-            .disabled(viewModel.has_contact_info == false || viewModel.tapDashIsActive == false)
+            .disabled(viewModel.has_contact_info == false || viewModel.tapDashIsActive == false || viewModel.is_guest)
             .onTapGesture {
                 if viewModel.haptics_on ?? true{
                     HapticManager.instance.impact(style: .medium)

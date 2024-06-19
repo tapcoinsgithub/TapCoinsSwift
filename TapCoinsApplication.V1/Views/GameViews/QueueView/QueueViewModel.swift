@@ -434,7 +434,7 @@ final class QueueViewModel: ObservableObject{
     func returnHomeTask(){
         Task {
             do {
-                let result:Bool = try await self.globalFunctions.return_home()
+                let result:Bool = try await self.globalFunctions.endUserStreak()
                 if !result{
                     print("Something went wrong.")
                 }

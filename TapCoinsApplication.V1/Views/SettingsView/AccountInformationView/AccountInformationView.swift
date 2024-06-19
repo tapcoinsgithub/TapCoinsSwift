@@ -92,8 +92,13 @@ struct AccountInformationView: View {
                             .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
                     }
                     VStack{
-                        Text("View or Change your account information below.").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
-                        Text("Tap 'Update password' to change your password.").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                        if viewModel.is_guest ?? false {
+                            Text("Update your information and Save to create an account.").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                        }
+                        else{
+                            Text("View or Change your account information below.").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                            Text("Tap 'Update password' to change your password.").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                        }
                     }
                     if viewModel.set_page_data{
                         Form{
@@ -103,7 +108,7 @@ struct AccountInformationView: View {
                             Section(header: Text("Last name").foregroundColor(.black)){
                                 TextField(viewModel.last_name, text: $viewModel.last_name)
                             }
-                            Section(header: Text("Enter either the phone number and/or email associated with your zelle account in order to participate in TapDash.").foregroundColor(.black)){
+                            Section(header: Text(viewModel.is_guest ?? false ? "Create an account to add phone number or email address." : "Enter either the phone number and/or email associated with your zelle account in order to participate in TapDash.").foregroundColor(.black)){
                                 TextField(viewModel.phone_number == "" ? "Phone Number" : viewModel.phone_number, text: $viewModel.phone_number)
                                 if viewModel.is_phone_error || viewModel.phone_number == "Invalid"{
                                     Label(viewModel.phone_error?.rawValue ?? "", systemImage: "xmark.octagon")
@@ -142,11 +147,9 @@ struct AccountInformationView: View {
                                             Text("Update password").foregroundColor(.black).underline(true)
                                         })
                                 }
-                                NavigationLink(destination: SecurityQuestionsComponentView(is_settings:true).navigationBarBackButtonHidden(true)
-                                    .navigationBarItems(leading: RedBackButtonView()), label: {
-                                        Text("Show Security Questions").foregroundColor(.black).underline(true)
-                                    })
                                 if viewModel.is_guest == false {
+                                    NavigationLink(destination: SecurityQuestionsComponentView(is_settings:true).navigationBarBackButtonHidden(true)
+                                        .navigationBarItems(leading: RedBackButtonView()), label: {Text("Show Security Questions").foregroundColor(.black).underline(true)})
                                     NavigationLink(destination: DeleteAccountView().navigationBarBackButtonHidden(true)
                                         .navigationBarItems(leading: RedBackButtonView()), label: {
                                             Text("Delete Account").foregroundColor(newCustomColorsModel.colorSchemeFive).underline(true)

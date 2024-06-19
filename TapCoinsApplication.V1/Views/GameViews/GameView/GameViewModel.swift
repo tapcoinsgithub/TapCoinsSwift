@@ -92,7 +92,9 @@ final class GameViewModel: ObservableObject {
     @Published var tapDashIsActive:Bool = true
     @Published var curr_username = ""
     @Published var opp_tap_dash:String = "false"
-    @Published var got_in_cancel_points:Bool = false
+    @Published var gotInCancelGame:Bool = false
+    @Published var gotInCancelOptional:Bool = false
+    @Published var showCancelledPopUp:Bool = false
     private enum coin_val:String {
         case Yellow = "Custom_Color_1_TC"
         case Blue = "Custom_Color_3_TC"
@@ -254,7 +256,7 @@ final class GameViewModel: ObservableObject {
             mSocket.on("CANCELLED") {(dataArr, ack) -> Void in
                 self.waitingStatus = "Opponent cancelled."
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self.cancelGameTask()
+                    self.cancellGameOptional()
                 }
             }
             
@@ -652,31 +654,97 @@ final class GameViewModel: ObservableObject {
         }
     }
     
+    func cancellGameOptional(){
+        DispatchQueue.main.async {
+            self.gotInCancelOptional = true
+        }
+        if (self.custom_game ?? false){
+            cancelGameTask()
+            DispatchQueue.main.async {
+                self.gotInCancelOptional = false
+            }
+        }
+        else{
+            if tapDash ?? false {
+                if showCancelledPopUp {
+                    cancelGameTask()
+                    DispatchQueue.main.async {
+                        self.showCancelledPopUp = false
+                        self.gotInCancelOptional = false
+                    }
+                }
+                else{
+                    DispatchQueue.main.async {
+                        self.showCancelledPopUp = true
+                        self.gotInCancelOptional = false
+                    }
+                }
+            }
+            else{
+                if waitingStatus == "Opponent connected"{
+                    mSocket.emit("cancelled", curr_username + "|" + (game_id ?? "NO ID"))
+                }
+                DispatchQueue.main.async {
+                    self.gotInCancelOptional = false
+                    self.from_queue = false
+                    self.custom_game = false
+                    self.is_first = false
+                    GameHandler.sharedInstance.closeConnection()
+                    self.in_game = false
+                }
+            }
+        }
+    }
+    
     // Task function
     func cancelGameTask(){
         Task{
             do {
-                if self.got_in_cancel_points{
+                if self.gotInCancelGame{
                     return
                 }
                 DispatchQueue.main.async {
                     self.gameStart = "END"
-                    self.got_in_cancel_points = true
+                    self.gotInCancelGame = true
                     self.send_points_count = self.send_points_count + 1
                 }
-                try await self.cancel_game()
+                if (self.custom_game ?? false){
+                    try await self.cancelGame()
+                }
+                else{
+                    let result = try await globalFunctions.endUserStreak()
+                    print("ENDING THE USERS STREAK SUCCESFULLY")
+                    print("ENDING THE USERS STREAK SUCCESFULLY")
+                    print("ENDING THE USERS STREAK SUCCESFULLY")
+                    if result {
+                        print("ended streak successfully.")
+                    }
+                    if waitingStatus == "Opponent connected"{
+                        mSocket.emit("cancelled", curr_username + "|" + (game_id ?? "NO ID"))
+                    }
+                    self.from_queue = false
+                    self.custom_game = false
+                    self.is_first = false
+                    GameHandler.sharedInstance.closeConnection()
+                    self.in_game = false
+                    
+                }
                 DispatchQueue.main.async {
-                    self.got_in_cancel_points = false
+                    self.gotInCancelGame = false
                 }
             }
             catch{
                 print("IN THE CATCH")
+                DispatchQueue.main.async {
+                    self.in_game = false
+                    self.custom_game = false
+                }
             }
         }
     }
     
     // API call function
-    func cancel_game() async throws{
+    func cancelGame() async throws{
         
         var url_string:String = ""
         
@@ -697,21 +765,14 @@ final class GameViewModel: ObservableObject {
             throw UserErrors.invalidSession
         }
         
-        var cancelled = false
         if waitingStatus == "Opponent connected"{
-            if (self.custom_game ?? false){
-                cancelled = true
-                customMSocket.emit("cancelled", curr_username + "|" + (game_id ?? "NO ID"))
-            }
-            else{
-                mSocket.emit("cancelled", curr_username + "|" + (game_id ?? "NO ID"))
-            }
+            customMSocket.emit("cancelled", curr_username + "|" + (game_id ?? "NO ID"))
         }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         let players = "second_player=" + (self.second_player ?? "No Second") + "&first_player=" + (self.first_player ?? "No First")
-        let other_data = "&token=" + session + "&adRequest=delete&cancelled=" + String(cancelled)
+        let other_data = "&token=" + session + "&adRequest=delete"
         let requestBody = players + other_data
         
         request.httpBody = requestBody.data(using: .utf8)
@@ -725,7 +786,6 @@ final class GameViewModel: ObservableObject {
                 self.from_queue = false
                 self.custom_game = false
                 self.is_first = false
-                GameHandler.sharedInstance.closeConnection()
                 CustomGameHandler.sharedInstance.closeConnection()
                 self.in_game = false
             }
@@ -752,7 +812,7 @@ final class GameViewModel: ObservableObject {
     func returnHomeTask(exit:Bool){
         Task {
             do {
-                let result:Bool = try await self.globalFunctions.return_home()
+                let result:Bool = try await self.globalFunctions.endUserStreak()
                 if !result{
                     print("Something went wrong.")
                 }
