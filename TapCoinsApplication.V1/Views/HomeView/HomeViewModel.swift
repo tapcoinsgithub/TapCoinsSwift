@@ -52,5 +52,45 @@ final class HomeViewModel: ObservableObject {
             }
         }
     }
+    
+    func countDownTapDashTimer(){
+        print("Hello World")
+        let timeLeftSplit = tap_dash_time_left?.split(separator: ":")
+        var hour:Int = 0
+        var minute:Int = 0
+        var second:Int = 0
+        if let hourString = timeLeftSplit?[0], hourString != "00" {
+            hour = Int(hourString) ?? 0
+        }
+        if let minuteString = timeLeftSplit?[1], minuteString != "00" {
+            minute = Int(minuteString) ?? 0
+        }
+        if let secondString = timeLeftSplit?[2], secondString != "00" {
+            second = Int(secondString) ?? 0
+        }
+        if second == 0 {
+            if minute == 0 {
+                if hour == 0 {
+                    tap_dash_time_left = "Done"
+                    return
+                }
+                else{
+                    hour -= 1
+                }
+                minute = 59
+            }
+            else{
+                minute -= 1
+            }
+            second = 59
+        }
+        else{
+            second -= 1
+        }
+        let newHr = hour == 0 ? "00" : hour < 10 ? "0" + String(hour) : String(hour)
+        let newMin = minute == 0 ? "00" : minute < 10 ? "0" + String(minute) : String(minute)
+        let newSec = second == 0 ? "00" : second < 10 ? "0" + String(second) : String(second)
+        tap_dash_time_left = newHr + ":" + newMin + ":" + newSec
+    }
 
 }

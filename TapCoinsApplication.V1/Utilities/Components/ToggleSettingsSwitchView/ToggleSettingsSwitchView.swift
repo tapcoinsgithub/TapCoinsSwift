@@ -26,6 +26,9 @@ struct ToggleSettingsSwitchView: View {
             })
             .disabled(viewModel.is_guest)
             .onTapGesture {
+                if viewModel.haptics_on ?? true{
+                    HapticManager.instance.impact(style: .medium)
+                }
                 viewModel.turn_on_off_notifications()
             }
         case ToggleSettingTitles.SoundsToggle:
@@ -36,6 +39,11 @@ struct ToggleSettingsSwitchView: View {
                    label: {
                 Text(toggle_label).foregroundColor(.black)
                    })
+            .onTapGesture {
+                if viewModel.haptics_on ?? true{
+                    HapticManager.instance.impact(style: .medium)
+                }
+            }
         case ToggleSettingTitles.HapticsToggle:
             Toggle(isOn: Binding(
                 get: { viewModel.haptics_on ?? false },
@@ -44,6 +52,11 @@ struct ToggleSettingsSwitchView: View {
                    label: {
                 Text(toggle_label).foregroundColor(.black)
                    })
+            .onTapGesture {
+                if viewModel.haptics_on ?? true{
+                    HapticManager.instance.impact(style: .medium)
+                }
+            }
         case ToggleSettingTitles.LocationToggle:
             Toggle(isOn: Binding(
                 get: { viewModel.location_on ?? false },
@@ -54,6 +67,9 @@ struct ToggleSettingsSwitchView: View {
                    })
             .disabled(viewModel.is_guest)
             .onTapGesture {
+                if viewModel.haptics_on ?? true{
+                    HapticManager.instance.impact(style: .medium)
+                }
                 if viewModel.location_on ?? false{
 //                    LocationManager.instance.requestLocation()
                 }
@@ -66,6 +82,11 @@ struct ToggleSettingsSwitchView: View {
                    label: {
                 Text(toggle_label).foregroundColor(.black)
                    })
+            .onTapGesture {
+                if viewModel.haptics_on ?? true{
+                    HapticManager.instance.impact(style: .medium)
+                }
+            }
         case .TapDashToggle:
             Toggle(isOn: Binding(
                 get: { viewModel.tapDash ?? false },
@@ -81,6 +102,9 @@ struct ToggleSettingsSwitchView: View {
             })
             .disabled(viewModel.has_contact_info == false || viewModel.tapDashIsActive == false)
             .onTapGesture {
+                if viewModel.haptics_on ?? true{
+                    HapticManager.instance.impact(style: .medium)
+                }
                 if viewModel.has_contact_info == true && viewModel.tapDashIsActive ?? false {
                     if viewModel.settingTapDash == false{
                         viewModel.setTapDashTask()

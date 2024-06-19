@@ -11,7 +11,6 @@ import SwiftUI
 final class ToggleSettingsViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("notifications") var notifications_on:Bool?
-    @AppStorage("haptics") var haptics_on:Bool?
     @AppStorage("sounds") var sound_on:Bool?
     @AppStorage("user") private var userViewModel: Data?
     @AppStorage("tapDashIsActive") var tapDashIsActive:Bool?

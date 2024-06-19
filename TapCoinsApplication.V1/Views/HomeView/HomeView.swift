@@ -13,7 +13,9 @@ struct HomeView: View {
     @AppStorage("in_queue") var in_queue: Bool?
     @AppStorage("darkMode") var darkMode: Bool?
     @StateObject private var viewModel = HomeViewModel()
+    @ObservedObject var timerManager = TimerManager()
     var newCustomColorsModel = CustomColorsModel()
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         ZStack{
@@ -109,6 +111,15 @@ struct HomeView: View {
                     .progressViewStyle(CircularProgressViewStyle(tint:newCustomColorsModel.colorSchemeFour))
                     .scaleEffect(UIScreen.main.bounds.width * 0.01)
             }
+        }
+        .onAppear {
+            self.timerManager.timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+        }
+        .onDisappear {
+            self.timerManager.timer.upstream.connect().cancel()
+        }
+        .onReceive(timerManager.timer) { _ in
+            viewModel.countDownTapDashTimer()
         }
     }
 }

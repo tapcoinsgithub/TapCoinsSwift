@@ -17,6 +17,7 @@ final class AccountInformationViewModel: ObservableObject {
     @AppStorage("selectedOption2") var selectedOption2:Int?
     @AppStorage("loadedUser") var loaded_get_user:Bool?
     @AppStorage("gsave_pressed") var gsave_pressed:Bool?
+    @AppStorage("haptics") var haptics_on:Bool?
     @Published var first_name:String = ""
     @Published var last_name:String = ""
     @Published var username:String = ""
@@ -56,6 +57,8 @@ final class AccountInformationViewModel: ObservableObject {
     @Published var successfully_sent_code:Bool = false
     @Published var confirm_code_message:String = ""
     @Published var saved_phone_number:Bool = false
+    @Published var createPasswordNavIsActive:Bool = false
+    @Published var updatePasswordNavIsActive:Bool = false
     private var userData:UserViewModel?
     public var options1:[String] = ["Option1", "Option2", "Option3", "Option4"]
     public var options2:[String] = ["Option5", "Option6", "Option7", "Option8"]

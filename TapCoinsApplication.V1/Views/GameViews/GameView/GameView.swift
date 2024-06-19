@@ -122,6 +122,9 @@ struct GameView: View {
                             VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.04){
                                 Text(viewModel.first)
                                 Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
                                     if viewModel.is_first ?? false{
                                         if !viewModel.ready{
                                             if viewModel.waitingStatus == "Opponent connected"{
@@ -145,6 +148,9 @@ struct GameView: View {
                             VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.04){
                                 Text(viewModel.second)
                                 Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
                                     if viewModel.is_first ?? false{
                                         //pass
                                     }
@@ -169,7 +175,12 @@ struct GameView: View {
                             .cornerRadius(10)
                             Spacer()
                         }
-                        Button(action: {viewModel.got_in_cancel_points ? nil : viewModel.cancelGameTask()}, label: {
+                        Button(action: {
+                            if viewModel.haptics_on ?? true{
+                                HapticManager.instance.impact(style: .medium)
+                            }
+                            viewModel.got_in_cancel_points ? nil : viewModel.cancelGameTask()
+                        }, label: {
                             Text("Cancel")
                                 .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
                                 .background(newCustomColorsModel.colorSchemeFour)
@@ -207,6 +218,9 @@ struct GameView: View {
                     }
                     if viewModel.from_queue ?? false{
                         Button(action: {
+                            if viewModel.haptics_on ?? true{
+                                HapticManager.instance.impact(style: .medium)
+                            }
                             viewModel.next_game()
                         }, label: {
                             Text("Next Game")
@@ -216,6 +230,9 @@ struct GameView: View {
                         .foregroundColor(newCustomColorsModel.colorSchemeOne)
                         .cornerRadius(5)
                         Button(action: {
+                            if viewModel.haptics_on ?? true{
+                                HapticManager.instance.impact(style: .medium)
+                            }
                             viewModel.returnHomeTask(exit:false)
                         }, label: {
                             Text("Return Home")
@@ -233,6 +250,9 @@ struct GameView: View {
                                 .foregroundColor(newCustomColorsModel.colorSchemeOne)
                         }
                         Button(action: {
+                            if viewModel.haptics_on ?? true{
+                                HapticManager.instance.impact(style: .medium)
+                            }
                             if !viewModel.currPaPressed{
                                 viewModel.play_again()
                             }
@@ -244,6 +264,9 @@ struct GameView: View {
                         .foregroundColor(newCustomColorsModel.colorSchemeOne)
                         .cornerRadius(5)
                         Button(action: {
+                            if viewModel.haptics_on ?? true{
+                                HapticManager.instance.impact(style: .medium)
+                            }
                             viewModel.returnHomeTask(exit: false)
                         }, label: {
                             Text("Return Home")
@@ -260,6 +283,9 @@ struct GameView: View {
             }
             VStack{
                 Button(action: {
+                    if viewModel.haptics_on ?? true{
+                        HapticManager.instance.impact(style: .medium)
+                    }
                     print("PRESSING EXIT BUTTON")
                     viewModel.returnHomeTask(exit: true)
                 }, label: {

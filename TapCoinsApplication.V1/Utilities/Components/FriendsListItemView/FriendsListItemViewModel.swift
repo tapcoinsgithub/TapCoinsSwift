@@ -20,6 +20,7 @@ final class FriendsListItemViewModel: ObservableObject {
     @AppStorage("in_game") var in_game: Bool?
     @AppStorage("user") private var userViewModel: Data?
     @AppStorage("num_friends") public var num_friends:Int?
+    @AppStorage("haptics") var haptics_on:Bool?
     @Published var userModel:UserViewModel?
     @Published var friend_requester_name:String = ""
     @Published var show_friend_request_actions_bool:Bool = false

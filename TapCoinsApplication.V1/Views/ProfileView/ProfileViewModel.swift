@@ -16,6 +16,7 @@ final class ProfileViewModel: ObservableObject {
     @AppStorage("num_friends") public var num_friends:Int?
     @AppStorage("loadedUser") var loaded_get_user:Bool?
     @AppStorage("tapDash") var tapDash:Bool?
+    @AppStorage("haptics") var haptics_on:Bool?
     @Published var userModel: UserViewModel = UserViewModel(first_name: "NO FIRST NAME", last_name: "NO LAST NAME")
     @Published var sUsername:String = ""
     @Published var result:String = ""
@@ -28,6 +29,7 @@ final class ProfileViewModel: ObservableObject {
     @Published var leageForeground:Color = Color(.black)
     @Published var pressed_send_request:Bool = false
     @Published var invalid_entry:Bool = false
+    @Published var friendsViewNavIsActive:Bool = false
     private var globalFunctions = GlobalFunctions()
     
     init(){

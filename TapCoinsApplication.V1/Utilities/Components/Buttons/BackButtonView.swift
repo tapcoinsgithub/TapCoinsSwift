@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct BackButtonView: View {
-    
+    @AppStorage("haptics") var haptics_on:Bool?
     @AppStorage("darkMode") var darkMode: Bool?
     @Environment(\.presentationMode) var presentationMode
     var newCustomColorsModel = CustomColorsModel()
@@ -17,6 +17,9 @@ struct BackButtonView: View {
     
     var body: some View {
         Button(action: {
+            if haptics_on ?? true{
+                HapticManager.instance.impact(style: .medium)
+            }
             self.presentationMode.wrappedValue.dismiss()
         }, label: {
             Image(systemName: "arrow.left.circle.fill") // You can use any image or view here

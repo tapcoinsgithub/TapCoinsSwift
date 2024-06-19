@@ -54,7 +54,12 @@ struct ProfileView: View {
                                             Text("Go to the settings and add your account information first.")
                                                 .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
                                                 .underline()
-                                            Button(action: {viewModel.showRequest = false}, label: {
+                                            Button(action: {
+                                                if viewModel.haptics_on ?? true{
+                                                    HapticManager.instance.impact(style: .medium)
+                                                }
+                                                viewModel.showRequest = false
+                                            }, label: {
                                                 Text("Exit")
                                                     .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
                                                     .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
@@ -87,7 +92,12 @@ struct ProfileView: View {
                                                         .font(.system(size: UIScreen.main.bounds.width * 0.04))
                                                 }
                                                 HStack{
-                                                    Button(action: {viewModel.showRequest = false}, label: {
+                                                    Button(action: {
+                                                        if viewModel.haptics_on ?? true{
+                                                            HapticManager.instance.impact(style: .medium)
+                                                        }
+                                                        viewModel.showRequest = false
+                                                    }, label: {
                                                         Text("Cancel")
                                                             .frame(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
                                                             .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
@@ -95,7 +105,12 @@ struct ProfileView: View {
                                                             .cornerRadius(8)
                                                             .shadow(color: newCustomColorsModel.colorSchemeTen, radius: UIScreen.main.bounds.width * 0.005, x: 0, y: UIScreen.main.bounds.width * 0.02)
                                                     }).padding()
-                                                    Button(action: {viewModel.pressed_send_request ? nil : viewModel.sendRequestTask()}, label: {
+                                                    Button(action: {
+                                                        if viewModel.haptics_on ?? true{
+                                                            HapticManager.instance.impact(style: .medium)
+                                                        }
+                                                        viewModel.pressed_send_request ? nil : viewModel.sendRequestTask()
+                                                    }, label: {
                                                         Text("Send")
                                                             .frame(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
                                                             .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
@@ -220,7 +235,12 @@ struct ProfileView: View {
                                 .fill(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
                                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.01)
                             Spacer().frame(height: UIScreen.main.bounds.height * 0.009)
-                            Button(action: {viewModel.showRequest = !viewModel.showRequest}, label: {
+                            Button(action: {
+                                if viewModel.haptics_on ?? true{
+                                    HapticManager.instance.impact(style: .medium)
+                                }
+                                viewModel.showRequest = !viewModel.showRequest
+                            }, label: {
                                 Text("Add Friend")
                                     .font(.system(size: UIScreen.main.bounds.width * 0.05))
                                     .fontWeight(.bold)
@@ -230,38 +250,46 @@ struct ProfileView: View {
                                     .cornerRadius(10)
                             })
                             Spacer().frame(height: UIScreen.main.bounds.height * 0.009)
-                            NavigationLink(destination: {
+                            NavigationLink(isActive:$viewModel.friendsViewNavIsActive,destination: {
                                 FriendsView()
                                     .navigationBarBackButtonHidden(true)
                                     .navigationBarItems(leading: BackButtonView(opposite: true))
                             }, label: {
-                                HStack{
-                                    Text("View Friends")
-                                        .font(.system(size: UIScreen.main.bounds.width * 0.05))
-                                        .fontWeight(.bold)
-                                    if viewModel.userModel.hasRQ ?? false{
-                                        Text("!")
-                                            .font(.system(size: UIScreen.main.bounds.width * 0.03))
-                                            .fontWeight(.bold)
-                                            .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.02, alignment: .center)
-                                            .background(newCustomColorsModel.colorSchemeFive)
-                                            .foregroundColor(newCustomColorsModel.colorSchemeOne)
-                                            .cornerRadius(30)
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
                                     }
-                                    else if viewModel.userModel.hasGI ?? false{
-                                        Text("!")
-                                            .font(.system(size: UIScreen.main.bounds.width * 0.03))
+                                    viewModel.friendsViewNavIsActive = true
+                                }, label: {
+                                    HStack{
+                                        Text("View Friends")
+                                            .font(.system(size: UIScreen.main.bounds.width * 0.05))
                                             .fontWeight(.bold)
-                                            .frame(width: UIScreen.main.bounds.height * 0.02, height: UIScreen.main.bounds.height * 0.02, alignment: .center)
-                                            .background(newCustomColorsModel.colorSchemeFive)
-                                            .foregroundColor(newCustomColorsModel.colorSchemeOne)
-                                            .cornerRadius(30)
+                                        if viewModel.userModel.hasRQ ?? false{
+                                            Text("!")
+                                                .font(.system(size: UIScreen.main.bounds.width * 0.03))
+                                                .fontWeight(.bold)
+                                                .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.02, alignment: .center)
+                                                .background(newCustomColorsModel.colorSchemeFive)
+                                                .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                                                .cornerRadius(30)
+                                        }
+                                        else if viewModel.userModel.hasGI ?? false{
+                                            Text("!")
+                                                .font(.system(size: UIScreen.main.bounds.width * 0.03))
+                                                .fontWeight(.bold)
+                                                .frame(width: UIScreen.main.bounds.height * 0.02, height: UIScreen.main.bounds.height * 0.02, alignment: .center)
+                                                .background(newCustomColorsModel.colorSchemeFive)
+                                                .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                                                .cornerRadius(30)
+                                        }
                                     }
-                                }
-                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
-                                .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
-                                .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
-                                .cornerRadius(10)
+                                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
+                                    .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                    .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
+                                    .cornerRadius(10)
+                                })
+                                
                             })
                         }.padding()
                     }

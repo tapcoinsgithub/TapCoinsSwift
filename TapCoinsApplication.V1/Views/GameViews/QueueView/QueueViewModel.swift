@@ -27,6 +27,7 @@ final class QueueViewModel: ObservableObject{
     @AppStorage("debug") private var debug: Bool?
     @AppStorage("from_gq") private var from_gq: Bool?
     @AppStorage("tapDash") var tapDash:Bool?
+    @AppStorage("haptics") var haptics_on:Bool?
     @Published var loading_status:String = "Loading . . ."
     @Published var queue_pop:String = "_ players in queue"
     @Published var ad_has_loaded:Bool = false

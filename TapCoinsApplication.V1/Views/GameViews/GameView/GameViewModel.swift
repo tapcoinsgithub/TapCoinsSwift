@@ -24,6 +24,7 @@ final class GameViewModel: ObservableObject {
     @AppStorage("debug") private var debug: Bool?
     @AppStorage("from_gq") private var from_gq: Bool?
     @AppStorage("tapDash") var tapDash:Bool?
+    @AppStorage("haptics") var haptics_on:Bool?
     @Published var userModel: UserViewModel = UserViewModel(first_name: "NO FIRST NAME", last_name: "NO LAST NAME")
     var newCustomColorsModel = CustomColorsModel()
     @Published var coins = [true, false, true, false, true, false, true, false, true, false]

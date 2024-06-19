@@ -49,14 +49,24 @@ struct AccountInformationView: View {
                     }
                     Spacer()
                     Text("If you did not receive a code then press 'Send Again' below.").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
-                    Button(action: {viewModel.send_code_pressed ? nil : viewModel.confirmCodeTask()}, label: {
+                    Button(action: {
+                        if viewModel.haptics_on ?? true{
+                            HapticManager.instance.impact(style: .medium)
+                        }
+                        viewModel.send_code_pressed ? nil : viewModel.confirmCodeTask()
+                    }, label: {
                         Text("Submit")
                             .frame(width: 200, height: 50, alignment: .center)
                             .background(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
                             .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
                             .cornerRadius(8)
                     }).padding()
-                    Button(action: {viewModel.send_code_pressed ? nil : viewModel.sendCodeTask()}, label: {
+                    Button(action: {
+                        if viewModel.haptics_on ?? true{
+                            HapticManager.instance.impact(style: .medium)
+                        }
+                        viewModel.send_code_pressed ? nil : viewModel.sendCodeTask()
+                    }, label: {
                         Text("Send Again")
                             .frame(width: 200, height: 50, alignment: .center)
                             .background(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
@@ -128,13 +138,19 @@ struct AccountInformationView: View {
                                 }
                                 else{
                                     NavigationLink(destination: CreatePasswordView().navigationBarBackButtonHidden(true)
-                                        .navigationBarItems(leading: RedBackButtonView()), label: {Text("Update password").foregroundColor(.black).underline(true)})
+                                        .navigationBarItems(leading: RedBackButtonView()), label: {
+                                            Text("Update password").foregroundColor(.black).underline(true)
+                                        })
                                 }
                                 NavigationLink(destination: SecurityQuestionsComponentView(is_settings:true).navigationBarBackButtonHidden(true)
-                                    .navigationBarItems(leading: RedBackButtonView()), label: {Text("Show Security Questions").foregroundColor(.black).underline(true)})
+                                    .navigationBarItems(leading: RedBackButtonView()), label: {
+                                        Text("Show Security Questions").foregroundColor(.black).underline(true)
+                                    })
                                 if viewModel.is_guest == false {
                                     NavigationLink(destination: DeleteAccountView().navigationBarBackButtonHidden(true)
-                                        .navigationBarItems(leading: RedBackButtonView()), label: {Text("Delete Account").foregroundColor(newCustomColorsModel.colorSchemeFive).underline(true)})
+                                        .navigationBarItems(leading: RedBackButtonView()), label: {
+                                            Text("Delete Account").foregroundColor(newCustomColorsModel.colorSchemeFive).underline(true)
+                                        })
                                 }
                             }
                         }
@@ -147,7 +163,12 @@ struct AccountInformationView: View {
                             .scaleEffect(UIScreen.main.bounds.width * 0.01)
                     }
                     
-                    Button(action: {viewModel.save_pressed ? nil : viewModel.saveTask()}, label: {
+                    Button(action: {
+                        if viewModel.haptics_on ?? true{
+                            HapticManager.instance.impact(style: .medium)
+                        }
+                        viewModel.save_pressed ? nil : viewModel.saveTask()
+                    }, label: {
                         Text("Save")
                             .frame(width: 200, height: 50, alignment: .center)
                             .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)

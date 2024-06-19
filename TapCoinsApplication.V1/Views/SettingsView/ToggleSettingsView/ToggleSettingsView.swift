@@ -12,7 +12,6 @@ struct ToggleSettingsView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel = ToggleSettingsViewModel()
     @AppStorage("notifications") var notifications_on:Bool?
-    @AppStorage("haptics") var haptics_on:Bool?
     @AppStorage("sounds") var sound_on:Bool?
     @AppStorage("darkMode") var darkMode: Bool?
     var newCustomColorsModel = CustomColorsModel()

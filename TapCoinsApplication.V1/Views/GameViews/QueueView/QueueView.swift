@@ -35,6 +35,9 @@ struct QueueView: View {
                     }
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.2)
                 Button(action: {
+                    if viewModel.haptics_on ?? true{
+                        HapticManager.instance.impact(style: .medium)
+                    }
                     viewModel.returnHomeTask()
                 }, label: {
                     Text("Home")

@@ -36,39 +36,53 @@ struct SettingsView: View {
                 Spacer()
                 List{
                     Section(header: Text("View and edit your account information such as username, password, phone number, etc.")){
-                        NavigationLink(destination: {
+                        NavigationLink(isActive: $viewModel.accountInfoNavIsActive, destination: {
                             AccountInformationView()
                                 .navigationBarBackButtonHidden(true)
                                 .navigationBarItems(leading: BackButtonView())
                         }, label: {
-                            VStack{
-                                Text("Account Information")
-                                    .font(.system(size: UIScreen.main.bounds.width * 0.05))
-                                    .fontWeight(.bold)
-                                    .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
-                                    .foregroundColor(.black)
-                                Rectangle()
-                                    .fill(.black)
-                                    .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
-                            }
+                            Button(action: {
+                                if viewModel.haptics_on ?? true{
+                                    HapticManager.instance.impact(style: .medium)
+                                }
+                                viewModel.accountInfoNavIsActive = true
+                            }, label: {
+                                VStack{
+                                    Text("Account Information")
+                                        .font(.system(size: UIScreen.main.bounds.width * 0.05))
+                                        .fontWeight(.bold)
+                                        .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
+                                        .foregroundColor(.black)
+                                    Rectangle()
+                                        .fill(.black)
+                                        .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
+                                }
+                            })
                         })
                     }
                     Section(header: Text("Toggle app settings such as notifications, sound, and vibrations.")){
-                        NavigationLink(destination: {
+                        NavigationLink(isActive: $viewModel.toggleViewNavIsActive, destination: {
                             ToggleSettingsView()
                                 .navigationBarBackButtonHidden(true)
                                 .navigationBarItems(leading: BackButtonView())
                         }, label: {
-                            VStack{
-                                Text("Toggle Settings")
-                                    .font(.system(size: UIScreen.main.bounds.width * 0.05))
-                                    .fontWeight(.bold)
-                                    .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
-                                    .foregroundColor(.black)
-                                Rectangle()
-                                    .fill(.black)
-                                    .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
-                            }
+                            Button(action: {
+                                if viewModel.haptics_on ?? true{
+                                    HapticManager.instance.impact(style: .medium)
+                                }
+                                viewModel.toggleViewNavIsActive = true
+                            }, label: {
+                                VStack{
+                                    Text("Toggle Settings")
+                                        .font(.system(size: UIScreen.main.bounds.width * 0.05))
+                                        .fontWeight(.bold)
+                                        .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
+                                        .foregroundColor(.black)
+                                    Rectangle()
+                                        .fill(.black)
+                                        .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
+                                }
+                            })
                         })
                     }
                 } // List
@@ -76,6 +90,9 @@ struct SettingsView: View {
                 .scrollContentBackground(.hidden)
                 HStack{
                     Button(action: {
+                        if viewModel.haptics_on ?? true{
+                            HapticManager.instance.impact(style: .medium)
+                        }
                         if viewModel.userModel?.is_guest ?? false{
                             if viewModel.show_logout_option{
                                 viewModel.show_logout_option = false
@@ -114,7 +131,12 @@ struct SettingsView: View {
                                 .fill(newCustomColorsModel.colorSchemeOne)
                                 .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
                             HStack{
-                                Button(action: {viewModel.show_logout_option = false}, label: {
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
+                                    viewModel.show_logout_option = false
+                                }, label: {
                                     Text("Cancel")
                                         .frame(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
                                         .background(newCustomColorsModel.colorSchemeOne)
@@ -122,6 +144,9 @@ struct SettingsView: View {
                                         .cornerRadius(8)
                                 }).padding()
                                 Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
                                     viewModel.pressed_logout = true
                                     viewModel.logoutTask()
                                     

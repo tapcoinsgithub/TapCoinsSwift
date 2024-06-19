@@ -25,6 +25,8 @@ final class SettingsViewModel: ObservableObject {
     @Published var users_address: String = ""
     @Published var pressed_get_wallet:Bool = false
     @Published var pressed_logout:Bool = false
+    @Published var accountInfoNavIsActive:Bool = false
+    @Published var toggleViewNavIsActive:Bool = false
     
     init(){
         self.userModel = UserViewModel(self.userViewModel ?? Data())

@@ -34,7 +34,12 @@ struct FriendsListItemView: View {
                                 .fill(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
                                 .frame(width: UIScreen.main.bounds.width * 0.001, height: UIScreen.main.bounds.height * 0.08)
                             VStack(spacing:0){
-                                Button(action: {viewModel.show_hide_friend_actions(index:index, friend: friend)}, label:{
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
+                                    viewModel.show_hide_friend_actions(index:index, friend: friend)
+                                }, label:{
                                     HStack(spacing:0){
                                         Spacer()
                                         Text(viewModel.normalFriendName)
@@ -51,7 +56,12 @@ struct FriendsListItemView: View {
                                 })
                                 if viewModel.show_friend_actions_bool {
                                     HStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.01){
-                                        Button(action: {viewModel.pressed_send_invite ? nil : viewModel.sendInviteTask(_inviteName: viewModel.normalFriendName)}, label: {
+                                        Button(action: {
+                                            if viewModel.haptics_on ?? true{
+                                                HapticManager.instance.impact(style: .medium)
+                                            }
+                                            viewModel.pressed_send_invite ? nil : viewModel.sendInviteTask(_inviteName: viewModel.normalFriendName)
+                                        }, label: {
                                             HStack{
                                                 Text("Custom game")
                                                 Image(systemName: "arrow.up.square.fill")
@@ -64,6 +74,9 @@ struct FriendsListItemView: View {
                                         .cornerRadius(UIScreen.main.bounds.width * 0.005)
                                         // Hide View to Mimick Deleting Friend
                                         Button(action: {
+                                            if viewModel.haptics_on ?? true{
+                                                HapticManager.instance.impact(style: .medium)
+                                            }
                                             if !viewModel.pressed_remove_friend{
                                                 print("IN DYNAMIC FRIEND BUTTON")
                                                 viewModel.removeFriendTask(friend: viewModel.normalFriendName)
@@ -100,7 +113,12 @@ struct FriendsListItemView: View {
                 if friend.contains("Friend request from"){
                     VStack(spacing: 0){
                         VStack(spacing: 0){
-                            Button(action: {viewModel.show_hide_friend_request_actions(index:friend)}, label:{
+                            Button(action: {
+                                if viewModel.haptics_on ?? true{
+                                    HapticManager.instance.impact(style: .medium)
+                                }
+                                viewModel.show_hide_friend_request_actions(index:friend)
+                            }, label:{
                                 HStack(spacing: 0){
                                     Text(friend)
                                         .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.05)
@@ -118,6 +136,9 @@ struct FriendsListItemView: View {
                         if viewModel.show_friend_request_actions_bool{
                             HStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.01){
                                 Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
                                     if !viewModel.pressed_decline_request{
                                         viewModel.declineRequestTask(friend: viewModel.friend_requester_name)
                                     }
@@ -134,7 +155,12 @@ struct FriendsListItemView: View {
                                 .frame(width: UIScreen.main.bounds.width * 0.49, height: UIScreen.main.bounds.height * 0.03, alignment: .center)
                                 .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
                                 .cornerRadius(UIScreen.main.bounds.width * 0.02)
-                                Button(action: {viewModel.pressed_accept_request ? nil : viewModel.acceptRequestTask(friend: viewModel.friend_requester_name)}, label: {
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
+                                    viewModel.pressed_accept_request ? nil : viewModel.acceptRequestTask(friend: viewModel.friend_requester_name)
+                                }, label: {
                                     HStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.01){
                                         Text("Accept Request")
                                             .font(.system(size: UIScreen.main.bounds.width * 0.04))
@@ -175,7 +201,12 @@ struct FriendsListItemView: View {
                                 .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
                                 .fontWeight(.bold)
                             HStack{
-                                Button(action: {viewModel.pressed_accept_invite ? nil : viewModel.acceptInviteTask(_inviteName: friend)}, label: {
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
+                                    viewModel.pressed_accept_invite ? nil : viewModel.acceptInviteTask(_inviteName: friend)
+                                }, label: {
                                     HStack{
                                         Text("Accept")
                                         Image(systemName: "checkmark.square.fill")
@@ -188,7 +219,12 @@ struct FriendsListItemView: View {
 
                                 })
                                 // Turn game invite to normal friend
-                                Button(action: {viewModel.pressed_decline_invite ? nil : viewModel.declineInviteTask(_inviteName: friend, curr_user_name: curr_user_name)}, label: {
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
+                                    viewModel.pressed_decline_invite ? nil : viewModel.declineInviteTask(_inviteName: friend, curr_user_name: curr_user_name)
+                                }, label: {
                                     HStack{
                                         Text("Decline")
                                         Image(systemName: "xmark.square.fill")
@@ -218,7 +254,12 @@ struct FriendsListItemView: View {
                                 .fill(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
                                 .frame(width: UIScreen.main.bounds.width * 0.001, height: UIScreen.main.bounds.height * 0.08)
                             VStack(spacing:0){
-                                Button(action: {viewModel.show_hide_friend_actions(index:index, friend: friend)}, label:{
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
+                                    viewModel.show_hide_friend_actions(index:index, friend: friend)
+                                }, label:{
                                     HStack(spacing:0){
                                         Spacer()
                                         Text(friend)
@@ -235,7 +276,12 @@ struct FriendsListItemView: View {
                                 })
                                 if viewModel.show_friend_actions_bool {
                                     HStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.01){
-                                        Button(action: {viewModel.pressed_send_invite ? nil : viewModel.sendInviteTask(_inviteName: friend)}, label: {
+                                        Button(action: {
+                                            if viewModel.haptics_on ?? true{
+                                                HapticManager.instance.impact(style: .medium)
+                                            }
+                                            viewModel.pressed_send_invite ? nil : viewModel.sendInviteTask(_inviteName: friend)
+                                        }, label: {
                                             HStack{
                                                 Text("Custom game")
                                                 Image(systemName: "arrow.up.square.fill")
@@ -248,6 +294,9 @@ struct FriendsListItemView: View {
                                         .cornerRadius(UIScreen.main.bounds.width * 0.005)
                                         // Hide View to Mimick Deleting Friend
                                         Button(action: {
+                                            if viewModel.haptics_on ?? true{
+                                                HapticManager.instance.impact(style: .medium)
+                                            }
                                             if !viewModel.pressed_remove_friend{
                                                 print("IN DYNAMIC FRIEND BUTTON")
                                                 viewModel.removeFriendTask(friend: friend)
