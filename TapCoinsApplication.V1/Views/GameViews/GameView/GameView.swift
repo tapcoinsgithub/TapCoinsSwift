@@ -118,7 +118,12 @@ struct GameView: View {
                         if viewModel.showCancelledPopUp{
                             Text("Are you sure you want to cancel? You will lose your current TapDash!")
                             HStack{
-                                Button(action: {viewModel.gotInCancelOptional ? nil : viewModel.cancellGameOptional()}, label: {
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
+                                    viewModel.gotInCancelOptional ? nil : viewModel.cancellGameOptional()
+                                }, label: {
                                     Text("Yes")
                                         .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
                                         .background(viewModel.newCustomColorsModel.colorSchemeFour)
@@ -126,6 +131,9 @@ struct GameView: View {
                                         .cornerRadius(10)
                                 })
                                 Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
                                     viewModel.showCancelledPopUp = false
                                 }, label: {
                                     Text("No")
@@ -144,6 +152,9 @@ struct GameView: View {
                                 VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.04){
                                     Text(viewModel.first)
                                     Button(action: {
+                                        if viewModel.haptics_on ?? true{
+                                            HapticManager.instance.impact(style: .medium)
+                                        }
                                         if viewModel.is_first ?? false{
                                             if !viewModel.ready{
                                                 if viewModel.waitingStatus == "Opponent connected"{
@@ -167,6 +178,9 @@ struct GameView: View {
                                 VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.04){
                                     Text(viewModel.second)
                                     Button(action: {
+                                        if viewModel.haptics_on ?? true{
+                                            HapticManager.instance.impact(style: .medium)
+                                        }
                                         if viewModel.is_first ?? false{
                                             //pass
                                         }
@@ -191,7 +205,12 @@ struct GameView: View {
                                 .cornerRadius(10)
                                 Spacer()
                             }
-                            Button(action: {viewModel.gotInCancelOptional ? nil : viewModel.cancellGameOptional()}, label: {
+                            Button(action: {
+                                if viewModel.haptics_on ?? true{
+                                    HapticManager.instance.impact(style: .medium)
+                                }
+                                viewModel.gotInCancelOptional ? nil : viewModel.cancellGameOptional()
+                            }, label: {
                                 Text("Cancel")
                                     .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
                                     .background(newCustomColorsModel.colorSchemeFour)
