@@ -17,16 +17,16 @@ final class FriendsViewModel: ObservableObject {
     @Published var friend_requester_name:String = ""
     @Published var show_friend_actions_bool:Bool = false
     @Published var friend_name:String = ""
-    @Published var active_friends_index_list:[Int] = []
     private var first_time:Bool = true
     private var globalFunctions = GlobalFunctions()
     @Published var friends_indexes:[Int:Bool] = [:]
+    @Published var gotFriendsData:Bool = false
     
     init(){
         self.userModel = UserViewModel(self.userViewModel ?? Data())
-        set_friend_indexes()
+        self.gotFriendsData = true
+        self.set_friend_indexes()
     }
-    
     func set_friend_indexes(){
         var index = 0
         friends_indexes = [:]
@@ -36,12 +36,6 @@ final class FriendsViewModel: ObservableObject {
             }
             friends_indexes[index] = false
             index += 1
-        }
-    }
-    
-    func call_get_user(){
-        DispatchQueue.main.async { [weak self] in
-            self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
         }
     }
     

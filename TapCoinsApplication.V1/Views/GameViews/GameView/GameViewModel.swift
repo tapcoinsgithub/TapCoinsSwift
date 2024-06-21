@@ -175,7 +175,7 @@ final class GameViewModel: ObservableObject {
                             self.loser = self.second
                             self.gameStart = "END"
 //                            print("SENDING POINTS HERE 1")
-//                            self.send_points_task(location: "MSOCKET_TAP_F_G_S_FIRST_IF")
+//                            self.sendPointsTask(location: "MSOCKET_TAP_F_G_S_FIRST_IF")
                         }
                         else{
                             self.endGame = true
@@ -183,7 +183,7 @@ final class GameViewModel: ObservableObject {
                             self.loser = self.first
                             self.gameStart = "END"
 //                            print("SENDING POINTS HERE 2")
-//                            self.send_points_task(location: "MSOCKET_TAP_S_G_F_FIRST_IF")
+//                            self.sendPointsTask(location: "MSOCKET_TAP_S_G_F_FIRST_IF")
                         }
                     }
                 }
@@ -198,7 +198,7 @@ final class GameViewModel: ObservableObject {
                             self.loser = self.second
                             self.gameStart = "END"
 //                            print("SENDING POINTS HERE 3")
-//                            self.send_points_task(location: "MSOCKET_TAP_F_G_S_SECOND_IF")
+//                            self.sendPointsTask(location: "MSOCKET_TAP_F_G_S_SECOND_IF")
                         }
                         else{
                             self.endGame = true
@@ -206,7 +206,7 @@ final class GameViewModel: ObservableObject {
                             self.loser = self.first
                             self.gameStart = "END"
 //                            print("SENDING POINTS HERE 4")
-//                            self.send_points_task(location: "MSOCKET_TAP_S_G_F_SECOND_IF")
+//                            self.sendPointsTask(location: "MSOCKET_TAP_S_G_F_SECOND_IF")
                         }
                     }
                 }
@@ -528,14 +528,14 @@ final class GameViewModel: ObservableObject {
                     winner = first
                     loser = second
                     print("SENDING POINTS HERE 5")
-                    self.send_points_task(location: "SENDTAP_F_G_S_FIRST_IF")
+                    self.sendPointsTask(location: "SENDTAP_F_G_S_FIRST_IF")
                 }
                 else{
                     endGame = true
                     winner = second
                     loser = first
                     print("SENDING POINTS HERE 6")
-                    self.send_points_task(location: "SENDTAP_S_G_F_FIRST_IF")
+                    self.sendPointsTask(location: "SENDTAP_S_G_F_FIRST_IF")
                 }
             }
         }
@@ -549,21 +549,21 @@ final class GameViewModel: ObservableObject {
                     winner = first
                     loser = second
                     print("SENDING POINTS HERE 7")
-                    self.send_points_task(location: "SENDTAP_F_G_S_SECOND_IF")
+                    self.sendPointsTask(location: "SENDTAP_F_G_S_SECOND_IF")
                 }
                 else{
                     endGame = true
                     winner = second
                     loser = first
                     print("SENDING POINTS HERE 8")
-                    self.send_points_task(location: "SENDTAP_S_G_F_SECOND_IF")
+                    self.sendPointsTask(location: "SENDTAP_S_G_F_SECOND_IF")
                 }
             }
         }
     }
     
     // Task function
-    func send_points_task(location: String){
+    func sendPointsTask(location: String){
         Task{
             do {
                 if self.got_in_send_points{
@@ -574,7 +574,7 @@ final class GameViewModel: ObservableObject {
                     self.got_in_send_points = true
                     self.send_points_count = self.send_points_count + 1
                 }
-                try await self.send_points(location:location)
+                try await self.sendPoints(location:location)
                 DispatchQueue.main.async {
                     self.got_in_send_points = false
                 }
@@ -587,7 +587,7 @@ final class GameViewModel: ObservableObject {
     }
     
     // API call function
-    func send_points(location:String) async throws{
+    func sendPoints(location:String) async throws{
         
         var url_string:String = ""
         
@@ -913,7 +913,7 @@ final class GameViewModel: ObservableObject {
                 print(loser)
                 if userModel.username == winner{
                     print("IS THE WINNER")
-                    self.send_points_task(location: "TIMESUP")
+                    self.sendPointsTask(location: "TIMESUP")
                 }
                 else{
                     print("IS THE LOSER")

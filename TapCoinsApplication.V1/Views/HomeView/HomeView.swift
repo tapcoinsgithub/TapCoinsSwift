@@ -25,7 +25,7 @@ struct HomeView: View {
             else{
                 newCustomColorsModel.colorSchemeTwo.ignoresSafeArea()
             }
-            if viewModel.loaded_get_user ?? false{
+            if viewModel.loadedAllUserData ?? false{
                 VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.1){
                     VStack(alignment: .center, spacing: 0){
                         HStack(alignment: .center, spacing: 0.0){
@@ -113,13 +113,19 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            self.timerManager.timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+            if viewModel.tapDash ?? false {
+                self.timerManager.timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+            }
         }
         .onDisappear {
-            self.timerManager.timer.upstream.connect().cancel()
+            if viewModel.tapDash ?? false {
+                self.timerManager.timer.upstream.connect().cancel()
+            }
         }
         .onReceive(timerManager.timer) { _ in
-            viewModel.countDownTapDashTimer()
+            if viewModel.tapDash ?? false {
+                viewModel.countDownTapDashTimer()
+            }
         }
     }
 }

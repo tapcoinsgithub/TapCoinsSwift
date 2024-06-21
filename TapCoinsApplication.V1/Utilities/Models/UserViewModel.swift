@@ -11,7 +11,6 @@ import SwiftUI
 struct UserViewModel: Codable {
     var first_name: String
     var last_name: String
-    var response: String?
     var username: String?
     var phone_number: String?
     var email_address: String?

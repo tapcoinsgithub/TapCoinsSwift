@@ -53,6 +53,28 @@ final class FriendsListItemViewModel: ObservableObject {
         show_friend_actions_bool = !show_friend_actions_bool
     }
     
+    func getFriendsDataTask(){
+        Task {
+            do {
+                let result:Bool = try await globalFunctions.getFriendsData(_userModel: self.userModel ?? nil)
+                if result{
+                    print("SUCCESS")
+                    DispatchQueue.main.async {
+                        self.userModel = UserViewModel(self.userViewModel ?? Data())
+                        self.active_friends_index_list = self.userModel?.active_friends_index_list ?? []
+                    }
+                    
+                }
+                else{
+                    print("Something went wrong.")
+                }
+            } catch {
+                let catchError = "Error: \(error.localizedDescription)"
+                print(catchError)
+            }
+        }
+    }
+    
     
     func declineRequestTask(friend:String){
         Task {
@@ -64,8 +86,8 @@ final class FriendsListItemViewModel: ObservableObject {
                 let rUsername = rNameSplit[3]
                 let result:Bool = try await declineFriendRequest(requestName: String(rUsername))
                 if result{
-                    DispatchQueue.main.async { [weak self] in
-                        self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                    DispatchQueue.main.async {
+                        self.getFriendsDataTask()
                     }
                 }
                 else{
@@ -136,8 +158,8 @@ final class FriendsListItemViewModel: ObservableObject {
                 let rUsername = rNameSplit[3]
                 let result:Bool = try await acceptFriendRequest(requestName: String(rUsername))
                 if result{
-                    DispatchQueue.main.async { [weak self] in
-                        self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                    DispatchQueue.main.async {
+                        self.getFriendsDataTask()
                     }
                 }
                 else{
@@ -203,8 +225,8 @@ final class FriendsListItemViewModel: ObservableObject {
             do {
                 let result:Bool = try await removeFriendFunction(requestName: friend)
                 if result{
-                    DispatchQueue.main.async { [weak self] in
-                        self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                    DispatchQueue.main.async {
+                        self.getFriendsDataTask()
                     }
                 }
                 else{
@@ -277,52 +299,6 @@ final class FriendsListItemViewModel: ObservableObject {
         let iNameSplit = input_name.split(separator: " ")
         let iUsername = iNameSplit[3]
         return String(iUsername)
-    }
-    
-    func addFriendToList(requestName:String){
-        DispatchQueue.main.async {
-            var index = 0
-            for friend in self.userModel?.friends ?? ["NO FRIENDS"]{
-                if friend.contains(requestName){
-                    self.userModel?.friends?[index] = String(requestName)
-                    break
-                }
-                index += 1
-            }
-            if self.num_friends == nil{
-                self.num_friends = 1
-            }
-            else{
-                self.num_friends! += 1
-            }
-            self.friend_state = FriendItemState.NormalFriend
-        }
-    }
-    
-    func removeFriendFromList(requestName:String){
-        DispatchQueue.main.async {
-            var ecount = 0
-            let friendsList = self.userModel?.friends ?? ["NO FRIENDS"]
-            if friendsList[0] != "NO FRIENDS"{
-                for friendIndex in friendsList.indices {
-                    if ecount == 0 && friendIndex == 5{
-                        break
-                    }
-                    if friendsList[friendIndex] == requestName{
-                        self.userModel?.friends?.remove(at: friendIndex)
-                    }
-                    ecount+=1
-                }
-                if self.num_friends == nil || self.num_friends == 0{
-                    self.num_friends = 0
-                }
-                else{
-                    self.num_friends! -= 1
-                }
-                self.userModel?.numFriends = self.num_friends
-                self.userViewModel = self.userModel?.storageValue
-            }
-        }
     }
     
     struct FriendRequestResponse:Codable {
@@ -433,8 +409,8 @@ final class FriendsListItemViewModel: ObservableObject {
                 }
                 let result:Bool = try await declineInvite(inviteName: _inviteName, curr_user_name: curr_user_name)
                 if result{
-                    DispatchQueue.main.async { [weak self] in
-                        self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
+                    DispatchQueue.main.async {
+                        self.getFriendsDataTask()
                     }
                 }
                 else{

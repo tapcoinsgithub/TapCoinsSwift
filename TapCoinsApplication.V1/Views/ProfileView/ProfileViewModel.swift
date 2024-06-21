@@ -14,7 +14,6 @@ final class ProfileViewModel: ObservableObject {
     @AppStorage("debug") private var debug: Bool?
     @AppStorage("de_queue") private var de_queue: Bool?
     @AppStorage("num_friends") public var num_friends:Int?
-    @AppStorage("loadedUser") var loaded_get_user:Bool?
     @AppStorage("tapDash") var tapDash:Bool?
     @AppStorage("haptics") var haptics_on:Bool?
     @Published var userModel: UserViewModel = UserViewModel(first_name: "NO FIRST NAME", last_name: "NO LAST NAME")
@@ -30,32 +29,16 @@ final class ProfileViewModel: ObservableObject {
     @Published var pressed_send_request:Bool = false
     @Published var invalid_entry:Bool = false
     @Published var friendsViewNavIsActive:Bool = false
+    @Published var gotProfileView:Bool = false
     private var globalFunctions = GlobalFunctions()
     
     init(){
-        let convertedData = UserViewModel(self.userViewModel ?? Data())
-        self.userModel = convertedData ?? UserViewModel(first_name: "NO FIRST NAME", last_name: "NO LAST NAME")
-        set_league_data()
-        for friend in self.userModel.friends ?? ["NO FRIENDS"]{
-            if friend.contains("Friend request from"){
-                if self.userModel.numFriends != nil && self.userModel.numFriends != 0{
-                    self.userModel.numFriends! -= 1
-                }
-                else{
-                    self.userModel.numFriends! = 0
-                }
-            }
-            else if friend.contains("Pending request to"){
-                if self.userModel.numFriends != nil && self.userModel.numFriends != 0{
-                    self.userModel.numFriends! -= 1
-                }
-                else{
-                    self.userModel.numFriends! = 0
-                }
-            }
+        DispatchQueue.main.async {
+            let convertedData = UserViewModel(self.userViewModel ?? Data())
+            self.userModel = convertedData ?? UserViewModel(first_name: "NO FIRST NAME", last_name: "NO LAST NAME")
+            self.num_friends = self.userModel.numFriends
+            self.gotProfileView = true
         }
-        num_friends = self.userModel.numFriends
-        self.loaded_get_user = true
     }
     
     func set_league_data(){
@@ -143,6 +126,174 @@ final class ProfileViewModel: ObservableObject {
         }
     }
     
+    func getProfileDataTask(){
+        Task {
+            do {
+                DispatchQueue.main.async {
+                    self.gotProfileView = false
+                }
+                let result:Bool = try await getProfileData()
+                if result{
+                    print("SUCCESS")
+                    DispatchQueue.main.async {
+                        self.set_league_data()
+                    }
+                }
+                else{
+                    print("Something went wrong.")
+                }
+                DispatchQueue.main.async {
+                    self.gotProfileView = true
+                }
+            } catch {
+                let catchError = "Error: \(error.localizedDescription)"
+                print(catchError)
+                DispatchQueue.main.async {
+                    self.gotProfileView = true
+                }
+                
+            }
+        }
+    }
+    
+    // API Call
+    func getProfileData() async throws -> Bool{
+        print("IN GET PROFILE DATA")
+        var url_string:String = ""
+        
+        if debug ?? false{
+            print("DEBUG IS TRUE")
+            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/profile_view"
+        }
+        else{
+            print("DEBUG IS FALSE")
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/profile_view"
+        }
+        
+        guard var urlComponents = URLComponents(string: url_string) else {
+            throw PostDataError.invalidURL
+        }
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
+        }
+        
+        // Add query parameters to the URL
+        urlComponents.queryItems = [
+            URLQueryItem(name: "token", value: session),
+        ]
+        
+        // Ensure the URL is valid
+        guard let url = urlComponents.url else {
+            throw PostDataError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(Response.self, from: data)
+            print("RESPONSE IS BELOW")
+            print(response)
+            
+            DispatchQueue.main.async {
+                var myData = UserViewModel(
+                    first_name: self.userModel.first_name,
+                    last_name: self.userModel.last_name,
+                    username: response.username,
+                    phone_number: self.userModel.phone_number,
+                    email_address: self.userModel.email_address,
+                    friends: response.friends,
+                    active_friends_index_list: self.userModel.active_friends_index_list,
+                    hasInvite: response.hasInvite,
+                    free_play_wins: response.free_play_wins,
+                    free_play_losses: response.free_play_losses,
+                    free_play_best_streak: response.free_play_best_streak,
+                    free_play_win_streak: response.free_play_win_streak,
+                    free_play_games: response.free_play_games,
+                    free_play_league: response.free_play_league,
+                    tap_dash_wins: response.tap_dash_wins,
+                    tap_dash_losses: response.tap_dash_losses,
+                    tap_dash_best_streak: response.tap_dash_best_streak,
+                    tap_dash_win_streak: response.tap_dash_win_streak,
+                    tap_dash_games: response.tap_dash_games,
+                    tap_dash_league: response.tap_dash_league,
+                    tap_coin: response.tap_coin,
+                    hasPhoneNumber: self.userModel.hasPhoneNumber,
+                    hasEmailAddress: self.userModel.hasEmailAddress,
+                    is_guest: response.is_guest,
+    //                        has_wallet: response.has_wallet,
+                    has_security_questions: self.userModel.has_security_questions
+                )
+                if response.friends.count > 0{
+                    if response.friends[0] == "0"{
+                        myData.numFriends = 0
+                    }
+                    else{
+                        var count = 0
+                        for friend in response.friends{
+                            print("FRIEND: \(friend)")
+                            if !friend.contains("requested|"){
+                                if !friend.contains("sentTo|"){
+                                    count += 1
+                                    if response.hasInvite{
+                                        myData.hasGI = true
+                                    }
+                                }
+                                else{
+                                    myData.hasST = true
+                                }
+                            }
+                            else{
+                                myData.hasRQ = true
+                            }
+                        }
+                        myData.numFriends = count
+                        myData.fArrayCount = response.friends.count
+                    }
+                }
+                else{
+                    myData.numFriends = 0
+                    myData.fArrayCount = 0
+                }
+                self.num_friends = myData.numFriends
+                print("SET MY DATA IN PROFILE VIEW")
+                self.userViewModel = myData.storageValue
+                self.userModel = UserViewModel(self.userViewModel ?? Data())!
+            }
+            return true
+        }
+        catch{
+            print(error)
+            return false
+        }
+    }
+    
+    // Response Get User Call
+    struct Response:Codable {
+        let username: String
+        let friends:Array<String>
+        let hasInvite:Bool
+        let is_guest:Bool
+        let free_play_wins: Int
+        let free_play_losses: Int
+        let free_play_best_streak: Int
+        let free_play_win_streak: Int
+        let free_play_games: Int
+        let free_play_league: Int
+        let tap_dash_wins: Int
+        let tap_dash_losses: Int
+        let tap_dash_best_streak: Int
+        let tap_dash_win_streak: Int
+        let tap_dash_games: Int
+        let tap_dash_league: Int
+        let tap_coin: Int
+    }
+    
     func sendRequestTask(){
         Task {
             do {
@@ -214,19 +365,14 @@ final class ProfileViewModel: ObservableObject {
                     else{
                         self.usernameRes = true
                         self.result = "Sent Friend Request"
-                        self.loaded_get_user = false
-                        DispatchQueue.main.async { [weak self] in
-                            self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
-                        }
-                        DispatchQueue.main.async { [weak self] in
-                            self?.userModel = UserViewModel(self?.userViewModel ?? Data()) ?? UserViewModel(Data())!
-                        }
-                        if self.userModel.is_guest == false {
-    //                                self?.result = self?.globalFunctions.addRequest(sender: self?.userModel.username ?? "None", receiver: self?.sUsername ?? "None", requestType: "FriendRequest") ?? "ErrorOccured"
-                        }
-                        else{
-                            self.result = "IS A GUEST"
-                        }
+                        self.getProfileDataTask()
+                        // Look into this later
+//                        if self.userModel.is_guest == false {
+//    //                                self?.result = self?.globalFunctions.addRequest(sender: self?.userModel.username ?? "None", receiver: self?.sUsername ?? "None", requestType: "FriendRequest") ?? "ErrorOccured"
+//                        }
+//                        else{
+//                            self.result = "IS A GUEST"
+//                        }
                     }
                 }
             }

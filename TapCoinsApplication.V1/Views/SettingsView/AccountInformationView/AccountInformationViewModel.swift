@@ -15,7 +15,6 @@ final class AccountInformationViewModel: ObservableObject {
     @AppStorage("de_queue") private var de_queue: Bool?
     @AppStorage("selectedOption1") var selectedOption1:Int?
     @AppStorage("selectedOption2") var selectedOption2:Int?
-    @AppStorage("loadedUser") var loaded_get_user:Bool?
     @AppStorage("gsave_pressed") var gsave_pressed:Bool?
     @AppStorage("haptics") var haptics_on:Bool?
     @Published var first_name:String = ""
@@ -59,10 +58,10 @@ final class AccountInformationViewModel: ObservableObject {
     @Published var saved_phone_number:Bool = false
     @Published var createPasswordNavIsActive:Bool = false
     @Published var updatePasswordNavIsActive:Bool = false
+    @Published var set_page_data:Bool = false
     private var userData:UserViewModel?
     public var options1:[String] = ["Option1", "Option2", "Option3", "Option4"]
     public var options2:[String] = ["Option5", "Option6", "Option7", "Option8"]
-    @Published var set_page_data:Bool = false
     private var globalFunctions = GlobalFunctions()
     private var current_username:String = ""
     private var initialFirstName:String = ""
@@ -72,10 +71,12 @@ final class AccountInformationViewModel: ObservableObject {
     private var initialEmailAddress:String = ""
     
     init(){
-        self.userData = UserViewModel(self.userViewModel ?? Data())
-        self.current_username = self.userData?.username ?? "None"
-        self.setPageData(usersData: self.userData!)
-        self.is_guest = self.userData?.is_guest ?? false
+        DispatchQueue.main.async {
+            self.userData = UserViewModel(self.userViewModel ?? Data())
+            self.current_username = self.userData?.username ?? "None"
+            self.setPageData(usersData: self.userData!)
+            self.is_guest = self.userData?.is_guest ?? false
+        }
     }
     
     func setPageData(usersData:UserViewModel){
@@ -102,6 +103,7 @@ final class AccountInformationViewModel: ObservableObject {
             email_address = ""
             initialEmailAddress = ""
         }
+        print("SET PAGE DATA TO TRUE IN FUNCTION")
         set_page_data = true
     }
     
@@ -137,6 +139,123 @@ final class AccountInformationViewModel: ObservableObject {
         }
         print("NO VALUES CHANGED")
         return false
+    }
+    
+    func getAccountDataTask(){
+        Task {
+            do {
+                let result:Bool = try await getAccountData()
+                if result{
+                    print("SUCCESS")
+                    DispatchQueue.main.async {
+                        self.current_username = self.userData?.username ?? "None"
+                        self.setPageData(usersData: self.userData!)
+                    }
+                }
+                else{
+                    print("Something went wrong.")
+                }
+            } catch {
+                let catchError = "Error: \(error.localizedDescription)"
+                print(catchError)
+            }
+        }
+    }
+    
+    // API Call
+    func getAccountData() async throws -> Bool{
+        print("IN GET ACCOUNT DATA")
+        var url_string:String = ""
+        
+        if debug ?? false{
+            print("DEBUG IS TRUE")
+            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/account_view"
+        }
+        else{
+            print("DEBUG IS FALSE")
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/account_view"
+        }
+        
+        guard var urlComponents = URLComponents(string: url_string) else {
+            throw PostDataError.invalidURL
+        }
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
+        }
+        
+        // Add query parameters to the URL
+        urlComponents.queryItems = [
+            URLQueryItem(name: "token", value: session),
+        ]
+        
+        // Ensure the URL is valid
+        guard let url = urlComponents.url else {
+            throw PostDataError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(AccountDataResponse.self, from: data)
+            print("RESPONSE IS BELOW")
+            print(response)
+            
+            DispatchQueue.main.async {
+                var myData = UserViewModel(
+                    first_name: response.first_name,
+                    last_name: response.last_name,
+                    username: response.username,
+                    phone_number: response.phone_number,
+                    email_address: response.email_address,
+                    friends: self.userData?.friends,
+                    active_friends_index_list: self.userData?.active_friends_index_list,
+                    hasInvite: self.userData?.hasInvite,
+                    free_play_wins: self.userData?.free_play_wins,
+                    free_play_losses: self.userData?.free_play_losses,
+                    free_play_best_streak: self.userData?.free_play_best_streak,
+                    free_play_win_streak: self.userData?.free_play_win_streak,
+                    free_play_games: self.userData?.free_play_games,
+                    free_play_league: self.userData?.free_play_league,
+                    tap_dash_wins: self.userData?.tap_dash_wins,
+                    tap_dash_losses: self.userData?.tap_dash_losses,
+                    tap_dash_best_streak: self.userData?.tap_dash_best_streak,
+                    tap_dash_win_streak: self.userData?.tap_dash_win_streak,
+                    tap_dash_games: self.userData?.tap_dash_games,
+                    tap_dash_league: self.userData?.tap_dash_league,
+                    tap_coin: self.userData?.tap_coin,
+                    hasPhoneNumber: response.has_phone_number,
+                    hasEmailAddress: response.has_email_address,
+                    is_guest: response.is_guest,
+    //                        has_wallet: response.has_wallet,
+                    has_security_questions: self.userData?.has_security_questions
+                )
+                self.userViewModel = myData.storageValue
+                self.userData = UserViewModel(self.userViewModel ?? Data())!
+            }
+            return true
+        }
+        catch{
+            print(error)
+            return false
+        }
+    }
+    
+    // Response Get User Call
+    struct AccountDataResponse:Codable {
+        let username: String
+        let is_guest:Bool
+        let first_name: String
+        let last_name: String
+        let has_phone_number: Bool
+        let has_email_address: Bool
+        let phone_number: String
+        let email_address: String
     }
     
     func saveTask(){
@@ -188,6 +307,9 @@ final class AccountInformationViewModel: ObservableObject {
                 }
                 else{
                     print("SUCCESS")
+                    DispatchQueue.main.async {
+                        self.getAccountDataTask()
+                    }
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
@@ -300,13 +422,8 @@ final class AccountInformationViewModel: ObservableObject {
                 }
             }
             else{
-                self.loaded_get_user = false
-                DispatchQueue.main.async { [weak self] in
-                    self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
-                }
-                DispatchQueue.main.async { [weak self] in
-                    self?.userData = UserViewModel(self?.userViewModel ?? Data())
-                    self?.setPageData(usersData: (self?.userData)!)
+                DispatchQueue.main.async {
+                    self.userData = UserViewModel(self.userViewModel ?? Data())
                 }
             }
             print("RETURNING TRUE")
@@ -638,6 +755,11 @@ final class AccountInformationViewModel: ObservableObject {
                 if !result{
                     print("Something went wrong.")
                 }
+                else{
+                    DispatchQueue.main.async {
+                        self.getAccountDataTask()
+                    }
+                }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
             }
@@ -718,14 +840,8 @@ final class AccountInformationViewModel: ObservableObject {
                                 self.show_code_screen = false
                                 self.show_text_code = false
                                 self.show_email_code = false
-                                self.loaded_get_user = false
-                            }
-                            DispatchQueue.main.async { [weak self] in
-                                self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
-                            }
-                            DispatchQueue.main.async { [weak self] in
-                                self?.userData = UserViewModel(self?.userViewModel ?? Data())
-                                self?.setPageData(usersData: (self?.userData)!)
+                                self.userData = UserViewModel(self.userViewModel ?? Data())
+                                self.setPageData(usersData: (self.userData)!)
                             }
                         }
                     }
@@ -734,15 +850,9 @@ final class AccountInformationViewModel: ObservableObject {
                             self.show_code_screen = false
                             self.show_text_code = false
                             self.show_email_code = false
-                            self.loaded_get_user = false
                             self.send_code_pressed = false
-                        }
-                        DispatchQueue.main.async { [weak self] in
-                            self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
-                        }
-                        DispatchQueue.main.async { [weak self] in
-                            self?.userData = UserViewModel(self?.userViewModel ?? Data())
-                            self?.setPageData(usersData: (self?.userData)!)
+                            self.userData = UserViewModel(self.userViewModel ?? Data())
+                            self.setPageData(usersData: (self.userData)!)
                         }
                     }
                 }
