@@ -17,7 +17,7 @@ final class HomeViewModel: ObservableObject {
     @AppStorage("notifications") var notifications_on:Bool?
     @AppStorage("debug") private var debug: Bool?
     @AppStorage("in_queue") var in_queue: Bool?
-    @AppStorage("loadedUser") var loaded_get_user:Bool?
+    @AppStorage("loadedAllUserData") var loadedAllUserData:Bool?
     @AppStorage("from_gq") private var from_gq: Bool?
     @AppStorage("tapDash") var tapDash:Bool?
     @AppStorage("tapDashLeft") var tapDashLeft:Int?
@@ -38,12 +38,8 @@ final class HomeViewModel: ObservableObject {
     
     init() {
         DispatchQueue.main.async { [weak self] in
-            self?.globalFunctions.getUserTask(token:self?.logged_in_user ?? "None", this_user:nil, curr_user:nil)
-        }
-        DispatchQueue.main.async { [weak self] in
+            self?.globalFunctions.getAllUserInfoTask()
             self?.userModel = UserViewModel(self?.userViewModel ?? Data())
-        }
-        DispatchQueue.main.async { [weak self] in
             if self?.userModel?.is_guest == false {
 //                self?.getiCloudStatus()
             }

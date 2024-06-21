@@ -22,7 +22,7 @@ struct ProfileView: View {
             else{
                 newCustomColorsModel.colorSchemeTwo.ignoresSafeArea()
             }
-            if viewModel.loaded_get_user ?? false{
+            if viewModel.gotProfileView{
                 VStack(spacing: UIScreen.main.bounds.width * 0.01){
                     Spacer()
                     VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.009){

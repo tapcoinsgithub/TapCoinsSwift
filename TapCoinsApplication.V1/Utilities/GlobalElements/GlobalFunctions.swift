@@ -22,19 +22,20 @@ struct GlobalFunctions {
     @AppStorage("Player2") var second_player: String?
     @AppStorage("GotFirst") var got_first:Bool?
     @AppStorage("GotSecond") var got_second:Bool?
-    @AppStorage("loadedUser") var loaded_get_user:Bool?
+    @AppStorage("loadedAllUserData") var loadedAllUserData:Bool?
     @AppStorage("tapDashIsActive") var tapDashIsActive:Bool?
     @AppStorage("tapDash") var tapDash:Bool?
     @AppStorage("tapDashLeft") var tapDashLeft:Int?
     @AppStorage("tap_dash_time_left") var tap_dash_time_left:String?
+    @AppStorage("num_friends") public var num_friends:Int?
     private var in_get_user:Bool = false
     
     // Task
-    func getUserTask(token:String, this_user:Int?, curr_user:Int?){
+    func getAllUserInfoTask(){
         Task {
             do {
                 
-                let result:Bool = try await getUser(token: token, this_user: this_user, curr_user: curr_user)
+                let result:Bool = try await getAllUserInfo()
                 if result{
                     print("SUCCESS")
                 }
@@ -48,17 +49,17 @@ struct GlobalFunctions {
     }
     
     // API Call
-    func getUser(token:String, this_user:Int?, curr_user:Int?) async throws -> Bool{
+    func getAllUserInfo() async throws -> Bool{
         
         var url_string:String = ""
         
         if debug ?? false{
             print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/info"
+            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/get_all_user_info"
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/info"
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/get_all_user_info"
         }
         
         guard var urlComponents = URLComponents(string: url_string) else {
@@ -105,68 +106,67 @@ struct GlobalFunctions {
                     self.show_location = 0
                 }
             }
-            var myData = UserViewModel(
-                first_name: response.first_name,
-                last_name: response.last_name,
-                response: response.response,
-                username: response.username,
-                phone_number: response.phone_number,
-                email_address: response.email_address,
-                friends: response.friends,
-                active_friends_index_list: response.active_friends_index_list,
-                hasInvite: response.hasInvite,
-                free_play_wins: response.free_play_wins,
-                free_play_losses: response.free_play_losses,
-                free_play_best_streak: response.free_play_best_streak,
-                free_play_win_streak: response.free_play_win_streak,
-                free_play_games: response.free_play_games,
-                free_play_league: response.free_play_league,
-                tap_dash_wins: response.tap_dash_wins,
-                tap_dash_losses: response.tap_dash_losses,
-                tap_dash_best_streak: response.tap_dash_best_streak,
-                tap_dash_win_streak: response.tap_dash_win_streak,
-                tap_dash_games: response.tap_dash_games,
-                tap_dash_league: response.tap_dash_league,
-                tap_coin: response.tap_coin,
-                hasPhoneNumber: response.HPN,
-                hasEmailAddress: response.HEA,
-                is_guest: response.is_guest,
-//                        has_wallet: response.has_wallet,
-                has_security_questions: response.has_security_questions
-            )
-            print("SET MY DATA")
-            if response.friends.count > 0{
-                if response.friends[0] == "0"{
-                    myData.numFriends = 0
-                }
-                else{
-                    var count = 0
-                    for friend in response.friends{
-                        if !friend.contains("requested|"){
-                            if !friend.contains("sentTo|"){
-                                count += 1
-                                if response.hasInvite{
-                                    myData.hasGI = true
+            DispatchQueue.main.async {
+                var myData = UserViewModel(
+                    first_name: response.first_name,
+                    last_name: response.last_name,
+                    username: response.username,
+                    phone_number: response.phone_number,
+                    email_address: response.email_address,
+                    friends: response.friends,
+                    active_friends_index_list: response.active_friends_index_list,
+                    hasInvite: response.hasInvite,
+                    free_play_wins: response.free_play_wins,
+                    free_play_losses: response.free_play_losses,
+                    free_play_best_streak: response.free_play_best_streak,
+                    free_play_win_streak: response.free_play_win_streak,
+                    free_play_games: response.free_play_games,
+                    free_play_league: response.free_play_league,
+                    tap_dash_wins: response.tap_dash_wins,
+                    tap_dash_losses: response.tap_dash_losses,
+                    tap_dash_best_streak: response.tap_dash_best_streak,
+                    tap_dash_win_streak: response.tap_dash_win_streak,
+                    tap_dash_games: response.tap_dash_games,
+                    tap_dash_league: response.tap_dash_league,
+                    tap_coin: response.tap_coin,
+                    hasPhoneNumber: response.HPN,
+                    hasEmailAddress: response.HEA,
+                    is_guest: response.is_guest,
+    //                        has_wallet: response.has_wallet,
+                    has_security_questions: response.has_security_questions
+                )
+                print("SET MY DATA")
+                if response.friends.count > 0{
+                    if response.friends[0] == "0"{
+                        myData.numFriends = 0
+                    }
+                    else{
+                        var count = 0
+                        for friend in response.friends{
+                            if !friend.contains("requested|"){
+                                if !friend.contains("sentTo|"){
+                                    count += 1
+                                    if response.hasInvite{
+                                        myData.hasGI = true
+                                    }
+                                }
+                                else{
+                                    myData.hasST = true
                                 }
                             }
                             else{
-                                myData.hasST = true
+                                myData.hasRQ = true
                             }
                         }
-                        else{
-                            myData.hasRQ = true
-                        }
+                        myData.numFriends = count
+                        myData.fArrayCount = response.friends.count
                     }
-                    myData.numFriends = count
-                    myData.fArrayCount = response.friends.count
                 }
-            }
-            else{
-                myData.numFriends = 0
-                myData.fArrayCount = 0
-            }
-            myData.hasPhoneNumber = response.HPN
-            DispatchQueue.main.async {
+                else{
+                    myData.numFriends = 0
+                    myData.fArrayCount = 0
+                }
+                myData.hasPhoneNumber = response.HPN
                 self.tapDashIsActive = response.tapDashIsActive
                 self.tapDashLeft = response.tapDashLeft
                 self.tap_dash_time_left = response.tap_dash_time_left
@@ -175,7 +175,7 @@ struct GlobalFunctions {
                 }
                 self.de_queue = nil
                 self.userViewModel = myData.storageValue
-                self.loaded_get_user = true
+                self.loadedAllUserData = true
             }
             return true
         }
@@ -192,7 +192,6 @@ struct GlobalFunctions {
     struct Response:Codable {
         let first_name: String
         let last_name: String
-        let response: String
         let username: String
         let phone_number: String
         let email_address: String
@@ -281,6 +280,7 @@ struct GlobalFunctions {
         let result: Bool
     }
     
+    // API Call
     func confirmPassword(password:String) async throws -> Bool{
         
         var url_string:String = ""
@@ -326,6 +326,129 @@ struct GlobalFunctions {
     }
     struct ResponseCP:Codable {
         let result:Bool
+    }
+    
+    // API Call
+    func getFriendsData(_userModel:UserViewModel?) async throws -> Bool{
+        print("IN GET FRIENDS DATA")
+        var url_string:String = ""
+        
+        if debug ?? false{
+            print("DEBUG IS TRUE")
+            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/friends_view"
+        }
+        else{
+            print("DEBUG IS FALSE")
+            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/friends_view"
+        }
+        
+        guard var urlComponents = URLComponents(string: url_string) else {
+            throw PostDataError.invalidURL
+        }
+        guard let session = logged_in_user else {
+            throw UserErrors.invalidSession
+        }
+        
+        // Add query parameters to the URL
+        urlComponents.queryItems = [
+            URLQueryItem(name: "token", value: session),
+        ]
+        
+        // Ensure the URL is valid
+        guard let url = urlComponents.url else {
+            throw PostDataError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw PostDataError.invalidResponse
+        }
+        do {
+            let response = try JSONDecoder().decode(FriendsDataResponse.self, from: data)
+            print("GOT RESPONSE BELOW")
+            print(response)
+            print(response.fArrayCount)
+            DispatchQueue.main.async {
+                var myData = UserViewModel(
+                    first_name: _userModel?.first_name ?? "None",
+                    last_name: _userModel?.last_name ?? "None",
+                    username: _userModel?.username,
+                    friends: response.friends,
+                    active_friends_index_list: response.active_friends_index_list,
+                    hasInvite: response.hasInvite,
+                    free_play_wins: _userModel?.free_play_wins,
+                    free_play_losses: _userModel?.free_play_losses,
+                    free_play_best_streak: _userModel?.free_play_best_streak,
+                    free_play_win_streak: _userModel?.free_play_win_streak,
+                    free_play_games: _userModel?.free_play_games,
+                    free_play_league: _userModel?.free_play_league,
+                    tap_dash_wins: _userModel?.tap_dash_wins,
+                    tap_dash_losses: _userModel?.tap_dash_losses,
+                    tap_dash_best_streak: _userModel?.tap_dash_best_streak,
+                    tap_dash_win_streak: _userModel?.tap_dash_win_streak,
+                    tap_dash_games: _userModel?.tap_dash_games,
+                    tap_dash_league: _userModel?.tap_dash_league,
+                    tap_coin: _userModel?.tap_coin,
+                    fArrayCount: response.fArrayCount,
+                    hasPhoneNumber: _userModel?.hasPhoneNumber,
+                    hasEmailAddress: _userModel?.hasEmailAddress,
+                    is_guest: _userModel?.is_guest,
+                    has_security_questions: _userModel?.has_security_questions
+                )
+                print("SET MY DATA IN FRIENDS VIEW")
+                if response.friends.count > 0{
+                    if response.friends[0] == "0"{
+                        myData.numFriends = 0
+                    }
+                    else{
+                        var count = 0
+                        for friend in response.friends{
+                            if !friend.contains("requested|"){
+                                if !friend.contains("sentTo|"){
+                                    count += 1
+                                    if response.hasInvite{
+                                        myData.hasGI = true
+                                    }
+                                }
+                                else{
+                                    myData.hasST = true
+                                }
+                            }
+                            else{
+                                myData.hasRQ = true
+                            }
+                        }
+                        myData.numFriends = count
+                        myData.fArrayCount = response.friends.count
+                    }
+                }
+                else{
+                    myData.numFriends = 0
+                    myData.fArrayCount = 0
+                }
+                self.num_friends = myData.numFriends
+                self.userViewModel = myData.storageValue
+            }
+            return true
+        }
+        catch{
+            print("ERROR BELOW")
+            print(error)
+            return false
+        }
+    }
+    
+    // Response Get User Call
+    struct FriendsDataResponse:Codable {
+        let username: String
+        let friends:Array<String>
+        let hasInvite:Bool
+        let active_friends_index_list:Array<Int>
+        let fArrayCount: Int
     }
 
     
