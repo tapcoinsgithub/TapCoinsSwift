@@ -303,7 +303,7 @@ final class AccountInformationViewModel: ObservableObject {
                 }
                 let result:Bool = try await save()
                 if !result{
-                    print("Something went wrong.")
+                    print("Something went wrong. Or saving contact info.")
                 }
                 else{
                     print("SUCCESS")
@@ -413,6 +413,7 @@ final class AccountInformationViewModel: ObservableObject {
                         self.show_email_code = true
                     }
                 }
+                return false
             }
             else if response.sent_email_code == 0{
                 DispatchQueue.main.async {
@@ -420,11 +421,7 @@ final class AccountInformationViewModel: ObservableObject {
                     self.show_code_screen = true
                     self.show_email_code = true
                 }
-            }
-            else{
-                DispatchQueue.main.async {
-                    self.userData = UserViewModel(self.userViewModel ?? Data())
-                }
+                return false
             }
             print("RETURNING TRUE")
             return true
