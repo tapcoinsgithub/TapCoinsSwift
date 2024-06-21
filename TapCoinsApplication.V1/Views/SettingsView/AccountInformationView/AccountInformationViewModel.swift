@@ -232,7 +232,6 @@ final class AccountInformationViewModel: ObservableObject {
                     hasPhoneNumber: response.has_phone_number,
                     hasEmailAddress: response.has_email_address,
                     is_guest: response.is_guest,
-    //                        has_wallet: response.has_wallet,
                     has_security_questions: self.userData?.has_security_questions
                 )
                 self.userViewModel = myData.storageValue

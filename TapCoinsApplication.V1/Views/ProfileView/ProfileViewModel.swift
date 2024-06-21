@@ -226,7 +226,6 @@ final class ProfileViewModel: ObservableObject {
                     hasPhoneNumber: self.userModel.hasPhoneNumber,
                     hasEmailAddress: self.userModel.hasEmailAddress,
                     is_guest: response.is_guest,
-    //                        has_wallet: response.has_wallet,
                     has_security_questions: self.userModel.has_security_questions
                 )
                 if response.friends.count > 0{

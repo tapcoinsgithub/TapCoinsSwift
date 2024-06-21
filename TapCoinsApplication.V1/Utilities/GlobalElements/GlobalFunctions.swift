@@ -28,6 +28,7 @@ struct GlobalFunctions {
     @AppStorage("tapDashLeft") var tapDashLeft:Int?
     @AppStorage("tap_dash_time_left") var tap_dash_time_left:String?
     @AppStorage("num_friends") public var num_friends:Int?
+    @AppStorage("activeTapDashUsers") var activeTapDashUsers:String?
     private var in_get_user:Bool = false
     
     // Task
@@ -132,7 +133,6 @@ struct GlobalFunctions {
                     hasPhoneNumber: response.HPN,
                     hasEmailAddress: response.HEA,
                     is_guest: response.is_guest,
-    //                        has_wallet: response.has_wallet,
                     has_security_questions: response.has_security_questions
                 )
                 print("SET MY DATA")
@@ -170,6 +170,7 @@ struct GlobalFunctions {
                 self.tapDashIsActive = response.tapDashIsActive
                 self.tapDashLeft = response.tapDashLeft
                 self.tap_dash_time_left = response.tap_dash_time_left
+                self.activeTapDashUsers = response.active_tapdash_users
                 if response.tapDashIsActive == false{
                     self.tapDash = false
                 }
@@ -214,12 +215,12 @@ struct GlobalFunctions {
         let tap_dash_games: Int
         let tap_dash_league: Int
         let tap_coin: Int
-//        let has_wallet: Bool
         let has_location: Bool
         let has_security_questions: Bool
         let tapDashIsActive: Bool
         let tapDashLeft: Int
         let tap_dash_time_left: String
+        let active_tapdash_users: String
     }
     
     // API Call

@@ -38,7 +38,6 @@ struct UserViewModel: Codable {
     var hasPhoneNumber: Bool?
     var hasEmailAddress: Bool?
     var is_guest: Bool?
-//    var has_wallet: Bool?
     var has_security_questions: Bool?
 }
 

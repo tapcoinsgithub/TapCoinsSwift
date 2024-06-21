@@ -22,6 +22,7 @@ final class HomeViewModel: ObservableObject {
     @AppStorage("tapDash") var tapDash:Bool?
     @AppStorage("tapDashLeft") var tapDashLeft:Int?
     @AppStorage("tap_dash_time_left") var tap_dash_time_left:String?
+    @AppStorage("activeTapDashUsers") var activeTapDashUsers:String?
     @Published var iCloudAccountError:String?
     @Published var hasiCloudAccountError:Bool?
     @Published var isSignedInToiCloud:Bool?
@@ -33,6 +34,7 @@ final class HomeViewModel: ObservableObject {
     @Published var failedFaceIdMessage: String = ""
     @Published var pressed_find_game:Bool = false
     @Published var pressed_face_id_button:Bool = false
+    
     private var status_granted:Bool = false
     private var globalFunctions = GlobalFunctions()
     
@@ -55,15 +57,31 @@ final class HomeViewModel: ObservableObject {
         var hour:Int = 0
         var minute:Int = 0
         var second:Int = 0
-        if let hourString = timeLeftSplit?[0], hourString != "00" {
-            hour = Int(hourString) ?? 0
+        if timeLeftSplit?.count == 3{
+            if let hourString = timeLeftSplit?[0], hourString != "00" {
+                hour = Int(hourString) ?? 0
+            }
+            if let minuteString = timeLeftSplit?[1], minuteString != "00" {
+                minute = Int(minuteString) ?? 0
+            }
+            if let secondString = timeLeftSplit?[2], secondString != "00" {
+                second = Int(secondString) ?? 0
+            }
         }
-        if let minuteString = timeLeftSplit?[1], minuteString != "00" {
-            minute = Int(minuteString) ?? 0
+        else if timeLeftSplit?.count == 2 {
+            if let minuteString = timeLeftSplit?[0], minuteString != "00" {
+                minute = Int(minuteString) ?? 0
+            }
+            if let secondString = timeLeftSplit?[1], secondString != "00" {
+                second = Int(secondString) ?? 0
+            }
         }
-        if let secondString = timeLeftSplit?[2], secondString != "00" {
-            second = Int(secondString) ?? 0
+        else{
+            if let secondString = timeLeftSplit?[0], secondString != "00" {
+                second = Int(secondString) ?? 0
+            }
         }
+        
         if second == 0 {
             if minute == 0 {
                 if hour == 0 {

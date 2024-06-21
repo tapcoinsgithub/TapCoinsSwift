@@ -52,28 +52,67 @@ struct HomeView: View {
                                 .fill(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
                                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.01)
                             if viewModel.tapDash ?? false{
-                                HStack(alignment: .center, spacing: 0){
-                                    Text("Time left in TapDash: ")
-                                        .font(.system(size: UIScreen.main.bounds.width * 0.04))
-                                        .fontWeight(.bold)
-                                    Text(viewModel.tap_dash_time_left ?? "Done")
-                                        .font(.system(size: UIScreen.main.bounds.width * 0.045))
-                                        .fontWeight(.bold)
-                                }
-                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.03, alignment: .center)
-                                .foregroundColor(newCustomColorsModel.colorSchemeFour)
-                                .background(newCustomColorsModel.colorSchemeOne)
-                                HStack(alignment: .center, spacing: 0){
-                                    Text("TapCoins left to win: ")
-                                        .font(.system(size: UIScreen.main.bounds.width * 0.04))
-                                        .fontWeight(.bold)
-                                    Text(String(viewModel.tapDashLeft ?? 0))
-                                        .font(.system(size: UIScreen.main.bounds.width * 0.045))
-                                        .fontWeight(.bold)
-                                }
-                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.03, alignment: .center)
-                                .foregroundColor(newCustomColorsModel.colorSchemeFour)
-                                .background(newCustomColorsModel.colorSchemeOne)
+                                HStack{
+                                    VStack{
+                                        HStack(alignment: .center, spacing: 0){
+                                            Spacer()
+                                            Text("Time Left: ")
+                                                .font(.system(size: UIScreen.main.bounds.width * 0.04))
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                            Text(viewModel.tap_dash_time_left ?? "Done")
+                                                .font(.system(size: UIScreen.main.bounds.width * 0.045))
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                        }
+                                        .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.height * 0.03, alignment: .center)
+                                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                        .background(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
+                                        HStack(alignment: .center, spacing: 0){
+                                            Spacer()
+                                            Text("TapCoins Left: ")
+                                                .font(.system(size: UIScreen.main.bounds.width * 0.04))
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                            Text(String(viewModel.tapDashLeft ?? 0))
+                                                .font(.system(size: UIScreen.main.bounds.width * 0.045))
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                        }
+                                        .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.height * 0.03, alignment: .center)
+                                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                        .background(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
+                                    }
+                                    VStack{
+                                        HStack(alignment: .center, spacing: 0){
+                                            Spacer()
+                                            Text("Active Users: ")
+                                                .font(.system(size: UIScreen.main.bounds.width * 0.04))
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                            Text(String(viewModel.activeTapDashUsers ?? "Loading"))
+                                                .font(.system(size: UIScreen.main.bounds.width * 0.045))
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                        }
+                                        .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.height * 0.03, alignment: .center)
+                                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                        .background(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
+                                        HStack(alignment: .center, spacing: 0){
+                                            Spacer()
+                                            Text("TapCoins USD = $0.03")
+                                                .font(.system(size: UIScreen.main.bounds.width * 0.04))
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                        }
+                                        .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.height * 0.03, alignment: .center)
+                                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                        .background(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
+                                    }
+                                }.background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                Rectangle()
+                                    .fill(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.01)
                             }
                         }
                         
