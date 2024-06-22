@@ -310,20 +310,18 @@ final class ProfileViewModel: ObservableObject {
                     return
                 }
                 
-                let result:Bool = try await sendRequest()
-                if result{
-                    print("SUCCESS")
-                }
-                else{
-                    print("Something went wrong.")
-                }
+                try await sendRequest()
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.invalid_entry = true
+                    self.result = "Something went wrong."
+                }
             }
         }
     }
     
-    func sendRequest() async throws -> Bool{
+    func sendRequest() async throws{
         
         var url_string:String = ""
         
@@ -377,8 +375,11 @@ final class ProfileViewModel: ObservableObject {
             }
             catch{
                 print(error)
+                DispatchQueue.main.async {
+                    self.invalid_entry = true
+                    self.result = "Something went wrong."
+                }
             }
-        return true
     }
 
     struct rResponse:Codable {

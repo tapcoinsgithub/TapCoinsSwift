@@ -51,6 +51,7 @@ struct ChangePasswordView: View {
                                     .foregroundColor(newCustomColorsModel.colorSchemeFive)
                             }
                         }
+                        .listRowBackground(Color.white)
                     }
                     .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
                     .scrollContentBackground(.hidden)

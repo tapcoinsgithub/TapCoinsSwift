@@ -89,9 +89,20 @@ final class ForgotPasswordViewModel: ObservableObject {
                 let result:Bool = try await send_code(has_phone_number: has_phone_number, has_email_address: has_email_address)
                 if !result{
                     print("Something went wrong.")
+                    DispatchQueue.main.async {
+                        self.send_pressed = false
+                        self.is_error = true
+                        self.error = "Could not send code."
+                    }
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async{
+                    print("IN HERE IN HERE")
+                    self.send_pressed = false
+                    self.is_error = true
+                    self.error = "Something went wrong."
+                }
             }
         }
     }
@@ -111,11 +122,6 @@ final class ForgotPasswordViewModel: ObservableObject {
         
         
         guard let url = URL(string: url_string) else{
-            DispatchQueue.main.async{
-                self.send_pressed = false
-                self.is_error = true
-                self.error = "Something went wrong."
-            }
             throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
@@ -129,12 +135,6 @@ final class ForgotPasswordViewModel: ObservableObject {
         let (data, response) = try await URLSession.shared.data(for:request)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            DispatchQueue.main.async{
-                print("IN HERE IN HERE")
-                self.send_pressed = false
-                self.is_error = true
-                self.error = "Something went wrong."
-            }
             throw PostDataError.invalidResponse
         }
         do {
@@ -150,20 +150,10 @@ final class ForgotPasswordViewModel: ObservableObject {
             }
             else{
                 print("RESPONSE IS FALSE")
-                DispatchQueue.main.async {
-                    self.send_pressed = false
-                    self.is_error = true
-                    self.error = "Could not send code."
-                }
                 return false
             }
         }
         catch {
-            DispatchQueue.main.async {
-                self.is_error = true
-                self.error = "Something went wrong."
-                self.send_pressed = false
-            }
             throw PostDataError.invalidData
         }
     }
@@ -208,6 +198,9 @@ final class ForgotPasswordViewModel: ObservableObject {
                 _ = "Error: \(error.localizedDescription)"
                 DispatchQueue.main.async{
                     self.send_pressed = false
+                    print("IN HERE IN HERE")
+                    self.is_error = true
+                    self.error = "Something went wrong."
                 }
             }
         }
@@ -227,10 +220,6 @@ final class ForgotPasswordViewModel: ObservableObject {
         }
         
         guard let url = URL(string: url_string) else{
-            DispatchQueue.main.async{
-                self.is_error = true
-                self.error = "Something went wrong."
-            }
             throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
@@ -241,11 +230,6 @@ final class ForgotPasswordViewModel: ObservableObject {
         let (data, response) = try await URLSession.shared.data(for:request)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            DispatchQueue.main.async{
-                print("IN HERE IN HERE")
-                self.is_error = true
-                self.error = "Something went wrong."
-            }
             throw PostDataError.invalidResponse
         }
         do {
@@ -297,10 +281,6 @@ final class ForgotPasswordViewModel: ObservableObject {
             }
         }
         catch{
-            DispatchQueue.main.async{
-                self.is_error = true
-                self.error = "Something went wrong!"
-            }
             throw PostDataError.invalidData
         }
         return true

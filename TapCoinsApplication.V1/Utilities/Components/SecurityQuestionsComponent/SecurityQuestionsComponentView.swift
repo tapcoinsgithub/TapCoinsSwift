@@ -68,6 +68,10 @@ struct SecurityQuestionsComponentView: View {
                                         .border(.black, width: UIScreen.main.bounds.width * 0.008)
                                         .background(.white)
                                         .foregroundStyle(Color(.black))
+                                    if viewModel.saveQAError {
+                                        Label("Something went wrong.", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
                                     Button(action: {viewModel.pressed_check_and_set_sqs ? nil : viewModel.check_and_set_sqs()}, label: {
                                         Text("Save")
                                             .foregroundStyle(newCustomColorsModel.colorSchemeOne)

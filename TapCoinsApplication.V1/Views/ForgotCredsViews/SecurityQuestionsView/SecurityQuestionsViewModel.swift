@@ -36,6 +36,7 @@ final class SecurityQuestionsViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.username_sent = true
                     self.submit_pressed = true
+                    self.is_error = false
                 }
                 let result:Bool = try await checkIfUserHasQuestions()
                 if result{
@@ -43,6 +44,10 @@ final class SecurityQuestionsViewModel: ObservableObject {
                 }
                 else{
                     print("Something went wrong.")
+                    DispatchQueue.main.async {
+                        self.is_error = true
+                        self.username_error = "Invalid username."
+                    }
                 }
                 DispatchQueue.main.async {
                     self.submit_pressed = false
@@ -51,6 +56,8 @@ final class SecurityQuestionsViewModel: ObservableObject {
                 _ = "Error: \(error.localizedDescription)"
                 DispatchQueue.main.async {
                     self.submit_pressed = false
+                    self.is_error = true
+                    self.username_error = "Invalid username."
                 }
             }
         }
@@ -111,6 +118,8 @@ final class SecurityQuestionsViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.username_sent = true
                     self.submit_pressed = true
+                    self.incorrect_answers_errors = false
+                    self.is_error = false
                 }
                 if answer_1 == ""{
                     DispatchQueue.main.async {
@@ -135,6 +144,9 @@ final class SecurityQuestionsViewModel: ObservableObject {
                 }
                 else{
                     print("Something went wrong.")
+                    DispatchQueue.main.async {
+                        self.incorrect_answers_errors = true
+                    }
                 }
                 DispatchQueue.main.async {
                     self.submit_pressed = false
@@ -142,6 +154,7 @@ final class SecurityQuestionsViewModel: ObservableObject {
             } catch {
                 _ = "Error: \(error.localizedDescription)"
                 DispatchQueue.main.async {
+                    self.is_error = true
                     self.submit_pressed = false
                 }
             }
@@ -180,7 +193,6 @@ final class SecurityQuestionsViewModel: ObservableObject {
             if response.result == true{
                 DispatchQueue.main.async {
                     self.correct_answers = true
-                    self.incorrect_answers_errors = false
                     self.submit_pressed = false
                     self.logged_in_user = self._username
                     self.changing_password = true
@@ -188,10 +200,6 @@ final class SecurityQuestionsViewModel: ObservableObject {
                 return true
             }
             else{
-                DispatchQueue.main.async {
-                    self.submit_pressed = false
-                    self.incorrect_answers_errors = true
-                }
                 return false
             }
         }

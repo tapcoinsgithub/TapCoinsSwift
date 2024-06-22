@@ -80,6 +80,14 @@ final class RegistrationViewModel: ObservableObject {
         }
         
         guard let url = URL(string: url_string) else{
+            DispatchQueue.main.async {
+                self.reg_pressed = false
+                self.username = ""
+                self.password = ""
+                self.confirm_password = ""
+                self.register_error_string = "Something went wrong."
+                self.register_error = true
+            }
             throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
@@ -93,18 +101,30 @@ final class RegistrationViewModel: ObservableObject {
         let (data, response) = try await URLSession.shared.data(for:request)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            DispatchQueue.main.async {
+                self.reg_pressed = false
+                self.username = ""
+                self.password = ""
+                self.confirm_password = ""
+                self.register_error_string = "Something went wrong."
+                self.register_error = true
+            }
             throw PostDataError.invalidResponse
         }
         do {
             let response = try JSONDecoder().decode(Response.self, from: data)
             if response.response == "Success"{
-                self.logged_in_user = response.token
+                DispatchQueue.main.async {
+                    self.logged_in_user = response.token
+                }
                 return true
             }
             else if response.response == "Invalid phone number."{
-                self.phone_error = Error_States.Invalid_Phone_Number
-                self.is_phone_error = true
-                self.reg_pressed = false
+                DispatchQueue.main.async {
+                    self.phone_error = Error_States.Invalid_Phone_Number
+                    self.is_phone_error = true
+                    self.reg_pressed = false
+                }
                 return false
             }
         }
@@ -112,23 +132,31 @@ final class RegistrationViewModel: ObservableObject {
             do {
                 let response2 = try JSONDecoder().decode(ErrResponse.self, from: data)
                 if response2.isErr == true{
-                    self.register_error_string = response2.error
-                    self.register_error = true
-                    self.reg_pressed = false
+                    DispatchQueue.main.async {
+                        self.register_error_string = response2.error
+                        self.register_error = true
+                        self.reg_pressed = false
+                    }
                     return false
                 }
                 else {
-                    self.is_phone_error = false
-                    self.is_uName_error = false
-                    self.is_password_error = false
+                    DispatchQueue.main.async {
+                        self.is_phone_error = false
+                        self.is_uName_error = false
+                        self.is_password_error = false
+                    }
                     return true
                 }
             }
             catch{
-                self.reg_pressed = false
-                self.username = ""
-                self.password = ""
-                self.confirm_password = ""
+                DispatchQueue.main.async {
+                    self.reg_pressed = false
+                    self.username = ""
+                    self.password = ""
+                    self.confirm_password = ""
+                    self.register_error_string = "Something went wrong."
+                    self.register_error = true
+                }
                 throw PostDataError.invalidData
             }
         }

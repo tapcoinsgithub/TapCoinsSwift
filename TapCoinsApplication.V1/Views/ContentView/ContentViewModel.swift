@@ -17,13 +17,14 @@ final class ContentViewModel: ObservableObject {
     @AppStorage("darkMode") var darkMode: Bool?
     @AppStorage("in_queue") var in_queue: Bool?
     @Published var glPressed:Bool = false
+    @Published var glError:Bool = false
     
     init() {
 //        in_game = false
 //        in_queue = false
 //        logged_in_user = nil
         // https://tapcoins-queue-server-86d685f7f051.herokuapp.com Queue Server
-        debug = true
+        debug = false
         if debug ?? false {
             print("DEBUG IS TRUE")
         }
@@ -40,10 +41,14 @@ final class ContentViewModel: ObservableObject {
             do {
                 DispatchQueue.main.async{
                     self.glPressed = true
+                    self.glError = false
                 }
                 let result:Bool = try await guestLogin()
                 if !result{
                     print("Something went wrong.")
+                    DispatchQueue.main.async{
+                        self.glError = true
+                    }
                 }
                 DispatchQueue.main.async{
                     self.glPressed = false
@@ -51,6 +56,7 @@ final class ContentViewModel: ObservableObject {
             } catch {
                 _ = "Error: \(error.localizedDescription)"
                 DispatchQueue.main.async{
+                    self.glError = true
                     self.glPressed = false
                 }
             }

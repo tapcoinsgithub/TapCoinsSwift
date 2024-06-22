@@ -48,6 +48,7 @@ struct CreatePasswordView: View {
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
+                            .listRowBackground(Color.white)
                             Section(header: Text("Confirm New Password").foregroundColor(newCustomColorsModel.colorSchemeOne)){
                                 SecureField("confirm password", text: $viewModel.cpassword)
                                 if viewModel.is_match_error{
@@ -55,6 +56,7 @@ struct CreatePasswordView: View {
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
+                            .listRowBackground(Color.white)
                         }
                         .scrollContentBackground(.hidden)
                         if viewModel.psaved{

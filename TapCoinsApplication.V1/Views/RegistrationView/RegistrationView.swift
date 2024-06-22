@@ -32,6 +32,7 @@ struct RegistrationView: View {
                                 TextField("First Name (optional)", text: $viewModel.first_name)
                                 TextField("Last Name (optional)", text: $viewModel.last_name)
                             }
+                            .listRowBackground(Color.white)
                             if viewModel.register_error{
                                 Label(viewModel.register_error_string, systemImage: "info.circle")
                                     .foregroundColor(newCustomColorsModel.colorSchemeFive)

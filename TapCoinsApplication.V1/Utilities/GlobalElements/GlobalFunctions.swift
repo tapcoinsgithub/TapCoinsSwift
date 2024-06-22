@@ -184,7 +184,6 @@ struct GlobalFunctions {
             DispatchQueue.main.async {
                 self.logged_in_user = nil
             }
-            print(error)
             return false
         }
     }

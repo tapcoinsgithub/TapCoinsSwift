@@ -47,6 +47,9 @@ final class ForgotUsernameViewModel: ObservableObject {
                 }
                 else{
                     print("Something went wrong.")
+                    DispatchQueue.main.async {
+                        self.is_phone_error = true
+                    }
                 }
                 DispatchQueue.main.async {
                     self.send_pressed = false
@@ -55,6 +58,7 @@ final class ForgotUsernameViewModel: ObservableObject {
                 _ = "Error: \(error.localizedDescription)"
                 DispatchQueue.main.async {
                     self.send_pressed = false
+                    self.is_phone_error = true
                 }
             }
         }
@@ -95,9 +99,6 @@ final class ForgotUsernameViewModel: ObservableObject {
                 return true
             }
             else{
-                DispatchQueue.main.async {
-                    self.is_phone_error = true
-                }
                 return false
             }
         }

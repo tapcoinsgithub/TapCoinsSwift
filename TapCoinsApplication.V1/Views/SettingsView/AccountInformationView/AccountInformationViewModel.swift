@@ -303,6 +303,11 @@ final class AccountInformationViewModel: ObservableObject {
                 let result:Bool = try await save()
                 if !result{
                     print("Something went wrong. Or saving contact info.")
+                    DispatchQueue.main.async {
+                        self.is_error = true
+                        self.error = "Something went wrong."
+                        self.save_pressed = false
+                    }
                 }
                 else{
                     print("SUCCESS")
@@ -312,6 +317,11 @@ final class AccountInformationViewModel: ObservableObject {
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.is_error = true
+                    self.error = "Something went wrong."
+                    self.save_pressed = false
+                }
             }
         }
     }
@@ -330,20 +340,10 @@ final class AccountInformationViewModel: ObservableObject {
         }
         
         guard let session = logged_in_user else {
-            DispatchQueue.main.async {
-                self.is_error = true
-                self.error = "Something went wrong."
-                self.save_pressed = false
-            }
             throw UserErrors.invalidSession
         }
         
         guard let url = URL(string: url_string) else{
-            DispatchQueue.main.async {
-                self.is_error = true
-                self.error = "Something went wrong."
-                self.save_pressed = false
-            }
             throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
@@ -364,26 +364,19 @@ final class AccountInformationViewModel: ObservableObject {
         let (data, response) = try await URLSession.shared.data(for:request)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            DispatchQueue.main.async {
-                self.is_error = true
-                self.error = "Something went wrong."
-                self.save_pressed = false
-            }
             throw PostDataError.invalidResponse
         }
         do {
             let decoder = JSONDecoder()
             let response = try decoder.decode(Response2.self, from: data)
-            if response.response == "Invalid username."{
-                if self.check_errors_function(state: Error_States.Invalid_Username, _phone_number: self.phone_number, uName: self.username, _email_address: self.email_address) == false{
-                    DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if response.response == "Invalid username."{
+                    if self.check_errors_function(state: Error_States.Invalid_Username, _phone_number: self.phone_number, uName: self.username, _email_address: self.email_address) == false{
                         self.save_pressed = false
                         self.gsave_pressed = false
                     }
                 }
-            }
-            else if response.response == "Successfully saved data."{
-                DispatchQueue.main.async {
+                else if response.response == "Successfully saved data."{
                     self.saved = true
                     self.save_pressed = false
                     self.gsave_pressed = false
@@ -391,9 +384,7 @@ final class AccountInformationViewModel: ObservableObject {
                     self.is_phone_error = false
                     self.is_uName_error = false
                 }
-            }
-            else if response.response == "Guest"{
-                DispatchQueue.main.async {
+                else if response.response == "Guest"{
                     self.saved = true
                     self.save_pressed = false
                     self.message = "Successfully saved data. You are still a guest, create a password to save your account"
@@ -401,9 +392,7 @@ final class AccountInformationViewModel: ObservableObject {
                     self.is_uName_error = false
                     self.show_guest_message = true
                 }
-            }
-            if response.sent_text_code == 0{
-                DispatchQueue.main.async {
+                if response.sent_text_code == 0{
                     self.show_code_screen = true
                     self.show_text_code = true
                     self.show_email_code = false
@@ -412,26 +401,19 @@ final class AccountInformationViewModel: ObservableObject {
                         self.show_email_code = true
                     }
                 }
-                return false
-            }
-            else if response.sent_email_code == 0{
-                DispatchQueue.main.async {
+                else if response.sent_email_code == 0{
                     self.confirm_code_message = "A code has been sent to \(self.email_address). Please input the code to confirm your email address."
                     self.show_code_screen = true
                     self.show_email_code = true
                 }
+            }
+            if response.sent_text_code == 0 || response.sent_email_code == 0{
                 return false
             }
-            print("RETURNING TRUE")
             return true
         }
         catch {
             print("IN THE CATCH BLOCK")
-            DispatchQueue.main.async {
-                self.is_error = true
-                self.error = "Something went wrong."
-                self.save_pressed = false
-            }
             throw PostDataError.invalidData
         }
     }
@@ -511,10 +493,17 @@ final class AccountInformationViewModel: ObservableObject {
                     print("Something went wrong.")
                     DispatchQueue.main.async {
                         self.save_p_pressed = false
+                        self.is_error = true
+                        self.error = "Something went wrong!"
                     }
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.save_p_pressed = false
+                    self.is_error = true
+                    self.error = "Something went wrong!"
+                }
             }
         }
     }
@@ -557,27 +546,21 @@ final class AccountInformationViewModel: ObservableObject {
                 return true
             }
             else{
-                let errorType = Error_Types.allCases.first(where: { $0.index == response.error_type })
-                if errorType == Error_Types.BlankPassword{
-                    DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    let errorType = Error_Types.allCases.first(where: { $0.index == response.error_type })
+                    if errorType == Error_Types.BlankPassword{
                         self.is_error = true
                         self.error = "Password can't be blank."
                     }
-                }
-                if errorType == Error_Types.PreviousPassword{
-                    DispatchQueue.main.async {
+                    if errorType == Error_Types.PreviousPassword{
                         self.is_error = true
                         self.error = "Password can't be previous password."
                     }
-                }
-                if errorType == Error_Types.SomethingWentWrong{
-                    DispatchQueue.main.async {
-                        self.is_error = true
-                        self.error = "Something went wrong."
+                    if errorType == Error_Types.SomethingWentWrong{
+                            self.is_error = true
+                            self.error = "Something went wrong."
                     }
-                }
-                if errorType == Error_Types.TimeLimitCode{
-                    DispatchQueue.main.async {
+                    if errorType == Error_Types.TimeLimitCode{
                         self.is_error = true
                         self.error = "Invalid code."
                     }
@@ -586,10 +569,6 @@ final class AccountInformationViewModel: ObservableObject {
             }
         }
         catch {
-            DispatchQueue.main.async {
-                self.is_error = true
-                self.error = "Something went wrong!"
-            }
             throw PostDataError.invalidData
         }
     }

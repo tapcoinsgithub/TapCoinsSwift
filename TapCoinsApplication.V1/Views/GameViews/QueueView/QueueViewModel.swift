@@ -52,6 +52,7 @@ final class QueueViewModel: ObservableObject{
     private var checked_queue:Bool = false
     private var globalFunctions = GlobalFunctions()
     private var inGetUsersAndGame: Bool = false
+    private var inCreateGame: Bool = false
     
     init() {
         self.custom_game = false
@@ -230,18 +231,48 @@ final class QueueViewModel: ObservableObject{
     func createGameTask(first:String, second:String){
         Task {
             do {
+                if self.inCreateGame == false{
+                    self.inCreateGame = true
+                }
+                else{
+                     return
+                }
                 if first == "None"{
+                    DispatchQueue.main.async {
+                        self.de_queue = true
+                        self.in_game = false
+                        self.in_queue = false
+                    }
                     return
                 }
                 else if second == "None"{
+                    DispatchQueue.main.async {
+                        self.de_queue = true
+                        self.in_game = false
+                        self.in_queue = false
+                    }
                     return
                 }
                 let result:Bool = try await createGame(first: first, second: second)
+                DispatchQueue.main.async {
+                    self.inCreateGame = false
+                }
                 if !result{
                     print("Something went wrong.")
+                    DispatchQueue.main.async {
+                        self.de_queue = true
+                        self.in_game = false
+                        self.in_queue = false
+                    }
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.de_queue = true
+                    self.in_game = false
+                    self.in_queue = false
+                    self.inCreateGame = false
+                }
             }
         }
     }
@@ -299,12 +330,6 @@ final class QueueViewModel: ObservableObject{
             return true
         }
         catch{
-            DispatchQueue.main.async {
-                self.de_queue = true
-                self.in_game = false
-                self.in_queue = false
-                print(error)
-            }
             return false
         }
     }
@@ -322,11 +347,21 @@ final class QueueViewModel: ObservableObject{
                 }
                 if user1Token == "None" {
                     print("IN HERE 1")
+                    DispatchQueue.main.async {
+                        self.de_queue = true
+                        self.in_game = false
+                        self.in_queue = false
+                    }
                     return
                 }
                 
                 if user2Token == "None" {
                     print("IN HERE 1")
+                    DispatchQueue.main.async {
+                        self.de_queue = true
+                        self.in_game = false
+                        self.in_queue = false
+                    }
                     return
                 }
                 print("USER TOKENS HERE: \(user1Token) | \(user2Token)")
@@ -337,9 +372,20 @@ final class QueueViewModel: ObservableObject{
                 }
                 if !result{
                     print("Something went wrong.")
+                    DispatchQueue.main.async {
+                        self.de_queue = true
+                        self.in_game = false
+                        self.in_queue = false
+                    }
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.de_queue = true
+                    self.in_game = false
+                    self.in_queue = false
+                    self.inGetUsersAndGame = false
+                }
             }
         }
     }
@@ -400,19 +446,10 @@ final class QueueViewModel: ObservableObject{
                 return true
             }
             else{
-                DispatchQueue.main.async {
-                    self.de_queue = true
-                    self.in_game = false
-                    self.in_queue = false
-                }
                 return false
             }
         }
         catch{
-            print(error)
-            self.de_queue = true
-            self.in_game = false
-            self.in_queue = false
             return false
         }
     }

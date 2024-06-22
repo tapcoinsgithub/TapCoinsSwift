@@ -23,6 +23,8 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     @Published var is_loading:Bool = false
     @Published var password_error:Bool = false
     @Published var saved_questions_answers:Bool = false
+    @Published var passwordErrorMessage:String = ""
+    @Published var saveQAError:Bool = false
     public var options1:[String] = ["Loading ..."]
     public var options2:[String] = ["Loading ..."]
     private var globalFunctions = GlobalFunctions()
@@ -34,13 +36,21 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     func saveQuestionsAndAnswersTask(){
         Task {
             do {
-                
-                let result:Bool = try await getSecurityQuestionsText()
+                DispatchQueue.main.async {
+                    self.saveQAError = false
+                }
+                let result:Bool = try await saveQuestionsAndAnswers()
                 if !result{
                     print("Something went wrong.")
+                    DispatchQueue.main.async {
+                        self.saveQAError = true
+                    }
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.saveQAError = true
+                }
             }
         }
     }
@@ -97,26 +107,36 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     }
     
     func check_and_set_sqs(){
-        pressed_check_and_set_sqs = true
-        is_loading = true
+        DispatchQueue.main.async {
+            self.pressed_check_and_set_sqs = true
+            self.is_loading = true
+        }
         if question_1 == 0 {
-            self.pressed_check_and_set_sqs = false
-            self.is_loading = false
+            DispatchQueue.main.async {
+                self.pressed_check_and_set_sqs = false
+                self.is_loading = false
+            }
             return
         }
         if answer_1 == "" {
-            self.pressed_check_and_set_sqs = false
-            self.is_loading = false
+            DispatchQueue.main.async {
+                self.pressed_check_and_set_sqs = false
+                self.is_loading = false
+            }
             return
         }
         if question_2 == 0{
-            self.pressed_check_and_set_sqs = false
-            self.is_loading = false
+            DispatchQueue.main.async {
+                self.pressed_check_and_set_sqs = false
+                self.is_loading = false
+            }
             return
         }
         if answer_2 == ""{
-            self.pressed_check_and_set_sqs = false
-            self.is_loading = false
+            DispatchQueue.main.async {
+                self.pressed_check_and_set_sqs = false
+                self.is_loading = false
+            }
             return
         }
         saveQuestionsAndAnswersTask()
@@ -195,9 +215,25 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
                 let result:Bool = try await getUsersQuestionsAndAnswers()
                 if !result{
                     print("Something went wrong.")
+                    DispatchQueue.main.async {
+                        self.question_1 = 0
+                        self.question_2 = 0
+                        self.answer_1 = ""
+                        self.answer_2 = ""
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.got_security_questions = true
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.question_1 = 0
+                    self.question_2 = 0
+                    self.answer_1 = ""
+                    self.answer_2 = ""
+                    self.got_security_questions = true
+                }
             }
         }
     }
@@ -251,16 +287,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
                 }
             }
             else{
-                DispatchQueue.main.async {
-                    self.question_1 = 0
-                    self.question_2 = 0
-                    self.answer_1 = ""
-                    self.answer_2 = ""
-                }
                 return false
-            }
-            DispatchQueue.main.async {
-                self.got_security_questions = true
             }
             return true
         }
@@ -289,6 +316,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
                         self.pressed_confirm_password = false
                         self.is_loading = false
                         self.password_error = true
+                        self.passwordErrorMessage = "Invalid Password."
                     }
                     return
                 }
@@ -303,6 +331,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
                 else{
                     DispatchQueue.main.async{
                         self.password_error = true
+                        self.passwordErrorMessage = "Invalid Password."
                     }
                 }
                 DispatchQueue.main.async{
@@ -314,6 +343,8 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
                 DispatchQueue.main.async{
                     self.pressed_confirm_password = false
                     self.is_loading = false
+                    self.password_error = true
+                    self.passwordErrorMessage = "Something went wrong."
                 }
             }
         }

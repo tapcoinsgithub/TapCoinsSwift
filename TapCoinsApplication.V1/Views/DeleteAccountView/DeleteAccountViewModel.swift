@@ -17,6 +17,7 @@ final class DeleteAccountViewModel: ObservableObject {
     @Published var confirm_password_error:Bool = false
     @Published var confirmed_current_password:Bool = false
     @Published var deleteAccountError:Bool = false
+    @Published var confirmPasswordErrorMessage:String = ""
     private var globalFunctions = GlobalFunctions()
     
     func confirmPasswordTask(){
@@ -30,6 +31,7 @@ final class DeleteAccountViewModel: ObservableObject {
                     DispatchQueue.main.async{
                         self.pressed_confirm_password = false
                         self.confirm_password_error = true
+                        self.confirmPasswordErrorMessage = "Invalid Password."
                     }
                     return
                 }
@@ -42,6 +44,7 @@ final class DeleteAccountViewModel: ObservableObject {
                 else{
                     DispatchQueue.main.async{
                         self.confirm_password_error = true
+                        self.confirmPasswordErrorMessage = "Invalid Password."
                     }
                 }
                 DispatchQueue.main.async{
@@ -51,6 +54,7 @@ final class DeleteAccountViewModel: ObservableObject {
                 _ = "Error: \(error.localizedDescription)"
                 DispatchQueue.main.async{
                     self.pressed_confirm_password = true
+                    self.confirmPasswordErrorMessage = "Something went wrong."
                 }
             }
         }

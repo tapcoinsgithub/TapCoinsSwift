@@ -35,17 +35,26 @@ final class SettingsViewModel: ObservableObject {
     func logoutTask(){
         Task {
             do {
+                DispatchQueue.main.async {
+                    self.pressed_logout = true
+                }
                 let result:Bool = try await logout()
                 if result{
-                    self.logged_in_user = nil
+                    print("SUCCESS")
                 }
                 else{
                     print("Something went wrong.")
                 }
-                pressed_logout = false
+                DispatchQueue.main.async {
+                    self.logged_in_user = nil
+                    self.pressed_logout = false
+                }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
-                pressed_logout = false
+                DispatchQueue.main.async {
+                    self.logged_in_user = nil
+                    self.pressed_logout = false
+                }
             }
         }
     }

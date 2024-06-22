@@ -43,7 +43,12 @@ struct SecurityQuestionsView: View {
                                         Label("Invalid answer", systemImage: "xmark.octagon")
                                             .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                     }
+                                    if viewModel.is_error{
+                                        Label("Something went wrong.", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
                                 }
+                                .listRowBackground(Color.white)
                             }
                             else{
                                 Text("No security questions saved for this account.")
@@ -58,6 +63,7 @@ struct SecurityQuestionsView: View {
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
+                            .listRowBackground(Color.white)
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)

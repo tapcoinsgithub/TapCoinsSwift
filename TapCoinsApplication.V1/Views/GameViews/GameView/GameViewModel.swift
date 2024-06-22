@@ -110,6 +110,22 @@ final class GameViewModel: ObservableObject {
     private var send_points_count:Int = 0
     private var globalFunctions = GlobalFunctions()
     
+    func factorString(input:String) -> String{
+        print("IN FACTOR STRING FUNCTION")
+        var inputSplit = input.split(separator: "")
+        var factoredStringOutput = ""
+        var index = 10
+        for char in inputSplit{
+            if index == 0{
+                break
+            }
+            factoredStringOutput += char
+            index -= 1
+        }
+        print("FACTORED STRING: \(factoredStringOutput)")
+        return factoredStringOutput
+    }
+    
     init(){
         let convertedData = UserViewModel(self.userViewModel ?? Data())
         self.userModel = convertedData ?? UserViewModel(first_name: "NO FIRST NAME", last_name: "NO LAST NAME")
@@ -132,6 +148,12 @@ final class GameViewModel: ObservableObject {
                             self.connected = true
                             if (self.gameId != "No Game Id"){
                                 var gClient_data = ""
+                                if self.first.count > 10 {
+                                    self.first = self.factorString(input: self.first)
+                                }
+                                if self.second.count > 10 {
+                                    self.second = self.factorString(input: self.second)
+                                }
                                 if (self.is_first ?? false){
                                     gClient_data = self.gameId + "|" + self.first + "|1|" + String(self.tapDash ?? false)
                                 }
@@ -263,7 +285,7 @@ final class GameViewModel: ObservableObject {
             mSocket.on("OPDISCONNECT") {(dataArr, ack) -> Void in
                 self.waitingStatus = "Opponent disconnected ..."
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self.cancelGameTask()
+                    self.cancellGameOptional()
                 }
             }
             
@@ -727,7 +749,6 @@ final class GameViewModel: ObservableObject {
                     self.is_first = false
                     GameHandler.sharedInstance.closeConnection()
                     self.in_game = false
-                    
                 }
                 DispatchQueue.main.async {
                     self.gotInCancelGame = false
@@ -738,7 +759,11 @@ final class GameViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.in_game = false
                     self.custom_game = false
+                    self.gotInCancelGame = false
+                    self.from_queue = false
+                    self.is_first = false
                 }
+                GameHandler.sharedInstance.closeConnection()
             }
         }
     }

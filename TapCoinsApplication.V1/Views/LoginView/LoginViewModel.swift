@@ -39,6 +39,13 @@ final class LoginViewModel: ObservableObject {
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.log_pressed = false
+                    self.is_error = true
+                    self.user_error = nil
+                    self.password_error = nil
+                }
+                
             }
         }
     }
@@ -103,6 +110,10 @@ final class LoginViewModel: ObservableObject {
                 }
                 catch{
                     print(error)
+                    self.log_pressed = false
+                    self.is_error = true
+                    self.user_error = nil
+                    self.password_error = nil
                 }
             }
         }

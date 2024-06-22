@@ -223,6 +223,9 @@ final class FriendsListItemViewModel: ObservableObject {
     func removeFriendTask(friend:String){
         Task {
             do {
+                DispatchQueue.main.async {
+                    self.pressed_remove_friend = true
+                }
                 let result:Bool = try await removeFriendFunction(requestName: friend)
                 if result{
                     DispatchQueue.main.async {

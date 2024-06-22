@@ -40,7 +40,7 @@ struct ContentView: View {
                         LoginView()
                             .navigationBarItems(leading: Button(action: {viewModel.glPressed ? nil : viewModel.guestLoginTask()}, label: {
                                 HStack{
-                                    Text(viewModel.glPressed ? "Logging in..." : "Continue as Guest")
+                                    Text(viewModel.glPressed ? viewModel.glError ? "Login Error" :  "Logging in..." : "Continue as Guest")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFour)
                                     Label("", systemImage: "person.crop.square.fill")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFour)

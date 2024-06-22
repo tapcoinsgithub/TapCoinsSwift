@@ -56,6 +56,10 @@ final class ChangePasswordViewModel: ObservableObject {
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.is_error = true
+                    self.error = "Something went wrong!"
+                }
             }
         }
     }
@@ -119,10 +123,6 @@ final class ChangePasswordViewModel: ObservableObject {
             }
         }
         catch {
-            DispatchQueue.main.async {
-                self.is_error = true
-                self.error = "Something went wrong!"
-            }
             throw PostDataError.invalidData
         }
     }

@@ -52,14 +52,16 @@ struct SettingsView: View {
                                         .font(.system(size: UIScreen.main.bounds.width * 0.05))
                                         .fontWeight(.bold)
                                         .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
-                                        .foregroundColor(.black)
+                                        .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
                                     Rectangle()
-                                        .fill(.black)
+                                        .fill(darkMode ?? false ? Color(.white) : Color(.black))
                                         .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
                                 }
                             })
                         })
                     }
+                    .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                    .listRowBackground(Color.clear)
                     Section(header: Text("Toggle app settings such as notifications, sound, and vibrations.")){
                         NavigationLink(isActive: $viewModel.toggleViewNavIsActive, destination: {
                             ToggleSettingsView()
@@ -77,14 +79,16 @@ struct SettingsView: View {
                                         .font(.system(size: UIScreen.main.bounds.width * 0.05))
                                         .fontWeight(.bold)
                                         .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
-                                        .foregroundColor(.black)
+                                        .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
                                     Rectangle()
-                                        .fill(.black)
+                                        .fill(darkMode ?? false ? Color(.white) : Color(.black))
                                         .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
                                 }
                             })
                         })
                     }
+                    .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                    .listRowBackground(Color.clear)
                 } // List
                 .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
                 .scrollContentBackground(.hidden)
@@ -147,9 +151,9 @@ struct SettingsView: View {
                                     if viewModel.haptics_on ?? true{
                                         HapticManager.instance.impact(style: .medium)
                                     }
-                                    viewModel.pressed_logout = true
-                                    viewModel.logoutTask()
-                                    
+                                    if viewModel.pressed_logout == false{
+                                        viewModel.logoutTask()
+                                    }
                                 }, label: {
                                     Text("Logout")
                                         .frame(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.05, alignment: .center)

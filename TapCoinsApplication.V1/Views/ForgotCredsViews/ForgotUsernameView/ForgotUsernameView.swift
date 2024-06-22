@@ -36,6 +36,7 @@ struct ForgotUsernameView: View {
                                 .foregroundColor(newCustomColorsModel.colorSchemeFive)
                         }
                     }
+                    .listRowBackground(Color.white)
                 }
                 .scrollContentBackground(.hidden)
                 if viewModel.successfully_sent{

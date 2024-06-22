@@ -50,24 +50,28 @@ struct ToggleSettingsView: View {
                             ToggleSettingsSwitchView(toggle_setting_title: ToggleSettingTitles.SoundsToggle, toggle_label: "Toggle Sounds - ")
                         }
                     }
+                    .listRowBackground(Color.white)
                     Section(header: Text("Vibrations").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)){
                         HStack{
                             Spacer()
                             ToggleSettingsSwitchView(toggle_setting_title: ToggleSettingTitles.HapticsToggle, toggle_label: "Toggle Vibrations - ")
                         }
                     }
+                    .listRowBackground(Color.white)
                     Section(header: Text("Light/Dark Mode").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)){
                         HStack{
                             Spacer()
                             ToggleSettingsSwitchView(toggle_setting_title: ToggleSettingTitles.LightDarkModeToggle, toggle_label: "Toggle Light or Dark Mode - ")
                         }
                     }
+                    .listRowBackground(Color.white)
                     Section(header: Text("TapDash").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)){
                         HStack{
                             Spacer()
                             ToggleSettingsSwitchView(toggle_setting_title: ToggleSettingTitles.TapDashToggle, toggle_label: "Toggle TapDash - ")
                         }
                     }
+                    .listRowBackground(Color.white)
                 }
                 Spacer()
             }

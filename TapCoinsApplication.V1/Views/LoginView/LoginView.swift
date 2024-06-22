@@ -32,15 +32,16 @@ struct LoginView: View {
                         Section(header: Text("")){
                             TextField("Username", text: $viewModel.username)
                             if viewModel.is_error{
-                                Label(viewModel.user_error?.rawValue ?? "", systemImage: "xmark.octagon")
+                                Label(viewModel.user_error?.rawValue ?? "Something went wrong.", systemImage: "xmark.octagon")
                                     .foregroundColor(newCustomColorsModel.colorSchemeFive)
                             }
                             SecureField("Password", text: $viewModel.password)
                             if viewModel.is_error {
-                                Label(viewModel.password_error?.rawValue ?? "", systemImage: "xmark.octagon")
+                                Label(viewModel.password_error?.rawValue ?? "Something went wrong.", systemImage: "xmark.octagon")
                                     .foregroundColor(newCustomColorsModel.colorSchemeFive)
                             }
                         }
+                        .listRowBackground(Color.white)
                     }
                     .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
                     .scrollContentBackground(.hidden)

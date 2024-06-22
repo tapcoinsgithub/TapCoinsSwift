@@ -55,6 +55,7 @@ struct ForgotPasswordView: View {
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
+                            .listRowBackground(Color.white)
                         }.scrollContentBackground(.hidden)
                         Spacer()
                         if viewModel.submitted{
@@ -103,6 +104,7 @@ struct ForgotPasswordView: View {
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
+                            .listRowBackground(Color.white)
                             Section(header: Text("")){
                                 TextField("Email address", text: $viewModel.email_address)
                                 if viewModel.is_email_error{
@@ -110,6 +112,7 @@ struct ForgotPasswordView: View {
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
+                            .listRowBackground(Color.white)
 
                         }
                         Spacer()

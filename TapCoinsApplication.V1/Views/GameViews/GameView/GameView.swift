@@ -36,49 +36,9 @@ struct GameView: View {
                     Text(String(viewModel.fPoints))
                         .font(.system(size: UIScreen.main.bounds.width * 0.06))
                         .foregroundColor(newCustomColorsModel.colorSchemeFour)
-                    if viewModel.first == viewModel.curr_username{
-                        if viewModel.tapDash ?? false{
-                            Image("Custom_Color_1_TC")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: UIScreen.main.bounds.width * 0.04, height: UIScreen.main.bounds.width * 0.04, alignment: .center)
-                                .cornerRadius(UIScreen.main.bounds.width * 0.02)
-                        }
-                    }
-                    else{
-                        if viewModel.opp_tap_dash == "true"{
-                            Image("Custom_Color_1_TC")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: UIScreen.main.bounds.width * 0.04, height: UIScreen.main.bounds.width * 0.04, alignment: .center)
-                                .cornerRadius(UIScreen.main.bounds.width * 0.02)
-                        }
-                    }
                 }
                 Spacer()
-                Rectangle()
-                    .fill(.black)
-                    .frame(width: UIScreen.main.bounds.width * 0.03, height: UIScreen.main.bounds.height * 0.06)
-                Spacer()
                 HStack{
-                    if viewModel.second == viewModel.curr_username{
-                        if viewModel.tapDash ?? false{
-                            Image("Custom_Color_1_TC")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: UIScreen.main.bounds.width * 0.04, height: UIScreen.main.bounds.width * 0.04, alignment: .center)
-                                .cornerRadius(UIScreen.main.bounds.width * 0.02)
-                        }
-                    }
-                    else{
-                        if viewModel.opp_tap_dash == "true"{
-                            Image("Custom_Color_1_TC")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: UIScreen.main.bounds.width * 0.04, height: UIScreen.main.bounds.width * 0.04, alignment: .center)
-                                .cornerRadius(UIScreen.main.bounds.width * 0.02)
-                        }
-                    }
                     Text(viewModel.second)
                         .font(.system(size: UIScreen.main.bounds.width * 0.06))
                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
@@ -322,6 +282,7 @@ struct GameView: View {
                 }, label: {
                     Text("Exit")
                         .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                        .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.height * 0.06)
                 })
             }
             .background(Color(.black))
