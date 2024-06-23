@@ -104,20 +104,20 @@ struct AccountInformationView: View {
                     if viewModel.set_page_data{
                         Form{
                             Section(header: Text("First name").foregroundColor(.black)){
-                                TextField(viewModel.first_name, text: $viewModel.first_name)
+                                TextField(viewModel.first_name, text: $viewModel.first_name).foregroundColor(.black)
                             }
                             .listRowBackground(Color.white)
                             Section(header: Text("Last name").foregroundColor(.black)){
-                                TextField(viewModel.last_name, text: $viewModel.last_name)
+                                TextField(viewModel.last_name, text: $viewModel.last_name).foregroundColor(.black)
                             }
                             .listRowBackground(Color.white)
                             Section(header: Text(viewModel.is_guest ?? false ? "Create an account to add phone number or email address." : "Enter either the phone number and/or email associated with your zelle account in order to participate in TapDash.").foregroundColor(.black)){
-                                TextField(viewModel.phone_number == "" ? "Phone Number" : viewModel.phone_number, text: $viewModel.phone_number)
+                                TextField(viewModel.phone_number == "" ? "Phone Number" : viewModel.phone_number, text: $viewModel.phone_number).foregroundColor(.black)
                                 if viewModel.is_phone_error || viewModel.phone_number == "Invalid"{
                                     Label(viewModel.phone_error?.rawValue ?? "", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
-                                TextField(viewModel.email_address == "" ? "Email Address" : viewModel.email_address, text: $viewModel.email_address)
+                                TextField(viewModel.email_address == "" ? "Email Address" : viewModel.email_address, text: $viewModel.email_address).foregroundColor(.black)
                                 if viewModel.is_email_error{
                                     Label(viewModel.email_error?.rawValue ?? "", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
@@ -125,7 +125,7 @@ struct AccountInformationView: View {
                             }
                             .listRowBackground(Color.white)
                             Section(header: Text("Username (this is what public users will see)").foregroundColor(.black)){
-                                TextField(viewModel.username, text: $viewModel.username)
+                                TextField(viewModel.username, text: $viewModel.username).foregroundColor(.black)
                                 if viewModel.is_uName_error{
                                     Label(viewModel.username_error?.rawValue ?? "", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
