@@ -23,7 +23,7 @@ final class ProfileViewModel: ObservableObject {
     @Published var usernameRes:Bool = false
     @Published var smaller_screen:Bool = false
     @Published var show_logout_option:Bool = false
-    @Published var league_title:String = "Noob"
+    @Published var league_title:String = "NOOB"
     @Published var leagueColor:Color = CustomColorsModel().colorSchemeTwo
     @Published var leageForeground:Color = Color(.black)
     @Published var pressed_send_request:Bool = false
@@ -38,6 +38,7 @@ final class ProfileViewModel: ObservableObject {
             self.userModel = convertedData ?? UserViewModel(first_name: "NO FIRST NAME", last_name: "NO LAST NAME")
             self.num_friends = self.userModel.numFriends
             self.gotProfileView = true
+            self.set_league_data()
         }
     }
     

@@ -84,7 +84,7 @@ final class QueueViewModel: ObservableObject{
                                 self.ad_loaded = false
                             }
                             else{
-                                let user_data = token + "|" + String(self.userModel?.tap_dash_league ?? 1)
+                                let user_data = token + "|" + String(self.userModel?.free_play_league ?? 1)
                                 let other_data = "|16|16"
                                 let user_name = "|" + (self.userModel?.username ?? "None")
                                 let data = user_data + other_data + user_name
@@ -177,10 +177,6 @@ final class QueueViewModel: ObservableObject{
             }
         }
         mSocket.on("LEFTSERVER") {(dataArr, ack) -> Void in
-            // Send users data back to queue server repeatedly and
-            // return it here to check the newly updated value of
-            // ad_loaded until the ad_loaded is true and it can then
-            // put the users into the game.
             print("AD LOADED VALUE BELOW")
             print(self.ad_loaded)
             QueueHandler.sharedInstance.closeConnection()
