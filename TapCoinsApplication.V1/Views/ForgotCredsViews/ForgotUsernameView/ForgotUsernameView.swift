@@ -30,7 +30,7 @@ struct ForgotUsernameView: View {
                     .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.01)
                 Form{
                     Section(header: Text("")){
-                        TextField("Phone number", text: $viewModel.phone_number)
+                        TextField("Phone number", text: $viewModel.phone_number).foregroundColor(.black)
                         if viewModel.is_phone_error{
                             Label("Invalid phone number", systemImage: "xmark.octagon")
                                 .foregroundColor(newCustomColorsModel.colorSchemeFive)

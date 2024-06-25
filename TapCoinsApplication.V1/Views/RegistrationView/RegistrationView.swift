@@ -29,8 +29,8 @@ struct RegistrationView: View {
                             .foregroundColor(newCustomColorsModel.colorSchemeFour)
                         Form{
                             Section(header: Text("")){
-                                TextField("First Name (optional)", text: $viewModel.first_name)
-                                TextField("Last Name (optional)", text: $viewModel.last_name)
+                                TextField("First Name (optional)", text: $viewModel.first_name).foregroundColor(.black)
+                                TextField("Last Name (optional)", text: $viewModel.last_name).foregroundColor(.black)
                             }
                             .listRowBackground(Color.white)
                             if viewModel.register_error{
@@ -38,17 +38,17 @@ struct RegistrationView: View {
                                     .foregroundColor(newCustomColorsModel.colorSchemeFive)
                             }
                             Section{
-                                TextField("Username", text: $viewModel.username)
+                                TextField("Username", text: $viewModel.username).foregroundColor(.black)
                                 if viewModel.is_uName_error{
                                     Label(viewModel.username_error?.rawValue ?? "", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
-                                SecureField("Password", text: $viewModel.password)
+                                SecureField("Password", text: $viewModel.password).foregroundColor(.black)
                                 if viewModel.is_password_error{
                                     Label(viewModel.password_error?.rawValue ?? "", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
-                                SecureField("Confirm password", text: $viewModel.confirm_password)
+                                SecureField("Confirm password", text: $viewModel.confirm_password).foregroundColor(.black)
                                 if viewModel.is_password_error{
                                     Label(viewModel.password_error?.rawValue ?? "", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)

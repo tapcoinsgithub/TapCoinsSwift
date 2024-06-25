@@ -39,8 +39,8 @@ struct ForgotPasswordView: View {
                                     Label(viewModel.error, systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
-                                TextField("Code", text: $viewModel.code)
-                                SecureField("Password", text: $viewModel.password)
+                                TextField("Code", text: $viewModel.code).foregroundColor(.black)
+                                SecureField("Password", text: $viewModel.password).foregroundColor(.black)
                                 if viewModel.is_match_error{
                                     Label("Passwords must match", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
@@ -49,7 +49,7 @@ struct ForgotPasswordView: View {
                                     Label("Password can't be blank.", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
-                                SecureField("Confirm Password", text: $viewModel.c_password)
+                                SecureField("Confirm Password", text: $viewModel.c_password).foregroundColor(.black)
                                 if viewModel.is_match_error{
                                     Label("Passwords must match", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
@@ -98,7 +98,7 @@ struct ForgotPasswordView: View {
                             .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.01)
                         Form{
                             Section(header: Text("")){
-                                TextField("Phone number", text: $viewModel.phone_number)
+                                TextField("Phone number", text: $viewModel.phone_number).foregroundColor(.black)
                                 if viewModel.is_phone_error{
                                     Label("Invalid phone number", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
@@ -106,7 +106,7 @@ struct ForgotPasswordView: View {
                             }
                             .listRowBackground(Color.white)
                             Section(header: Text("")){
-                                TextField("Email address", text: $viewModel.email_address)
+                                TextField("Email address", text: $viewModel.email_address).foregroundColor(.black)
                                 if viewModel.is_email_error{
                                     Label("Invalid email address", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)

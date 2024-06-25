@@ -30,12 +30,12 @@ struct LoginView: View {
                         .foregroundColor(newCustomColorsModel.colorSchemeOne)
                     Form{
                         Section(header: Text("")){
-                            TextField("Username", text: $viewModel.username)
+                            TextField("Username", text: $viewModel.username).foregroundColor(.black)
                             if viewModel.is_error{
                                 Label(viewModel.user_error?.rawValue ?? "Something went wrong.", systemImage: "xmark.octagon")
                                     .foregroundColor(newCustomColorsModel.colorSchemeFive)
                             }
-                            SecureField("Password", text: $viewModel.password)
+                            SecureField("Password", text: $viewModel.password).foregroundColor(.black)
                             if viewModel.is_error {
                                 Label(viewModel.password_error?.rawValue ?? "Something went wrong.", systemImage: "xmark.octagon")
                                     .foregroundColor(newCustomColorsModel.colorSchemeFive)

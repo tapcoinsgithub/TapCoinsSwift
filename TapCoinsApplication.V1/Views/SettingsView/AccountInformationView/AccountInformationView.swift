@@ -38,7 +38,7 @@ struct AccountInformationView: View {
                                 Label(viewModel.error, systemImage: "xmark.octagon")
                                     .foregroundColor(newCustomColorsModel.colorSchemeFive)
                             }
-                            TextField("Code", text: $viewModel.code)
+                            TextField("Code", text: $viewModel.code).foregroundColor(.black)
                         }
                         .listRowBackground(Color.white)
                     }.scrollContentBackground(.hidden)
