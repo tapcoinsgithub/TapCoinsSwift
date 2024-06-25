@@ -16,6 +16,7 @@ final class ContentViewModel: ObservableObject {
     @AppStorage("in_game") var in_game: Bool?
     @AppStorage("darkMode") var darkMode: Bool?
     @AppStorage("in_queue") var in_queue: Bool?
+    @AppStorage("betaMode") var betaMode: Bool?
     @Published var glPressed:Bool = false
     @Published var glError:Bool = false
     
@@ -23,8 +24,9 @@ final class ContentViewModel: ObservableObject {
 //        in_game = false
 //        in_queue = false
 //        logged_in_user = nil
+        betaMode = true
         // https://tapcoins-queue-server-86d685f7f051.herokuapp.com Queue Server
-        debug = true
+        debug = false
         if debug ?? false {
             print("DEBUG IS TRUE")
         }

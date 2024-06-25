@@ -23,12 +23,14 @@ enum Error_States:String {
     case Required = "Required"
     case RequiredLogin = "RequiredLogin"
     case Invalid_Phone_Number = "Invalid phone number."
+    case Duplicate_Phone_Number = "Duplicate phone number."
     case Invalid_Username = "Username already exists."
     case Password_Match = "Passwords must match."
     case No_Match_User = "Could not find username."
     case No_Match_Password = "Incorrect Password."
     case Specific_Password_Error = "SPE"
     case Invalid_Email_Address = "Invalid email address."
+    case Duplicate_Email_Address = "Duplicate email address."
 }
 
 enum Error_Types: String, CaseIterable  {

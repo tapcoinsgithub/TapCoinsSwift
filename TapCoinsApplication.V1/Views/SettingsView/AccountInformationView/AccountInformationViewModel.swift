@@ -369,14 +369,17 @@ final class AccountInformationViewModel: ObservableObject {
         do {
             let decoder = JSONDecoder()
             let response = try decoder.decode(Response2.self, from: data)
-            DispatchQueue.main.async {
-                if response.response == "Invalid username."{
-                    if self.check_errors_function(state: Error_States.Invalid_Username, _phone_number: self.phone_number, uName: self.username, _email_address: self.email_address) == false{
+            var isDuplicate:Bool = false
+            if response.response == "Invalid username."{
+                if self.check_errors_function(state: Error_States.Invalid_Username, _phone_number: self.phone_number, uName: self.username, _email_address: self.email_address) == false{
+                    DispatchQueue.main.async {
                         self.save_pressed = false
                         self.gsave_pressed = false
                     }
                 }
-                else if response.response == "Successfully saved data."{
+            }
+            else if response.response == "Successfully saved data."{
+                DispatchQueue.main.async {
                     self.saved = true
                     self.save_pressed = false
                     self.gsave_pressed = false
@@ -384,7 +387,25 @@ final class AccountInformationViewModel: ObservableObject {
                     self.is_phone_error = false
                     self.is_uName_error = false
                 }
-                else if response.response == "Guest"{
+            }
+            else if response.response == "Duplicate Phone"{
+                DispatchQueue.main.async {
+                    self.phone_error = Error_States.Duplicate_Phone_Number
+                    self.is_phone_error = true
+                    self.save_pressed = false
+                }
+                isDuplicate = true
+            }
+            else if response.response == "Duplicate Email"{
+                DispatchQueue.main.async {
+                    self.email_error = Error_States.Duplicate_Email_Address
+                    self.is_email_error = true
+                    self.save_pressed = false
+                }
+                isDuplicate = true
+            }
+            else if response.response == "Guest"{
+                DispatchQueue.main.async {
                     self.saved = true
                     self.save_pressed = false
                     self.message = "Successfully saved data. You are still a guest, create a password to save your account"
@@ -392,7 +413,9 @@ final class AccountInformationViewModel: ObservableObject {
                     self.is_uName_error = false
                     self.show_guest_message = true
                 }
-                if response.sent_text_code == 0{
+            }
+            if response.sent_text_code == 0{
+                DispatchQueue.main.async {
                     self.show_code_screen = true
                     self.show_text_code = true
                     self.show_email_code = false
@@ -401,13 +424,18 @@ final class AccountInformationViewModel: ObservableObject {
                         self.show_email_code = true
                     }
                 }
-                else if response.sent_email_code == 0{
+            }
+            else if response.sent_email_code == 0{
+                DispatchQueue.main.async {
                     self.confirm_code_message = "A code has been sent to \(self.email_address). Please input the code to confirm your email address."
                     self.show_code_screen = true
                     self.show_email_code = true
                 }
             }
             if response.sent_text_code == 0 || response.sent_email_code == 0{
+                return false
+            }
+            if isDuplicate {
                 return false
             }
             return true

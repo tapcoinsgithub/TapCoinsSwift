@@ -512,6 +512,10 @@ struct GlobalFunctions {
             if validate_email_address(value: _email_address) == false{
                 return "EAError"
             }
+        case .Duplicate_Phone_Number:
+            return ""
+        case .Duplicate_Email_Address:
+            return ""
         }
         return "Pass"
     }
