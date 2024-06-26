@@ -70,7 +70,7 @@ final class GameViewModel: ObservableObject {
     @Published var fPoints:Int = 0
     @Published var sPoints:Int = 0
     @Published var paVotes:Int = 0
-    @Published var count:Int = 20
+    @Published var count:Int = 15
     @Published var gameId:String = ""
     @Published var gameStart:String = "Ready"
     @Published var winner = ""

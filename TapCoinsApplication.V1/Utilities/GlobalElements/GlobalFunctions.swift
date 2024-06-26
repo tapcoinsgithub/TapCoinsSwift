@@ -171,6 +171,7 @@ struct GlobalFunctions {
                 self.tapDashLeft = response.tapDashLeft
                 self.tap_dash_time_left = response.tap_dash_time_left
                 self.activeTapDashUsers = response.active_tapdash_users
+                self.tapDash = response.tapDash
                 if response.tapDashIsActive == false{
                     self.tapDash = false
                 }
@@ -220,6 +221,7 @@ struct GlobalFunctions {
         let tapDashLeft: Int
         let tap_dash_time_left: String
         let active_tapdash_users: String
+        let tapDash:Bool
     }
     
     // API Call

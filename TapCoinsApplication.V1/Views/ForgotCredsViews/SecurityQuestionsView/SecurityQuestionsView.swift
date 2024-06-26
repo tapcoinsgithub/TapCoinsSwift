@@ -31,14 +31,14 @@ struct SecurityQuestionsView: View {
                         if viewModel.username_sent{
                             if viewModel.valid_userename{
                                 Section(header: Text("")){
-                                    Text(viewModel.question_1).foregroundColor(.black)
-                                    TextField("Answer here", text: $viewModel.answer_1).foregroundColor(.black)
+                                    Text(viewModel.question_1)
+                                    TextField("Answer here", text: $viewModel.answer_1)
                                     if viewModel.incorrect_answers_errors{
                                         Label("Invalid answer", systemImage: "xmark.octagon")
                                             .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                     }
-                                    Text(viewModel.question_2).foregroundColor(.black)
-                                    TextField("Answer here", text: $viewModel.answer_2).foregroundColor(.black)
+                                    Text(viewModel.question_2)
+                                    TextField("Answer here", text: $viewModel.answer_2)
                                     if viewModel.incorrect_answers_errors{
                                         Label("Invalid answer", systemImage: "xmark.octagon")
                                             .foregroundColor(newCustomColorsModel.colorSchemeFive)
@@ -48,7 +48,6 @@ struct SecurityQuestionsView: View {
                                             .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                     }
                                 }
-                                .listRowBackground(Color.white)
                             }
                             else{
                                 Text("No security questions saved for this account.")
@@ -56,14 +55,13 @@ struct SecurityQuestionsView: View {
                         }
                         else{
                             Section(header: Text("")){
-                                Text("Enter username below.").foregroundColor(.black)
-                                TextField("Username", text: $viewModel._username).foregroundColor(.black)
+                                Text("Enter username below.")
+                                TextField("Username", text: $viewModel._username)
                                 if viewModel.is_error{
                                     Label(viewModel.username_error, systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
-                            .listRowBackground(Color.white)
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)

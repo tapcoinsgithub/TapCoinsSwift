@@ -22,7 +22,7 @@ struct ToggleSettingsSwitchView: View {
                 set: { viewModel.notifications_on = $0 }
             ),
             label: {
-                Text(toggle_label).foregroundColor(.black)
+                Text(toggle_label)
             })
             .disabled(viewModel.is_guest)
             .onTapGesture {
@@ -37,7 +37,7 @@ struct ToggleSettingsSwitchView: View {
                 set: { viewModel.sound_on = $0 }
             ),
                    label: {
-                Text(toggle_label).foregroundColor(.black)
+                Text(toggle_label)
                    })
             .onTapGesture {
                 if viewModel.haptics_on ?? true{
@@ -50,7 +50,7 @@ struct ToggleSettingsSwitchView: View {
                 set: { viewModel.haptics_on = $0 }
             ),
                    label: {
-                Text(toggle_label).foregroundColor(.black)
+                Text(toggle_label)
                    })
             .onTapGesture {
                 if viewModel.haptics_on ?? true{
@@ -63,7 +63,7 @@ struct ToggleSettingsSwitchView: View {
                 set: { viewModel.location_on = $0 }
             ),
                    label: {
-                Text(toggle_label).foregroundColor(.black)
+                Text(toggle_label)
                    })
             .disabled(viewModel.is_guest)
             .onTapGesture {
@@ -80,7 +80,7 @@ struct ToggleSettingsSwitchView: View {
                 set: { viewModel.darkMode = $0 }
             ),
                    label: {
-                Text(toggle_label).foregroundColor(.black)
+                Text(toggle_label)
                    })
             .onTapGesture {
                 if viewModel.haptics_on ?? true{
@@ -94,14 +94,14 @@ struct ToggleSettingsSwitchView: View {
             ),
                    label: {
                 if viewModel.is_guest {
-                    Text("Please create an account to enable TapDash.").foregroundColor(.black)
+                    Text("Please create an account to enable TapDash.")
                 }
                 else{
                     if viewModel.tapDashIsActive ?? false{
-                        Text(viewModel.has_contact_info ?? false ? toggle_label : "Please add the phone number/email associated with your Zelle account to activate Tap Dash.").foregroundColor(.black)
+                        Text(viewModel.has_contact_info ?? false ? toggle_label : "Please add the phone number/email associated with your Zelle account to activate Tap Dash.")
                     }
                     else{
-                        Text("Tap Dash has been disabled for the day, please come back tomorrow.").foregroundColor(.black)
+                        Text("Tap Dash has been disabled for the day, please come back tomorrow.")
                     }
                 }
             })

@@ -38,9 +38,8 @@ struct AccountInformationView: View {
                                 Label(viewModel.error, systemImage: "xmark.octagon")
                                     .foregroundColor(newCustomColorsModel.colorSchemeFive)
                             }
-                            TextField("Code", text: $viewModel.code).foregroundColor(.black)
+                            TextField("Code", text: $viewModel.code)
                         }
-                        .listRowBackground(Color.white)
                     }.scrollContentBackground(.hidden)
                     if viewModel.saved_phone_number {
                         Text("Phone Number has been saved!").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
@@ -103,65 +102,60 @@ struct AccountInformationView: View {
                     }
                     if viewModel.set_page_data{
                         Form{
-                            Section(header: Text("First name").foregroundColor(.black)){
-                                TextField(viewModel.first_name, text: $viewModel.first_name).foregroundColor(.black)
+                            Section(header: Text("First name")){
+                                TextField(viewModel.first_name, text: $viewModel.first_name)
                             }
-                            .listRowBackground(Color.white)
-                            Section(header: Text("Last name").foregroundColor(.black)){
-                                TextField(viewModel.last_name, text: $viewModel.last_name).foregroundColor(.black)
+                            Section(header: Text("Last name")){
+                                TextField(viewModel.last_name, text: $viewModel.last_name)
                             }
-                            .listRowBackground(Color.white)
-                            Section(header: Text(viewModel.is_guest ?? false ? "Create an account to add phone number or email address." : "Enter either the phone number and/or email associated with your zelle account in order to participate in TapDash.").foregroundColor(.black)){
-                                TextField(viewModel.phone_number == "" ? "Phone Number" : viewModel.phone_number, text: $viewModel.phone_number).foregroundColor(.black)
+                            Section(header: Text(viewModel.is_guest ? "Create an account to add phone number or email address." : "Enter either the phone number and/or email associated with your zelle account in order to participate in TapDash.")){
+                                TextField(viewModel.phone_number == "" ? "Phone Number" : viewModel.phone_number, text: $viewModel.phone_number)
                                 if viewModel.is_phone_error || viewModel.phone_number == "Invalid"{
                                     Label(viewModel.phone_error?.rawValue ?? "", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
-                                TextField(viewModel.email_address == "" ? "Email Address" : viewModel.email_address, text: $viewModel.email_address).foregroundColor(.black)
+                                TextField(viewModel.email_address == "" ? "Email Address" : viewModel.email_address, text: $viewModel.email_address)
                                 if viewModel.is_email_error{
                                     Label(viewModel.email_error?.rawValue ?? "", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
-                            .listRowBackground(Color.white)
-                            Section(header: Text("Username (this is what public users will see)").foregroundColor(.black)){
-                                TextField(viewModel.username, text: $viewModel.username).foregroundColor(.black)
+                            Section(header: Text("Username (this is what public users will see)")){
+                                TextField(viewModel.username, text: $viewModel.username)
                                 if viewModel.is_uName_error{
                                     Label(viewModel.username_error?.rawValue ?? "", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
-                            .listRowBackground(Color.white)
                             Section{
                                 if viewModel.is_guest{
                                     if viewModel.gsave_pressed ?? false{
                                         NavigationLink(destination: CreatePasswordView().navigationBarBackButtonHidden(true)
                                             .navigationBarItems(leading: RedBackButtonView())
-                                                       , label: {Text("Create password").foregroundColor(.black).underline(true)})
+                                                       , label: {Text("Create password").underline(true)})
                                     }
                                     else{
                                         Button(action: {
                                             viewModel.message = "Must save data before creating a password."
                                             viewModel.show_guest_message = true
-                                        }, label: {Text("Create password").foregroundColor(.black).underline(true)})
+                                        }, label: {Text("Create password").underline(true)})
                                     }
                                 }
                                 else{
                                     NavigationLink(destination: CreatePasswordView().navigationBarBackButtonHidden(true)
                                         .navigationBarItems(leading: RedBackButtonView()), label: {
-                                            Text("Update password").foregroundColor(.black).underline(true)
+                                            Text("Update password").underline(true)
                                         })
                                 }
                                 if viewModel.is_guest == false {
                                     NavigationLink(destination: SecurityQuestionsComponentView(is_settings:true).navigationBarBackButtonHidden(true)
-                                        .navigationBarItems(leading: RedBackButtonView()), label: {Text("Show Security Questions").foregroundColor(.black).underline(true)})
+                                        .navigationBarItems(leading: RedBackButtonView()), label: {Text("Show Security Questions").underline(true)})
                                     NavigationLink(destination: DeleteAccountView().navigationBarBackButtonHidden(true)
                                         .navigationBarItems(leading: RedBackButtonView()), label: {
                                             Text("Delete Account").foregroundColor(newCustomColorsModel.colorSchemeFive).underline(true)
                                         })
                                 }
                             }
-                            .listRowBackground(Color.white)
                         }
                         .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.6, alignment: .bottom)
                         .background(newCustomColorsModel.colorSchemeTen)

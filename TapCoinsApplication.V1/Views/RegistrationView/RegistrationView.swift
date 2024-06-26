@@ -29,10 +29,9 @@ struct RegistrationView: View {
                             .foregroundColor(newCustomColorsModel.colorSchemeFour)
                         Form{
                             Section(header: Text("")){
-                                TextField("First Name (optional)", text: $viewModel.first_name).foregroundColor(.black)
-                                TextField("Last Name (optional)", text: $viewModel.last_name).foregroundColor(.black)
+                                TextField("First Name (optional)", text: $viewModel.first_name)
+                                TextField("Last Name (optional)", text: $viewModel.last_name)
                             }
-                            .listRowBackground(Color.white)
                             if viewModel.register_error{
                                 Label(viewModel.register_error_string, systemImage: "info.circle")
                                     .foregroundColor(newCustomColorsModel.colorSchemeFive)

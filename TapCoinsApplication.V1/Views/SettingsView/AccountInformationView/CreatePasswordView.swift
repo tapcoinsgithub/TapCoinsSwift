@@ -38,7 +38,7 @@ struct CreatePasswordView: View {
                                     Label(viewModel.error, systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
-                                SecureField("password", text: $viewModel.password).foregroundColor(.black)
+                                SecureField("password", text: $viewModel.password)
                                 if viewModel.is_match_error{
                                     Label("Passwords must match", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
@@ -48,15 +48,13 @@ struct CreatePasswordView: View {
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
-                            .listRowBackground(Color.white)
                             Section(header: Text("Confirm New Password").foregroundColor(newCustomColorsModel.colorSchemeOne)){
-                                SecureField("confirm password", text: $viewModel.cpassword).foregroundColor(.black)
+                                SecureField("confirm password", text: $viewModel.cpassword)
                                 if viewModel.is_match_error{
                                     Label("Passwords must match", systemImage: "xmark.octagon")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
-                            .listRowBackground(Color.white)
                         }
                         .scrollContentBackground(.hidden)
                         if viewModel.psaved{
