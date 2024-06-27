@@ -41,6 +41,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
                 }
                 let result:Bool = try await saveQuestionsAndAnswers()
                 if !result{
+                    print("HERE!!!")
                     print("Something went wrong.")
                     DispatchQueue.main.async {
                         self.saveQAError = true
@@ -148,6 +149,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
                 
                 let result:Bool = try await getSecurityQuestionsText()
                 if !result{
+                    print("HERE$$$")
                     print("Something went wrong.")
                 }
             } catch {
@@ -214,6 +216,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
                 
                 let result:Bool = try await getUsersQuestionsAndAnswers()
                 if !result{
+                    print("HERE???")
                     print("Something went wrong.")
                     DispatchQueue.main.async {
                         self.question_1 = 0
@@ -285,6 +288,9 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
                     self.answer_1 = response.answer_1
                     self.answer_2 = response.answer_2
                 }
+            }
+            else if response.result == "No QAs" {
+                return true
             }
             else{
                 return false

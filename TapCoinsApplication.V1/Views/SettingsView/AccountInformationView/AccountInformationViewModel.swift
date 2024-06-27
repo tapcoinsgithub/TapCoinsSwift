@@ -419,6 +419,7 @@ final class AccountInformationViewModel: ObservableObject {
                     self.show_code_screen = true
                     self.show_text_code = true
                     self.show_email_code = false
+                    self.is_error = false
                     self.confirm_code_message = "A code has been sent to \(self.phone_number). Please input the code to confirm your phone number."
                     if response.sent_email_code == 0{
                         self.show_email_code = true
@@ -430,6 +431,7 @@ final class AccountInformationViewModel: ObservableObject {
                     self.confirm_code_message = "A code has been sent to \(self.email_address). Please input the code to confirm your email address."
                     self.show_code_screen = true
                     self.show_email_code = true
+                    self.is_error = false
                 }
             }
             if response.sent_text_code == 0 || response.sent_email_code == 0{

@@ -318,11 +318,14 @@ struct GlobalFunctions {
         do {
             let response = try JSONDecoder().decode(ResponseCP.self, from: data)
             if response.result{
+                print("CONFIRM PASSWORD RESULT IS TRUE")
                 return true
             }
+            print("CONFIRM PASSWORD RESULT IS FALSE")
             return false
         }
         catch{
+            print("CONFIRM PASSWORD RESULT IS FALSE AND ERROR")
             print(error)
             throw PostDataError.invalidData
         }

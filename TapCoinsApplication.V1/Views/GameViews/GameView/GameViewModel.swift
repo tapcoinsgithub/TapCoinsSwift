@@ -107,7 +107,6 @@ final class GameViewModel: ObservableObject {
     private var oppLeft:Bool = false
     private var time_is_up = false
     private var got_in_send_points:Bool = false
-    private var send_points_count:Int = 0
     private var globalFunctions = GlobalFunctions()
     
     func factorString(input:String) -> String{
@@ -594,7 +593,6 @@ final class GameViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.gameStart = "END"
                     self.got_in_send_points = true
-                    self.send_points_count = self.send_points_count + 1
                 }
                 try await self.sendPoints(location:location)
                 DispatchQueue.main.async {
@@ -728,7 +726,6 @@ final class GameViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.gameStart = "END"
                     self.gotInCancelGame = true
-                    self.send_points_count = self.send_points_count + 1
                 }
                 if (self.custom_game ?? false){
                     try await self.cancelGame()
@@ -808,11 +805,13 @@ final class GameViewModel: ObservableObject {
         do {
             let response = try JSONDecoder().decode(ADRequest.self, from: data)
             if response.result == "Cancelled"{
-                self.from_queue = false
-                self.custom_game = false
-                self.is_first = false
+                DispatchQueue.main.async {
+                    self.from_queue = false
+                    self.custom_game = false
+                    self.is_first = false
+                    self.in_game = false
+                }
                 CustomGameHandler.sharedInstance.closeConnection()
-                self.in_game = false
             }
         }
         catch{
