@@ -283,7 +283,7 @@ final class QueueViewModel: ObservableObject{
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/game/createGame"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/game/createGame"
         }
         
         guard let session = logged_in_user else {
@@ -396,7 +396,7 @@ final class QueueViewModel: ObservableObject{
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/game/get_user_and_game"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/game/get_user_and_game"
         }
         
         guard let session = logged_in_user else {

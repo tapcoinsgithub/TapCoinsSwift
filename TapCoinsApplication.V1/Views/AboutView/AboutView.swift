@@ -217,7 +217,7 @@ struct AboutView: View {
                                 Text("3/3")
                                     .font(.system(size: UIScreen.main.bounds.width * 0.04))
                                     .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
-                                Text("To sign up for free go to the Settings -> Account Information and enter the email address and/or the phone number associated with your Zelle account as well as a valid first and last name. Once saved you can activate TapDash in Settings -> Toggle Settings and start earning some \(tapCoinsStringVar)!")
+                                Text("To sign up for free go to the Settings -> Account Information and click 'Sign Up for TapDash!'. Then enter the email address and/or the phone number associated with your Zelle account as well as a valid first and last name. Once saved you can activate \(tapDashStringVar) in Settings -> Toggle Settings and start earning some \(tapCoinsStringVar)!")
                                     .font(.system(size: UIScreen.main.bounds.width * 0.05))
                                     .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
                             }

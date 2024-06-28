@@ -69,7 +69,7 @@ final class SettingsViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/logout"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/logout"
         }
         
         guard let session = logged_in_user else {

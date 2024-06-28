@@ -62,10 +62,12 @@ struct ToggleSettingsView: View {
                             ToggleSettingsSwitchView(toggle_setting_title: ToggleSettingTitles.LightDarkModeToggle, toggle_label: "Toggle Light or Dark Mode - ")
                         }
                     }
-                    Section(header: Text("TapDash").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)){
-                        HStack{
-                            Spacer()
-                            ToggleSettingsSwitchView(toggle_setting_title: ToggleSettingTitles.TapDashToggle, toggle_label: "Toggle TapDash - ")
+                    if viewModel.userModel?.tap_dash_sign_up ?? false {
+                        Section(header: Text("TapDash").foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)){
+                            HStack{
+                                Spacer()
+                                ToggleSettingsSwitchView(toggle_setting_title: ToggleSettingTitles.TapDashToggle, toggle_label: "Toggle TapDash - ")
+                            }
                         }
                     }
                 }

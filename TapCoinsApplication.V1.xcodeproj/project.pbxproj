@@ -80,6 +80,8 @@
 		CFD92ADD2BA4B354001B05DF /* TapCoinsApplication_V1UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92ADC2BA4B354001B05DF /* TapCoinsApplication_V1UITests.swift */; };
 		CFD92ADF2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD92ADE2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift */; };
 		CFDC570B2C229031000EBCBE /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC570A2C229031000EBCBE /* TimeManager.swift */; };
+		CFDC570E2C2F2AE5000EBCBE /* TapDashSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC570D2C2F2AE5000EBCBE /* TapDashSignUpView.swift */; };
+		CFDC57102C2F2AF4000EBCBE /* TapDashSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC570F2C2F2AF4000EBCBE /* TapDashSignUpViewModel.swift */; };
 		E4D8CD004A43A6DEFD317DBF /* Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E24BAF757016433AB4790E9 /* Pods_TapCoinsApplication_V1_TapCoinsApplication_V1UITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -183,6 +185,8 @@
 		CFD92ADC2BA4B354001B05DF /* TapCoinsApplication_V1UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapCoinsApplication_V1UITests.swift; sourceTree = "<group>"; };
 		CFD92ADE2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapCoinsApplication_V1UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		CFDC570A2C229031000EBCBE /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
+		CFDC570D2C2F2AE5000EBCBE /* TapDashSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapDashSignUpView.swift; sourceTree = "<group>"; };
+		CFDC570F2C2F2AF4000EBCBE /* TapDashSignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapDashSignUpViewModel.swift; sourceTree = "<group>"; };
 		DA6734F3C1B2EAF71033432A /* Pods-TapCoinsApplication.V1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapCoinsApplication.V1Tests.debug.xcconfig"; path = "Target Support Files/Pods-TapCoinsApplication.V1Tests/Pods-TapCoinsApplication.V1Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		FB61DBE5A1501C47D4BBD340 /* Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.debug.xcconfig"; path = "Target Support Files/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests/Pods-TapCoinsApplication.V1-TapCoinsApplication.V1UITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -426,6 +430,7 @@
 		CFA985882BA4B47C00177F94 /* SettingsView */ = {
 			isa = PBXGroup;
 			children = (
+				CFDC570C2C2F2AC8000EBCBE /* TapDashSignUpView */,
 				CFA985822BA4B47C00177F94 /* AccountInformationView */,
 				CFA985852BA4B47C00177F94 /* ToggleSettingsView */,
 				CFA985862BA4B47C00177F94 /* SettingsView.swift */,
@@ -624,6 +629,15 @@
 				CFD92ADE2BA4B354001B05DF /* TapCoinsApplication_V1UITestsLaunchTests.swift */,
 			);
 			path = TapCoinsApplication.V1UITests;
+			sourceTree = "<group>";
+		};
+		CFDC570C2C2F2AC8000EBCBE /* TapDashSignUpView */ = {
+			isa = PBXGroup;
+			children = (
+				CFDC570D2C2F2AE5000EBCBE /* TapDashSignUpView.swift */,
+				CFDC570F2C2F2AF4000EBCBE /* TapDashSignUpViewModel.swift */,
+			);
+			path = TapDashSignUpView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -898,6 +912,7 @@
 				CFA985B02BA4B47C00177F94 /* SettingsViewModel.swift in Sources */,
 				CFA985982BA4B47C00177F94 /* GameHandler.swift in Sources */,
 				CFA985992BA4B47C00177F94 /* GameView.swift in Sources */,
+				CFDC570E2C2F2AE5000EBCBE /* TapDashSignUpView.swift in Sources */,
 				CFA985A72BA4B47C00177F94 /* ProfileViewModel.swift in Sources */,
 				CFA9859D2BA4B47C00177F94 /* QueueViewModel.swift in Sources */,
 				CFA985972BA4B47C00177F94 /* CustomGameHandler.swift in Sources */,
@@ -929,6 +944,7 @@
 				CFA9858B2BA4B47C00177F94 /* ContentView.swift in Sources */,
 				CFA9859C2BA4B47C00177F94 /* QueueView.swift in Sources */,
 				CFA985DE2BA4B49100177F94 /* GlobalValues.swift in Sources */,
+				CFDC57102C2F2AF4000EBCBE /* TapDashSignUpViewModel.swift in Sources */,
 				CFA985952BA4B47C00177F94 /* FriendsView.swift in Sources */,
 				CFA985DA2BA4B49100177F94 /* ToggleSettingsSwitchView.swift in Sources */,
 				CFA985A32BA4B47C00177F94 /* PGameViewModel.swift in Sources */,

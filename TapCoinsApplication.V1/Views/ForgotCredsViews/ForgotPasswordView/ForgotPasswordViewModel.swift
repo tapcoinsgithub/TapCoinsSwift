@@ -117,7 +117,7 @@ final class ForgotPasswordViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/send_code"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/send_code"
         }
         
         
@@ -216,7 +216,7 @@ final class ForgotPasswordViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/change_password"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/change_password"
         }
         
         guard let url = URL(string: url_string) else{

@@ -67,7 +67,7 @@ struct RegistrationView: View {
                             Text("By registering you agree to our ")
                                 .foregroundColor(newCustomColorsModel.colorSchemeFour)
                                 .font(.system(size: UIScreen.main.bounds.width * 0.04))
-                            Link("Privacy Policy", destination: URL(string: "https://app.websitepolicies.com/policies/view/dgg6h68x") ?? URL(string: "")!)
+                            Link("Privacy Policy", destination: URL(string: "https://app.websitepolicies.com/policies/view/7uwcu10y") ?? URL(string: "")!)
                         }
                         .padding()
                     }

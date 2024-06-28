@@ -168,7 +168,7 @@ final class ProfileViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/profile_view"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/profile_view"
         }
         
         guard var urlComponents = URLComponents(string: url_string) else {
@@ -312,9 +312,13 @@ final class ProfileViewModel: ObservableObject {
                 }
                 
                 try await sendRequest()
+                DispatchQueue.main.async {
+                    self.pressed_send_request = false
+                }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
                 DispatchQueue.main.async {
+                    self.pressed_send_request = false
                     self.invalid_entry = true
                     self.result = "Something went wrong."
                 }
@@ -332,7 +336,7 @@ final class ProfileViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/friend/sfr"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/friend/sfr"
         }
         
         guard let url = URL(string: url_string) else{

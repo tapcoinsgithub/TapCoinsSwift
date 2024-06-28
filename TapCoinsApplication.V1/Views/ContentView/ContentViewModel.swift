@@ -25,7 +25,6 @@ final class ContentViewModel: ObservableObject {
 //        in_queue = false
 //        logged_in_user = nil
         betaMode = true
-        // https://tapcoins-queue-server-86d685f7f051.herokuapp.com Queue Server
         debug = false
         if debug ?? false {
             print("DEBUG IS TRUE")
@@ -75,7 +74,7 @@ final class ContentViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/guestLogin"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/guestLogin"
         }
         
         guard let url = URL(string: url_string) else{

@@ -133,7 +133,8 @@ struct GlobalFunctions {
                     hasPhoneNumber: response.HPN,
                     hasEmailAddress: response.HEA,
                     is_guest: response.is_guest,
-                    has_security_questions: response.has_security_questions
+                    has_security_questions: response.has_security_questions,
+                    tap_dash_sign_up: response.tap_dash_sign_up
                 )
                 print("SET MY DATA")
                 if response.friends.count > 0{
@@ -223,6 +224,7 @@ struct GlobalFunctions {
         let tap_dash_time_left: String
         let active_tapdash_users: String
         let tapdash:Bool
+        let tap_dash_sign_up:Bool
     }
     
     // API Call
@@ -236,7 +238,7 @@ struct GlobalFunctions {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/game/end_user_streak"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/game/end_user_streak"
         }
         
         guard let session = logged_in_user else {
@@ -294,7 +296,7 @@ struct GlobalFunctions {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/confirm_password"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/confirm_password"
         }
         
         guard let session = logged_in_user else {
@@ -345,7 +347,7 @@ struct GlobalFunctions {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/friends_view"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/friends_view"
         }
         
         guard var urlComponents = URLComponents(string: url_string) else {

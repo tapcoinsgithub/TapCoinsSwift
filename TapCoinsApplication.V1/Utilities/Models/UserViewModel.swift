@@ -39,6 +39,7 @@ struct UserViewModel: Codable {
     var hasEmailAddress: Bool?
     var is_guest: Bool?
     var has_security_questions: Bool?
+    var tap_dash_sign_up: Bool?
 }
 
 // Conform the struct to UserDefaultsStorable

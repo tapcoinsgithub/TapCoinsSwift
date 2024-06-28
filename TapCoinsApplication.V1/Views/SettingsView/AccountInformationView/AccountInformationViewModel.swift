@@ -59,7 +59,7 @@ final class AccountInformationViewModel: ObservableObject {
     @Published var createPasswordNavIsActive:Bool = false
     @Published var updatePasswordNavIsActive:Bool = false
     @Published var set_page_data:Bool = false
-    private var userData:UserViewModel?
+    @Published var userData:UserViewModel?
     public var options1:[String] = ["Option1", "Option2", "Option3", "Option4"]
     public var options2:[String] = ["Option5", "Option6", "Option7", "Option8"]
     private var globalFunctions = GlobalFunctions()
@@ -173,7 +173,7 @@ final class AccountInformationViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/account_view"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/account_view"
         }
         
         guard var urlComponents = URLComponents(string: url_string) else {
@@ -331,7 +331,7 @@ final class AccountInformationViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/save"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/save"
         }
         
         guard let session = logged_in_user else {
@@ -546,7 +546,7 @@ final class AccountInformationViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/change_password"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/change_password"
         }
         
         guard let session = logged_in_user else {
@@ -673,7 +673,7 @@ final class AccountInformationViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/send_code"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/send_code"
         }
         
         guard let session = logged_in_user else {
@@ -765,6 +765,11 @@ final class AccountInformationViewModel: ObservableObject {
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
+                DispatchQueue.main.async{
+                    self.send_code_pressed = false
+                    self.is_error = true
+                    self.error = "Something went wrong."
+                }
             }
         }
     }
@@ -778,24 +783,14 @@ final class AccountInformationViewModel: ObservableObject {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/confirm_code"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/confirm_code"
         }
         
         guard let session = logged_in_user else {
-            DispatchQueue.main.async{
-                self.send_code_pressed = false
-                self.is_error = true
-                self.error = "Something went wrong."
-            }
             throw UserErrors.invalidSession
         }
         
         guard let url = URL(string: url_string) else{
-            DispatchQueue.main.async{
-                self.send_code_pressed = false
-                self.is_error = true
-                self.error = "Something went wrong."
-            }
             throw PostDataError.invalidURL
         }
         var request = URLRequest(url: url)
@@ -810,11 +805,6 @@ final class AccountInformationViewModel: ObservableObject {
         let (data, response) = try await URLSession.shared.data(for:request)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            DispatchQueue.main.async{
-                self.send_code_pressed = false
-                self.is_error = true
-                self.error = "Something went wrong."
-            }
             throw PostDataError.invalidResponse
         }
         do {
