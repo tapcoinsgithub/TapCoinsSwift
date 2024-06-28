@@ -34,12 +34,10 @@ struct TapDashSignUpView: View {
                         Section(header: Text("")){
                             VStack{
                                 Text("By clicking the checkbox you are agreeing to TapCoins Terms and Conditions.")
-                                    .foregroundColor(newCustomColorsModel.colorSchemeFour)
                                     .font(.system(size: UIScreen.main.bounds.width * 0.04))
                                 Toggle(isOn: $viewModel.tocIsChecked) {
                                     HStack{
                                         Text("I agree to the ")
-                                            .foregroundColor(newCustomColorsModel.colorSchemeFour)
                                             .font(.system(size: UIScreen.main.bounds.width * 0.04))
                                         Link("Terms and Conditions.", destination: URL(string: "https://app.websitepolicies.com/policies/view/rnacpu04") ?? URL(string: "")!).font(.system(size: UIScreen.main.bounds.width * 0.04)).underline(true)
                                     }

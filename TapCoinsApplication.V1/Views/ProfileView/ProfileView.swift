@@ -140,14 +140,12 @@ struct ProfileView: View {
                                                 .font(.system(size: UIScreen.main.bounds.width * 0.03))
                                                 .underline()
                                             Text(String(viewModel.userModel.tap_coin  ?? 0))
+                                                .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
                                                 .bold()
                                                 .font(.system(size: UIScreen.main.bounds.width * 0.044))
                                             Rectangle()
                                                 .fill(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
                                                 .frame(width: UIScreen.main.bounds.width * 0.28, height: UIScreen.main.bounds.height * 0.005)
-                                            Text("1 TapCoin = $0.10")
-                                                .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
-                                                .font(.system(size: UIScreen.main.bounds.width * 0.03))
                                         }
                                     }
                                 }
