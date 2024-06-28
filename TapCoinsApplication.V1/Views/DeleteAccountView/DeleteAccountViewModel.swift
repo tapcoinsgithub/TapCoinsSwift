@@ -48,12 +48,12 @@ final class DeleteAccountViewModel: ObservableObject {
                     }
                 }
                 DispatchQueue.main.async{
-                    self.pressed_confirm_password = true
+                    self.pressed_confirm_password = false
                 }
             } catch {
                 _ = "Error: \(error.localizedDescription)"
                 DispatchQueue.main.async{
-                    self.pressed_confirm_password = true
+                    self.pressed_confirm_password = false
                     self.confirmPasswordErrorMessage = "Something went wrong."
                 }
             }

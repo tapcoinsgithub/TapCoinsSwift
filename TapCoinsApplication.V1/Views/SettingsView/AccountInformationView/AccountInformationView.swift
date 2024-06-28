@@ -148,8 +148,8 @@ struct AccountInformationView: View {
                                         })
                                 }
                                 if viewModel.is_guest == false {
-                                    NavigationLink(destination: SecurityQuestionsComponentView(is_settings:true).navigationBarBackButtonHidden(true)
-                                        .navigationBarItems(leading: RedBackButtonView()), label: {Text("Show Security Questions").underline(true)})
+//                                    NavigationLink(destination: SecurityQuestionsComponentView(is_settings:true).navigationBarBackButtonHidden(true)
+//                                        .navigationBarItems(leading: RedBackButtonView()), label: {Text("Show Security Questions").underline(true)})
                                     NavigationLink(destination: DeleteAccountView().navigationBarBackButtonHidden(true)
                                         .navigationBarItems(leading: RedBackButtonView()), label: {
                                             Text("Delete Account").foregroundColor(newCustomColorsModel.colorSchemeFive).underline(true)

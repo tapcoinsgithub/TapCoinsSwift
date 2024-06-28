@@ -11,6 +11,8 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     @AppStorage("debug") private var debug: Bool?
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("show_security_questions") var show_security_questions:Bool?
+    @AppStorage("user") private var userViewModel: Data?
+    @Published var userModel: UserViewModel = UserViewModel(first_name: "NO FIRST NAME", last_name: "NO LAST NAME")
     @Published var answer_1:String = ""
     @Published var answer_2:String = ""
     @Published var password:String = ""
@@ -30,7 +32,11 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     private var globalFunctions = GlobalFunctions()
     
     init(){
-        getSecurityQuestionsTextTask()
+        DispatchQueue.main.async {
+            let convertedData = UserViewModel(self.userViewModel ?? Data())
+            self.userModel = convertedData ?? UserViewModel(first_name: "NO FIRST NAME", last_name: "NO LAST NAME")
+            self.getSecurityQuestionsTextTask()
+        }
     }
     
     func saveQuestionsAndAnswersTask(){
@@ -330,8 +336,10 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
                 if result{
                     DispatchQueue.main.async{
                         self.confirmed_password = true
-                        self.got_security_questions = false
-                        self.getUsersQuestionsAndAnswersTask()
+                        if self.userModel.has_security_questions ?? false{
+                            self.got_security_questions = false
+                            self.getUsersQuestionsAndAnswersTask()
+                        }
                     }
                 }
                 else{

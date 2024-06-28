@@ -119,17 +119,17 @@ struct ForgotPasswordView: View {
                         }
                         Spacer()
                         .scrollContentBackground(.hidden)
-                        NavigationLink(destination: {
-                            SecurityQuestionsView()
-                                .navigationBarBackButtonHidden(true)
-                                .navigationBarItems(leading: RedBackButtonView())
-                        }, label: {
-                            Text("Click here to answer security questions instead.")
-                                .foregroundColor(newCustomColorsModel.colorSchemeFour)
-                                .underline(true)
-                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.13, alignment: .center)
-                                .cornerRadius(UIScreen.main.bounds.width * 0.02)
-                        })
+//                        NavigationLink(destination: {
+//                            SecurityQuestionsView()
+//                                .navigationBarBackButtonHidden(true)
+//                                .navigationBarItems(leading: RedBackButtonView())
+//                        }, label: {
+//                            Text("Click here to answer security questions instead.")
+//                                .foregroundColor(newCustomColorsModel.colorSchemeFour)
+//                                .underline(true)
+//                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.13, alignment: .center)
+//                                .cornerRadius(UIScreen.main.bounds.width * 0.02)
+//                        })
                         Button(action: {viewModel.send_pressed ? nil : viewModel.sendCodeTask()}, label: {
                             Text("Send")
                                 .frame(width: 200, height: 50, alignment: .center)

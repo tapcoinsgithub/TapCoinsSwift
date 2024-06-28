@@ -26,7 +26,7 @@ final class ContentViewModel: ObservableObject {
 //        logged_in_user = nil
         betaMode = true
         // https://tapcoins-queue-server-86d685f7f051.herokuapp.com Queue Server
-        debug = true
+        debug = false
         if debug ?? false {
             print("DEBUG IS TRUE")
         }

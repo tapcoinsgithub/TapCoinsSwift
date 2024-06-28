@@ -60,7 +60,7 @@ struct GlobalFunctions {
         }
         else{
             print("DEBUG IS FALSE")
-            url_string = "https://tapcoins-api-318ee530def6.herokuapp.com/tapcoinsapi/user/get_all_user_info"
+            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/get_all_user_info"
         }
         
         guard var urlComponents = URLComponents(string: url_string) else {
