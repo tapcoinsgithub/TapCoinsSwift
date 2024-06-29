@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-//@AppStorage("debug") private var debug: Bool?
 //@AppStorage("Player1") var first_player: String?
 //@AppStorage("Player2") var second_player: String?
 //@AppStorage("gameId") var game_id: String?

@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 final class SecurityQuestionsComponentViewModel: ObservableObject {
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("show_security_questions") var show_security_questions:Bool?
     @AppStorage("user") private var userViewModel: Data?
@@ -65,14 +64,14 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     func saveQuestionsAndAnswers() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/save_users_security_questions"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/securityquestions/save_users_security_questions"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/securityquestions/save_users_security_questions"
         }
         
         guard let session = logged_in_user else {
@@ -167,14 +166,14 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     func getSecurityQuestionsText() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/get_security_questions_text"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/securityquestions/get_security_questions_text"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/securityquestions/get_security_questions_text"
         }
         
         guard var urlComponents = URLComponents(string: url_string) else {
@@ -250,14 +249,14 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     func getUsersQuestionsAndAnswers() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/get_users_questions_answers"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/securityquestions/get_users_questions_answers"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/securityquestions/get_users_questions_answers"
         }
         
         guard var urlComponents = URLComponents(string: url_string) else {

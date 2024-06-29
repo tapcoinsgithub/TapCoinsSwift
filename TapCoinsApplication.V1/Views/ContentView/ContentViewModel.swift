@@ -11,7 +11,6 @@ import SwiftUI
 final class ContentViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("de_queue") private var de_queue: Bool?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("changing_password") private var changing_password: Bool?
     @AppStorage("in_game") var in_game: Bool?
     @AppStorage("darkMode") var darkMode: Bool?
@@ -25,13 +24,6 @@ final class ContentViewModel: ObservableObject {
 //        in_queue = false
 //        logged_in_user = nil
         betaMode = true
-        debug = false
-        if debug ?? false {
-            print("DEBUG IS TRUE")
-        }
-        else{
-            print("DEBUG IS FALSE")
-        }
         if logged_in_user == nil{
             changing_password = false
         }
@@ -67,14 +59,14 @@ final class ContentViewModel: ObservableObject {
     func guestLogin() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/guestLogin"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/guestLogin"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/guestLogin"
         }
         
         guard let url = URL(string: url_string) else{

@@ -11,7 +11,6 @@ import SwiftUI
 final class AccountInformationViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("user") private var userViewModel: Data?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("de_queue") private var de_queue: Bool?
     @AppStorage("selectedOption1") var selectedOption1:Int?
     @AppStorage("selectedOption2") var selectedOption2:Int?
@@ -166,14 +165,14 @@ final class AccountInformationViewModel: ObservableObject {
     func getAccountData() async throws -> Bool{
         print("IN GET ACCOUNT DATA")
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/account_view"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/account_view"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/account_view"
         }
         
         guard var urlComponents = URLComponents(string: url_string) else {
@@ -324,14 +323,14 @@ final class AccountInformationViewModel: ObservableObject {
     func save() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/save"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/save"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/save"
         }
         
         guard let session = logged_in_user else {
@@ -539,14 +538,14 @@ final class AccountInformationViewModel: ObservableObject {
     func save_password() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/change_password"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/change_password"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/change_password"
         }
         
         guard let session = logged_in_user else {
@@ -666,14 +665,14 @@ final class AccountInformationViewModel: ObservableObject {
     func send_code() async throws -> Bool{
         print("IN THE SEND CODE FUNCTION")
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/send_code"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/send_code"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/send_code"
         }
         
         guard let session = logged_in_user else {
@@ -776,14 +775,14 @@ final class AccountInformationViewModel: ObservableObject {
     
     func confirm_code() async throws -> Bool {
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/confirm_code"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/confirm_code"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/confirm_code"
         }
         
         guard let session = logged_in_user else {

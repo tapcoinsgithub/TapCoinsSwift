@@ -10,7 +10,6 @@ import SwiftUI
 
 final class DeleteAccountViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
-    @AppStorage("debug") private var debug: Bool?
     @Published var delete_pressed:Bool = false
     @Published var password:String = ""
     @Published var pressed_confirm_password:Bool = false
@@ -93,14 +92,14 @@ final class DeleteAccountViewModel: ObservableObject {
     
     func delete_account() async throws -> Bool{
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/delete_account"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/delete_account"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/delete_account"
         }
         
         guard let session = logged_in_user else {

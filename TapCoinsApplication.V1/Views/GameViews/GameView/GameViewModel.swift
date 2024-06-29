@@ -21,7 +21,6 @@ final class GameViewModel: ObservableObject {
     @AppStorage("in_game") var in_game: Bool?
     @AppStorage("in_queue") var in_queue: Bool?
     @AppStorage("user") private var userViewModel: Data?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("from_gq") private var from_gq: Bool?
     @AppStorage("tapDash") var tapDash:Bool?
     @AppStorage("haptics") var haptics_on:Bool?
@@ -610,14 +609,14 @@ final class GameViewModel: ObservableObject {
     func sendPoints(location:String) async throws{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/game/sendPoints"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/game/sendPoints"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/game/sendPoints"
         }
         
         guard let url = URL(string: url_string) else{
@@ -769,14 +768,14 @@ final class GameViewModel: ObservableObject {
     func cancelGame() async throws{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/ad_invite"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/friend/ad_invite"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/friend/ad_invite"
         }
         
         guard let url = URL(string: url_string) else{
