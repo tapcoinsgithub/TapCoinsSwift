@@ -16,7 +16,6 @@ final class ToggleSettingsSwitchViewModel: ObservableObject {
     @AppStorage("user") private var userViewModel: Data?
     @AppStorage("darkMode") var darkMode: Bool?
     @AppStorage("tapDash") var tapDash:Bool?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("tapDashIsActive") var tapDashIsActive:Bool?
     @Published var userModel:UserViewModel?
@@ -85,14 +84,14 @@ final class ToggleSettingsSwitchViewModel: ObservableObject {
     func setTapDash() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/game/tap_dash_toggle"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/game/tap_dash_toggle"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/game/tap_dash_toggle"
         }
         
         guard let session = logged_in_user else {

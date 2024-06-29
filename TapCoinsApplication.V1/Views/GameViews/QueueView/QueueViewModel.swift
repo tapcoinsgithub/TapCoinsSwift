@@ -24,7 +24,6 @@ final class QueueViewModel: ObservableObject{
     @AppStorage("ad_loaded") var ad_loaded: Bool?
     @AppStorage("user") private var userViewModel: Data?
     @AppStorage("de_queue") private var de_queue: Bool?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("from_gq") private var from_gq: Bool?
     @AppStorage("tapDash") var tapDash:Bool?
     @AppStorage("haptics") var haptics_on:Bool?
@@ -276,14 +275,14 @@ final class QueueViewModel: ObservableObject{
     func createGame(first:String, second:String) async throws -> Bool {
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/game/createGame"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/game/createGame"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/game/createGame"
         }
         
         guard let session = logged_in_user else {
@@ -389,14 +388,14 @@ final class QueueViewModel: ObservableObject{
     func getUsersAndGame(user1Token:String, user2Token:String, curr_user:Int) async throws -> Bool{
         print("IN GET USERS GAMES")
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/game/get_user_and_game"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/game/get_user_and_game"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/game/get_user_and_game"
         }
         
         guard let session = logged_in_user else {

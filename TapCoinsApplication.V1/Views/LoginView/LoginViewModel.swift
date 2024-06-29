@@ -10,7 +10,6 @@ import SwiftUI
 
 final class LoginViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
-    @AppStorage("debug") private var debug: Bool?
     @Published var username:String = ""
     @Published var password:String = ""
     @Published var is_error:Bool = false
@@ -53,14 +52,14 @@ final class LoginViewModel: ObservableObject {
     func login() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/login"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/login"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/login"
         }
         
         guard let url = URL(string: url_string) else{

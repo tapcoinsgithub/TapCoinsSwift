@@ -15,7 +15,6 @@ final class HomeViewModel: ObservableObject {
     @AppStorage("user") private var userViewModel: Data?
     @AppStorage("de_queue") private var de_queue: Bool?
     @AppStorage("notifications") var notifications_on:Bool?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("in_queue") var in_queue: Bool?
     @AppStorage("loadedAllUserData") var loadedAllUserData:Bool?
     @AppStorage("from_gq") private var from_gq: Bool?

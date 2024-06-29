@@ -10,7 +10,6 @@ import SwiftUI
 
 final class RegistrationViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
-    @AppStorage("debug") private var debug: Bool?
     @Published var first_name:String = ""
     @Published var last_name:String = ""
     @Published var username:String = ""
@@ -69,14 +68,14 @@ final class RegistrationViewModel: ObservableObject {
     func register() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/register"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/register"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/register"
         }
         
         guard let url = URL(string: url_string) else{

@@ -11,7 +11,6 @@ import SwiftUI
 
 struct GlobalFunctions {
     @AppStorage("session") var logged_in_user: String?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("user") private var userViewModel: Data?
     @AppStorage("de_queue") private var de_queue: Bool?
     @AppStorage("show_location") var show_location:Int?
@@ -53,14 +52,14 @@ struct GlobalFunctions {
     func getAllUserInfo() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/get_all_user_info"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/get_all_user_info"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/get_all_user_info"
         }
         
         guard var urlComponents = URLComponents(string: url_string) else {
@@ -231,14 +230,14 @@ struct GlobalFunctions {
     func endUserStreak() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/game/end_user_streak"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/game/end_user_streak"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/game/end_user_streak"
         }
         
         guard let session = logged_in_user else {
@@ -289,14 +288,14 @@ struct GlobalFunctions {
     func confirmPassword(password:String) async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/confirm_password"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/confirm_password"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/confirm_password"
         }
         
         guard let session = logged_in_user else {
@@ -340,14 +339,14 @@ struct GlobalFunctions {
     func getFriendsData(_userModel:UserViewModel?) async throws -> Bool{
         print("IN GET FRIENDS DATA")
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/friends_view"
+        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
+        if serverURL == "None"{
+            print("SERVER URL IS NONE")
+            return false
         }
         else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/friends_view"
+            print("GOT THE SERVER URL")
+            url_string = serverURL + "/tapcoinsapi/user/friends_view"
         }
         
         guard var urlComponents = URLComponents(string: url_string) else {

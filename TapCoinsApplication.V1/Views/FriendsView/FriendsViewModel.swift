@@ -11,7 +11,6 @@ import SwiftUI
 final class FriendsViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("user") private var userViewModel: Data?
-    @AppStorage("debug") private var debug: Bool?
     @Published var userModel:UserViewModel?
     @Published var show_friend_request_actions_bool:Bool = false
     @Published var friend_requester_name:String = ""
