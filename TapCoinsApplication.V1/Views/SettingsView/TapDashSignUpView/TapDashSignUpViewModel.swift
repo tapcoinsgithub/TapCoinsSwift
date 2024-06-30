@@ -17,6 +17,7 @@ final class TapDashSignUpViewModel: ObservableObject {
     @Published var tocIsChecked:Bool = false
     @Published var ppIsChecked:Bool = false
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     func signUpTask(){
         Task {
@@ -49,15 +50,8 @@ final class TapDashSignUpViewModel: ObservableObject {
     
     func signUp() async throws -> Bool{
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/sign_up"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/sign_up"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession

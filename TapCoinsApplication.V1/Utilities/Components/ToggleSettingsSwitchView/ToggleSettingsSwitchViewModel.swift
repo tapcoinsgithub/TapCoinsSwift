@@ -22,6 +22,7 @@ final class ToggleSettingsSwitchViewModel: ObservableObject {
     @Published var is_guest:Bool = false
     @Published var has_contact_info:Bool = false
     @Published var settingTapDash:Bool = false
+    private var globalVariables = GlobalVariables()
     
     init(){
         self.userModel = UserViewModel(self.userViewModel ?? Data())
@@ -84,15 +85,8 @@ final class ToggleSettingsSwitchViewModel: ObservableObject {
     func setTapDash() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/game/tap_dash_toggle"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/game/tap_dash_toggle"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession

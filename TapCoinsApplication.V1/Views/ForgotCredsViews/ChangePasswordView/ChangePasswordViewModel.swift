@@ -19,6 +19,7 @@ final class ChangePasswordViewModel: ObservableObject {
     @Published var password:String = ""
     @Published var c_password:String = ""
     @Published var submit_pressed:Bool = false
+    private var globalVariables = GlobalVariables()
     
     func changePasswordTask(){
         Task {
@@ -66,15 +67,8 @@ final class ChangePasswordViewModel: ObservableObject {
     func changePassword() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/change_password"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/change_password"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession

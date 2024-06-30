@@ -28,6 +28,7 @@ final class SecurityQuestionsViewModel: ObservableObject {
     @Published var submitted:Bool = false
     @Published var is_error = false
     @Published var username_error:String = ""
+    private var globalVariables = GlobalVariables()
     
     func checkIfUserHasQuestionsTask(){
         Task {
@@ -65,15 +66,8 @@ final class SecurityQuestionsViewModel: ObservableObject {
     func checkIfUserHasQuestions() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/securityquestions/check_has_questions"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/securityquestions/check_has_questions"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL
@@ -163,15 +157,8 @@ final class SecurityQuestionsViewModel: ObservableObject {
     func checkAnswersToQuestions() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/securityquestions/check_users_answers"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/securityquestions/check_users_answers"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL

@@ -30,6 +30,7 @@ final class ProfileViewModel: ObservableObject {
     @Published var friendsViewNavIsActive:Bool = false
     @Published var gotProfileView:Bool = false
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     init(){
         DispatchQueue.main.async {
@@ -160,15 +161,8 @@ final class ProfileViewModel: ObservableObject {
     func getProfileData() async throws -> Bool{
         print("IN GET PROFILE DATA")
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/profile_view"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/profile_view"
         
         guard var urlComponents = URLComponents(string: url_string) else {
             throw PostDataError.invalidURL
@@ -328,15 +322,8 @@ final class ProfileViewModel: ObservableObject {
     func sendRequest() async throws{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/friend/sfr"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/friend/sfr"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL

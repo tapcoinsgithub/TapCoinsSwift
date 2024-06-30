@@ -23,6 +23,7 @@ final class SettingsViewModel: ObservableObject {
     @Published var pressed_logout:Bool = false
     @Published var accountInfoNavIsActive:Bool = false
     @Published var toggleViewNavIsActive:Bool = false
+    private var globalVariables = GlobalVariables()
     
     init(){
         self.userModel = UserViewModel(self.userViewModel ?? Data())
@@ -61,15 +62,8 @@ final class SettingsViewModel: ObservableObject {
     func logout() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/logout"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/logout"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession

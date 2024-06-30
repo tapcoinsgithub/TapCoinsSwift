@@ -29,6 +29,7 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     public var options1:[String] = ["Loading ..."]
     public var options2:[String] = ["Loading ..."]
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     init(){
         DispatchQueue.main.async {
@@ -64,15 +65,8 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     func saveQuestionsAndAnswers() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/securityquestions/save_users_security_questions"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/securityquestions/save_users_security_questions"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
@@ -166,15 +160,8 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     func getSecurityQuestionsText() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/securityquestions/get_security_questions_text"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/securityquestions/get_security_questions_text"
         
         guard var urlComponents = URLComponents(string: url_string) else {
             throw PostDataError.invalidURL
@@ -249,15 +236,8 @@ final class SecurityQuestionsComponentViewModel: ObservableObject {
     func getUsersQuestionsAndAnswers() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/securityquestions/get_users_questions_answers"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/securityquestions/get_users_questions_answers"
         
         guard var urlComponents = URLComponents(string: url_string) else {
             throw PostDataError.invalidURL

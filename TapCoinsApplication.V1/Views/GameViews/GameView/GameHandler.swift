@@ -11,8 +11,7 @@ import SwiftUI
 
 class GameHandler: NSObject{
     static let sharedInstance = GameHandler()
-    let gameSocket = ProcessInfo.processInfo.environment["GAME_SOCKET"] ?? "None"
-    let socket = SocketManager(socketURL: URL(string: ProcessInfo.processInfo.environment["GAME_SOCKET"] ?? "None")!, config: [.log(true), .compress])
+    let socket = SocketManager(socketURL: URL(string: GlobalVariables().gameSocket)!, config: [.log(true), .compress])
     var mSocket: SocketIOClient!
     override init(){
         super.init()

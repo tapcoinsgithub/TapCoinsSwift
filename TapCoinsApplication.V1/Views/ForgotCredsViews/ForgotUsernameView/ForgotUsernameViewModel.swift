@@ -14,6 +14,7 @@ final class ForgotUsernameViewModel: ObservableObject {
     @Published var is_phone_error = false
     @Published var successfully_sent = false
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     func sendUsernameTask(){
         Task {
@@ -66,15 +67,8 @@ final class ForgotUsernameViewModel: ObservableObject {
     func sendUsername() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/send_username"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/send_username"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL

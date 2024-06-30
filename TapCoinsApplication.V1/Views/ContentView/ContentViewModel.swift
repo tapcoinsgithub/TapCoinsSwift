@@ -18,6 +18,7 @@ final class ContentViewModel: ObservableObject {
     @AppStorage("betaMode") var betaMode: Bool?
     @Published var glPressed:Bool = false
     @Published var glError:Bool = false
+    private var globalVariables = GlobalVariables()
     
     init() {
 //        in_game = false
@@ -59,15 +60,8 @@ final class ContentViewModel: ObservableObject {
     func guestLogin() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/guestLogin"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/guestLogin"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL
