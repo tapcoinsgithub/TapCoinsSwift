@@ -10,7 +10,6 @@ import SwiftUI
 
 final class RegistrationViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
-    @AppStorage("debug") private var debug: Bool?
     @Published var first_name:String = ""
     @Published var last_name:String = ""
     @Published var username:String = ""
@@ -31,6 +30,7 @@ final class RegistrationViewModel: ObservableObject {
     @Published var register_error:Bool = false
     @Published var register_error_string:String = ""
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     func registerTask(){
         Task {
@@ -69,15 +69,8 @@ final class RegistrationViewModel: ObservableObject {
     func register() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/register"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/register"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/register"
         
         guard let url = URL(string: url_string) else{
             DispatchQueue.main.async {

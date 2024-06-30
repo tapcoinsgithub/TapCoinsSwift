@@ -9,12 +9,12 @@ import Foundation
 import SwiftUI
 
 final class ForgotUsernameViewModel: ObservableObject {
-    @AppStorage("debug") private var debug: Bool?
     @Published var phone_number:String = ""
     @Published var send_pressed:Bool = false
     @Published var is_phone_error = false
     @Published var successfully_sent = false
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     func sendUsernameTask(){
         Task {
@@ -67,15 +67,8 @@ final class ForgotUsernameViewModel: ObservableObject {
     func sendUsername() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/send_username"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/send_username"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/send_username"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL

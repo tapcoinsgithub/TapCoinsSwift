@@ -11,7 +11,6 @@ import SwiftUI
 final class ProfileViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("user") private var userViewModel: Data?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("de_queue") private var de_queue: Bool?
     @AppStorage("num_friends") public var num_friends:Int?
     @AppStorage("tapDash") var tapDash:Bool?
@@ -31,6 +30,7 @@ final class ProfileViewModel: ObservableObject {
     @Published var friendsViewNavIsActive:Bool = false
     @Published var gotProfileView:Bool = false
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     init(){
         DispatchQueue.main.async {
@@ -161,15 +161,8 @@ final class ProfileViewModel: ObservableObject {
     func getProfileData() async throws -> Bool{
         print("IN GET PROFILE DATA")
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/profile_view"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/profile_view"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/profile_view"
         
         guard var urlComponents = URLComponents(string: url_string) else {
             throw PostDataError.invalidURL
@@ -329,15 +322,8 @@ final class ProfileViewModel: ObservableObject {
     func sendRequest() async throws{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/sfr"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/friend/sfr"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/friend/sfr"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL

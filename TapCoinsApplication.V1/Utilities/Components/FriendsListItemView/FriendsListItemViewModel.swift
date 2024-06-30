@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 final class FriendsListItemViewModel: ObservableObject {
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("Player1") var first_player: String?
     @AppStorage("Player2") var second_player: String?
@@ -38,6 +37,7 @@ final class FriendsListItemViewModel: ObservableObject {
     private var removed_friend_successfully:Bool = false
     private var view_token:String = ""
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     init(){
         userModel = UserViewModel(self.userViewModel ?? Data())
@@ -107,15 +107,8 @@ final class FriendsListItemViewModel: ObservableObject {
     
     func declineFriendRequest(requestName:String) async throws -> Bool{
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/dfr"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/friend/dfr"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/friend/dfr"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
@@ -179,15 +172,8 @@ final class FriendsListItemViewModel: ObservableObject {
     
     func acceptFriendRequest(requestName:String) async throws -> Bool{
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/afr"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/friend/afr"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/friend/afr"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
@@ -257,15 +243,8 @@ final class FriendsListItemViewModel: ObservableObject {
         else{
             sending_username = requestName
         }
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/remove_friend"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/friend/remove_friend"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/friend/remove_friend"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
@@ -341,15 +320,8 @@ final class FriendsListItemViewModel: ObservableObject {
         
         var url_string:String = ""
         let rNameSplit = inviteName.split(separator: " ")
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/ad_invite"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/friend/ad_invite"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/friend/ad_invite"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
@@ -435,15 +407,8 @@ final class FriendsListItemViewModel: ObservableObject {
         
         var url_string:String = ""
         let rNameSplit = inviteName.split(separator: " ")
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/ad_invite"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/friend/ad_invite"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/friend/ad_invite"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
@@ -513,15 +478,8 @@ final class FriendsListItemViewModel: ObservableObject {
     func sendInvite(inviteName:String) async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/friend/send_invite"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/friend/send_invite"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/friend/send_invite"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession

@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 final class ForgotPasswordViewModel: ObservableObject {
-    @AppStorage("debug") private var debug: Bool?
     @Published var phone_number:String = ""
     @Published var email_address:String = ""
     @Published var code:String = ""
@@ -25,6 +24,7 @@ final class ForgotPasswordViewModel: ObservableObject {
     @Published var successfully_sent = false
     @Published var submitted = false
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     func sendCodeTask(){
         Task {
@@ -110,16 +110,8 @@ final class ForgotPasswordViewModel: ObservableObject {
     func send_code(has_phone_number:Bool, has_email_address:Bool) async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/send_code"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/send_code"
-        }
-        
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/send_code"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL
@@ -209,15 +201,8 @@ final class ForgotPasswordViewModel: ObservableObject {
     func submit() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/change_password"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/change_password"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/change_password"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL

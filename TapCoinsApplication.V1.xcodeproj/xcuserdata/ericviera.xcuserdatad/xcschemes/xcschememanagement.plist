@@ -4,10 +4,42 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>TapCoinsApplication.V1.xcscheme_^#shared#^_</key>
+		<key>TapCoinsApplication.V1-DEV.xcscheme_^#shared#^_</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>7</integer>
+		</dict>
+		<key>TapCoinsApplication.V1-QA.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>9</integer>
+		</dict>
+		<key>TapCoinsApplication.V1.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>isShown</key>
+			<true/>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>CFD92ABA2BA4B353001B05DF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CFD92ACD2BA4B354001B05DF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CFD92AD72BA4B354001B05DF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

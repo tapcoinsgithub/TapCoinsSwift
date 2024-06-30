@@ -10,7 +10,6 @@ import SwiftUI
 
 final class DeleteAccountViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
-    @AppStorage("debug") private var debug: Bool?
     @Published var delete_pressed:Bool = false
     @Published var password:String = ""
     @Published var pressed_confirm_password:Bool = false
@@ -19,6 +18,7 @@ final class DeleteAccountViewModel: ObservableObject {
     @Published var deleteAccountError:Bool = false
     @Published var confirmPasswordErrorMessage:String = ""
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     func confirmPasswordTask(){
         Task {
@@ -93,15 +93,8 @@ final class DeleteAccountViewModel: ObservableObject {
     
     func delete_account() async throws -> Bool{
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/delete_account"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/delete_account"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/delete_account"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession

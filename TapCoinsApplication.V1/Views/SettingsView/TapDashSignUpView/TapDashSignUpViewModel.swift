@@ -11,13 +11,13 @@ import SwiftUI
 
 final class TapDashSignUpViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("haptics") var haptics_on:Bool?
     @Published var is_error:Bool = false
     @Published var signUpPressed:Bool = false
     @Published var tocIsChecked:Bool = false
     @Published var ppIsChecked:Bool = false
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     func signUpTask(){
         Task {
@@ -50,15 +50,8 @@ final class TapDashSignUpViewModel: ObservableObject {
     
     func signUp() async throws -> Bool{
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/sign_up"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/sign_up"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/sign_up"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession

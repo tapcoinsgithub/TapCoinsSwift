@@ -15,7 +15,6 @@ final class HomeViewModel: ObservableObject {
     @AppStorage("user") private var userViewModel: Data?
     @AppStorage("de_queue") private var de_queue: Bool?
     @AppStorage("notifications") var notifications_on:Bool?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("in_queue") var in_queue: Bool?
     @AppStorage("loadedAllUserData") var loadedAllUserData:Bool?
     @AppStorage("from_gq") private var from_gq: Bool?
@@ -37,8 +36,13 @@ final class HomeViewModel: ObservableObject {
     
     private var status_granted:Bool = false
     private var globalFunctions = GlobalFunctions()
+    private var globaleVariables = GlobalVariables()
     
     init() {
+        print("API_URL: \(globaleVariables.apiUrl)")
+        print("GAME_SOCKET: \(globaleVariables.gameSocket)")
+        print("CUSTOM_GAME_SOCKET: \(globaleVariables.customGameSocket)")
+        print("QUEUE_SOCKET: \(globaleVariables.queueSocket)")
         DispatchQueue.main.async { [weak self] in
             self?.globalFunctions.getAllUserInfoTask()
             self?.userModel = UserViewModel(self?.userViewModel ?? Data())

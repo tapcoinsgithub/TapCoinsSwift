@@ -14,7 +14,6 @@ final class SettingsViewModel: ObservableObject {
     @AppStorage("haptics") var haptics_on:Bool?
     @AppStorage("sounds") var sound_on:Bool?
     @AppStorage("user") private var userViewModel: Data?
-    @AppStorage("debug") private var debug: Bool?
     @Published var username:String = ""
     @Published var smaller_screen:Bool = false
     @Published var userModel:UserViewModel?
@@ -24,6 +23,7 @@ final class SettingsViewModel: ObservableObject {
     @Published var pressed_logout:Bool = false
     @Published var accountInfoNavIsActive:Bool = false
     @Published var toggleViewNavIsActive:Bool = false
+    private var globalVariables = GlobalVariables()
     
     init(){
         self.userModel = UserViewModel(self.userViewModel ?? Data())
@@ -62,15 +62,8 @@ final class SettingsViewModel: ObservableObject {
     func logout() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/logout"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/logout"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/logout"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession

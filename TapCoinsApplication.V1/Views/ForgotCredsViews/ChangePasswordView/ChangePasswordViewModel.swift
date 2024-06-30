@@ -10,7 +10,6 @@ import SwiftUI
 
 final class ChangePasswordViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("changing_password") var changing_password: Bool?
     @Published var is_match_error:Bool = false
     @Published var is_password_error:Bool = false
@@ -20,6 +19,7 @@ final class ChangePasswordViewModel: ObservableObject {
     @Published var password:String = ""
     @Published var c_password:String = ""
     @Published var submit_pressed:Bool = false
+    private var globalVariables = GlobalVariables()
     
     func changePasswordTask(){
         Task {
@@ -67,15 +67,8 @@ final class ChangePasswordViewModel: ObservableObject {
     func changePassword() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/user/change_password"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/user/change_password"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/change_password"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession

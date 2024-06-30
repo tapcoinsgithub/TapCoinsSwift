@@ -10,7 +10,6 @@ import SwiftUI
 
 final class SecurityQuestionsViewModel: ObservableObject {
     @AppStorage("session") var logged_in_user: String?
-    @AppStorage("debug") private var debug: Bool?
     @AppStorage("changing_password") private var changing_password: Bool?
     @Published var answer_1:String = ""
     @Published var answer_2:String = ""
@@ -29,6 +28,7 @@ final class SecurityQuestionsViewModel: ObservableObject {
     @Published var submitted:Bool = false
     @Published var is_error = false
     @Published var username_error:String = ""
+    private var globalVariables = GlobalVariables()
     
     func checkIfUserHasQuestionsTask(){
         Task {
@@ -66,15 +66,8 @@ final class SecurityQuestionsViewModel: ObservableObject {
     func checkIfUserHasQuestions() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/check_has_questions"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/securityquestions/check_has_questions"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/securityquestions/check_has_questions"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL
@@ -164,15 +157,8 @@ final class SecurityQuestionsViewModel: ObservableObject {
     func checkAnswersToQuestions() async throws -> Bool{
         
         var url_string:String = ""
-        
-        if debug ?? false{
-            print("DEBUG IS TRUE")
-            url_string = "http://127.0.0.1:8000/tapcoinsapi/securityquestions/check_users_answers"
-        }
-        else{
-            print("DEBUG IS FALSE")
-            url_string = "https://www.tapcoinsgameqa.com/tapcoinsapi/securityquestions/check_users_answers"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/securityquestions/check_users_answers"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL
