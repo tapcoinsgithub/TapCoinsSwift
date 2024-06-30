@@ -29,6 +29,7 @@ struct GlobalFunctions {
     @AppStorage("num_friends") public var num_friends:Int?
     @AppStorage("activeTapDashUsers") var activeTapDashUsers:String?
     private var in_get_user:Bool = false
+    private var globalVariables = GlobalVariables()
     
     // Task
     func getAllUserInfoTask(){
@@ -52,15 +53,8 @@ struct GlobalFunctions {
     func getAllUserInfo() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/get_all_user_info"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/get_all_user_info"
         
         guard var urlComponents = URLComponents(string: url_string) else {
             throw PostDataError.invalidURL
@@ -230,15 +224,8 @@ struct GlobalFunctions {
     func endUserStreak() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/game/end_user_streak"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/game/end_user_streak"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
@@ -288,15 +275,8 @@ struct GlobalFunctions {
     func confirmPassword(password:String) async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/confirm_password"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/confirm_password"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
@@ -339,15 +319,8 @@ struct GlobalFunctions {
     func getFriendsData(_userModel:UserViewModel?) async throws -> Bool{
         print("IN GET FRIENDS DATA")
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/friends_view"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/friends_view"
         
         guard var urlComponents = URLComponents(string: url_string) else {
             throw PostDataError.invalidURL

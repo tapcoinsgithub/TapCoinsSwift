@@ -50,6 +50,7 @@ final class QueueViewModel: ObservableObject{
     private var userModel: UserViewModel?
     private var checked_queue:Bool = false
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     private var inGetUsersAndGame: Bool = false
     private var inCreateGame: Bool = false
     
@@ -275,15 +276,8 @@ final class QueueViewModel: ObservableObject{
     func createGame(first:String, second:String) async throws -> Bool {
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/game/createGame"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/game/createGame"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
@@ -388,15 +382,8 @@ final class QueueViewModel: ObservableObject{
     func getUsersAndGame(user1Token:String, user2Token:String, curr_user:Int) async throws -> Bool{
         print("IN GET USERS GAMES")
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/game/get_user_and_game"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/game/get_user_and_game"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession

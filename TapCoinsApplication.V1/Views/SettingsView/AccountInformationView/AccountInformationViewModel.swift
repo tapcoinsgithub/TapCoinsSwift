@@ -62,6 +62,7 @@ final class AccountInformationViewModel: ObservableObject {
     public var options1:[String] = ["Option1", "Option2", "Option3", "Option4"]
     public var options2:[String] = ["Option5", "Option6", "Option7", "Option8"]
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     private var current_username:String = ""
     private var initialFirstName:String = ""
     private var initialLastName:String = ""
@@ -165,15 +166,8 @@ final class AccountInformationViewModel: ObservableObject {
     func getAccountData() async throws -> Bool{
         print("IN GET ACCOUNT DATA")
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/account_view"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/account_view"
         
         guard var urlComponents = URLComponents(string: url_string) else {
             throw PostDataError.invalidURL
@@ -323,15 +317,8 @@ final class AccountInformationViewModel: ObservableObject {
     func save() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/save"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/save"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
@@ -538,15 +525,8 @@ final class AccountInformationViewModel: ObservableObject {
     func save_password() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/change_password"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/change_password"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
@@ -665,15 +645,8 @@ final class AccountInformationViewModel: ObservableObject {
     func send_code() async throws -> Bool{
         print("IN THE SEND CODE FUNCTION")
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/send_code"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/send_code"
         
         guard let session = logged_in_user else {
             DispatchQueue.main.async{
@@ -775,15 +748,8 @@ final class AccountInformationViewModel: ObservableObject {
     
     func confirm_code() async throws -> Bool {
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/confirm_code"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/confirm_code"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession

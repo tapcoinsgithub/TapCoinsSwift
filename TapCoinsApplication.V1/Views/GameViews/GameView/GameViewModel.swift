@@ -107,6 +107,7 @@ final class GameViewModel: ObservableObject {
     private var time_is_up = false
     private var got_in_send_points:Bool = false
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     func factorString(input:String) -> String{
         print("IN FACTOR STRING FUNCTION")
@@ -609,15 +610,8 @@ final class GameViewModel: ObservableObject {
     func sendPoints(location:String) async throws{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/game/sendPoints"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/game/sendPoints"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL
@@ -768,15 +762,8 @@ final class GameViewModel: ObservableObject {
     func cancelGame() async throws{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/friend/ad_invite"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/friend/ad_invite"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL

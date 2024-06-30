@@ -11,7 +11,7 @@ import SwiftUI
 
 class QueueHandler: NSObject{
     static let sharedInstance = QueueHandler()
-    let socket = SocketManager(socketURL: URL(string: ProcessInfo.processInfo.environment["QUEUE_SOCKET"] ?? "None")!, config: [.log(true), .compress])
+    let socket = SocketManager(socketURL: URL(string: GlobalVariables().queueSocket)!, config: [.log(true), .compress])
     var mSocket: SocketIOClient!
     override init(){
         super.init()

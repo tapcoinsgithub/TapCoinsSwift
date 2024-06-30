@@ -30,6 +30,7 @@ final class RegistrationViewModel: ObservableObject {
     @Published var register_error:Bool = false
     @Published var register_error_string:String = ""
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     func registerTask(){
         Task {
@@ -68,15 +69,8 @@ final class RegistrationViewModel: ObservableObject {
     func register() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/register"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/register"
         
         guard let url = URL(string: url_string) else{
             DispatchQueue.main.async {

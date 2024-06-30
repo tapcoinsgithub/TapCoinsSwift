@@ -24,6 +24,7 @@ final class ForgotPasswordViewModel: ObservableObject {
     @Published var successfully_sent = false
     @Published var submitted = false
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     func sendCodeTask(){
         Task {
@@ -109,15 +110,8 @@ final class ForgotPasswordViewModel: ObservableObject {
     func send_code(has_phone_number:Bool, has_email_address:Bool) async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/send_code"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/send_code"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL
@@ -207,15 +201,8 @@ final class ForgotPasswordViewModel: ObservableObject {
     func submit() async throws -> Bool{
         
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/change_password"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/change_password"
         
         guard let url = URL(string: url_string) else{
             throw PostDataError.invalidURL

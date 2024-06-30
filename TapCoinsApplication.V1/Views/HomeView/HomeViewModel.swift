@@ -36,8 +36,13 @@ final class HomeViewModel: ObservableObject {
     
     private var status_granted:Bool = false
     private var globalFunctions = GlobalFunctions()
+    private var globaleVariables = GlobalVariables()
     
     init() {
+        print("API_URL: \(globaleVariables.apiUrl)")
+        print("GAME_SOCKET: \(globaleVariables.gameSocket)")
+        print("CUSTOM_GAME_SOCKET: \(globaleVariables.customGameSocket)")
+        print("QUEUE_SOCKET: \(globaleVariables.queueSocket)")
         DispatchQueue.main.async { [weak self] in
             self?.globalFunctions.getAllUserInfoTask()
             self?.userModel = UserViewModel(self?.userViewModel ?? Data())

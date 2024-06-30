@@ -18,6 +18,7 @@ final class DeleteAccountViewModel: ObservableObject {
     @Published var deleteAccountError:Bool = false
     @Published var confirmPasswordErrorMessage:String = ""
     private var globalFunctions = GlobalFunctions()
+    private var globalVariables = GlobalVariables()
     
     func confirmPasswordTask(){
         Task {
@@ -92,15 +93,8 @@ final class DeleteAccountViewModel: ObservableObject {
     
     func delete_account() async throws -> Bool{
         var url_string:String = ""
-        let serverURL = ProcessInfo.processInfo.environment["API_URL"] ?? "None"
-        if serverURL == "None"{
-            print("SERVER URL IS NONE")
-            return false
-        }
-        else{
-            print("GOT THE SERVER URL")
-            url_string = serverURL + "/tapcoinsapi/user/delete_account"
-        }
+        let serverURL = globalVariables.apiUrl
+        url_string = serverURL + "/tapcoinsapi/user/delete_account"
         
         guard let session = logged_in_user else {
             throw UserErrors.invalidSession
