@@ -213,7 +213,8 @@ struct ProfileView: View {
                         .border(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour, width: UIScreen.main.bounds.width * 0.04)
                         .cornerRadius(UIScreen.main.bounds.width * 0.06)
                     Spacer()
-                    BannerAd(unitID: "ca-app-pub-3940256099942544/2435281174") // Fake Ad Unit
+                   // BannerAd(unitID: "ca-app-pub-3940256099942544/2435281174")  // Fake Ad Unit
+//                    BannerAd(unitID: "ca-app-pub-1452192881574944/4293163603")
                     Spacer()
                     HStack{
                         VStack(alignment: .leading, spacing: 0.0){

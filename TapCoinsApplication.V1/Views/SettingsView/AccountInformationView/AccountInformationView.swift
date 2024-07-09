@@ -108,21 +108,18 @@ struct AccountInformationView: View {
                             Section(header: Text("Last name")){
                                 TextField(viewModel.last_name, text: $viewModel.last_name)
                             }
-                            if viewModel.userData?.tap_dash_sign_up ?? false{
-                                Section(header: Text(viewModel.is_guest ? "Create an account to add phone number or email address." : "Enter either the phone number and/or email associated with your zelle account in order to participate in TapDash.")){
-                                    TextField(viewModel.phone_number == "" ? "Phone Number" : viewModel.phone_number, text: $viewModel.phone_number)
-                                    if viewModel.is_phone_error || viewModel.phone_number == "Invalid"{
-                                        Label(viewModel.phone_error?.rawValue ?? "", systemImage: "xmark.octagon")
-                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                                    }
-                                    TextField(viewModel.email_address == "" ? "Email Address" : viewModel.email_address, text: $viewModel.email_address)
-                                    if viewModel.is_email_error{
-                                        Label(viewModel.email_error?.rawValue ?? "", systemImage: "xmark.octagon")
-                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                                    }
+                            Section(header: Text(viewModel.is_guest ? "Create an account to add phone number or email address." : "Enter either your phone number and/or email address. These will be used for unlocking your account.")){
+                                TextField(viewModel.phone_number == "" ? "Phone Number" : viewModel.phone_number, text: $viewModel.phone_number)
+                                if viewModel.is_phone_error || viewModel.phone_number == "Invalid"{
+                                    Label(viewModel.phone_error?.rawValue ?? "", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                                TextField(viewModel.email_address == "" ? "Email Address" : viewModel.email_address, text: $viewModel.email_address)
+                                if viewModel.is_email_error{
+                                    Label(viewModel.email_error?.rawValue ?? "", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                             }
-                            
                             Section(header: Text("Username (this is what public users will see)")){
                                 TextField(viewModel.username, text: $viewModel.username)
                                 if viewModel.is_uName_error{
@@ -145,12 +142,12 @@ struct AccountInformationView: View {
                                     }
                                 }
                                 else{
-                                    if !(viewModel.userData?.tap_dash_sign_up ?? false) {
-                                        NavigationLink(destination: TapDashSignUpView().navigationBarBackButtonHidden(true)
-                                            .navigationBarItems(leading: RedBackButtonView()), label: {
-                                                Text("Sign Up for TapDash!").underline(true)
-                                            })
-                                    }
+//                                    if !(viewModel.userData?.tap_dash_sign_up ?? false) {
+//                                        NavigationLink(destination: TapDashSignUpView().navigationBarBackButtonHidden(true)
+//                                            .navigationBarItems(leading: RedBackButtonView()), label: {
+//                                                Text("Sign Up for TapDash!").underline(true)
+//                                            })
+//                                    }
                                     NavigationLink(destination: CreatePasswordView().navigationBarBackButtonHidden(true)
                                         .navigationBarItems(leading: RedBackButtonView()), label: {
                                             Text("Update password").underline(true)

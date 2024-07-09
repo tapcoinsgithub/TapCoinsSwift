@@ -22,7 +22,7 @@ struct DeleteAccountView: View {
             else{
                 if viewModel.confirmed_current_password{
                     VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.05){
-                        Text("Are you sure you want to delete your account? All of your data will be lost including any TapCoins currently in your account. All of your previous TapCoins earned will still be saved in our database along with the phone number/email associated with the earnings for tax/security purposes.")
+                        Text("Are you sure you want to delete your account? All of your data will be lost including all of your streaks and wins.")
                             .frame(width: UIScreen.main.bounds.width * 0.8, alignment: .center)
                             .font(.system(size: UIScreen.main.bounds.width * 0.04))
                             .foregroundColor(newCustomColorsModel.colorSchemeOne)

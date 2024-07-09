@@ -61,7 +61,7 @@ struct SettingsView: View {
                     }
                     .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
                     .listRowBackground(Color.clear)
-                    Section(header: Text("Toggle app settings such as notifications, sound, and vibrations.")){
+                    Section(header: Text("Toggle app settings such as light mode, sound, and vibrations.")){
                         NavigationLink(isActive: $viewModel.toggleViewNavIsActive, destination: {
                             ToggleSettingsView()
                                 .navigationBarBackButtonHidden(true)
