@@ -74,28 +74,6 @@
             ReferencedContainer = "container:TapCoinsApplication.V1.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "API_URL"
-            value = "https://www.tapcoinsgame.com"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "GAME_SOCKET"
-            value = "https://tapcoins-game-server-prod-2f1f51201c2f.herokuapp.com"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "CUSTOM_GAME_SOCKET"
-            value = "https://tapcoins-custom-game-serverpro-212a86e3d096.herokuapp.com"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "QUEUE_SOCKET"
-            value = "https://tapcoins-queue-server-prod-1b6178d59504.herokuapp.com"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

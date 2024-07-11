@@ -33,29 +33,56 @@ struct ForgotPasswordView: View {
                         Rectangle()
                             .fill(newCustomColorsModel.colorSchemeFour)
                             .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.01)
-                        Form{
-                            Section(header: Text("")){
-                                if viewModel.is_error{
-                                    Label(viewModel.error, systemImage: "xmark.octagon")
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                        if #available(iOS 16.0, *) {
+                            Form{
+                                Section(header: Text("")){
+                                    if viewModel.is_error{
+                                        Label(viewModel.error, systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                    TextField("Code", text: $viewModel.code)
+                                    SecureField("Password", text: $viewModel.password)
+                                    if viewModel.is_match_error{
+                                        Label("Passwords must match", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                    if viewModel.is_password_error{
+                                        Label("Password can't be blank.", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                    SecureField("Confirm Password", text: $viewModel.c_password)
+                                    if viewModel.is_match_error{
+                                        Label("Passwords must match", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
                                 }
-                                TextField("Code", text: $viewModel.code)
-                                SecureField("Password", text: $viewModel.password)
-                                if viewModel.is_match_error{
-                                    Label("Passwords must match", systemImage: "xmark.octagon")
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                                }
-                                if viewModel.is_password_error{
-                                    Label("Password can't be blank.", systemImage: "xmark.octagon")
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                                }
-                                SecureField("Confirm Password", text: $viewModel.c_password)
-                                if viewModel.is_match_error{
-                                    Label("Passwords must match", systemImage: "xmark.octagon")
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                            }.scrollContentBackground(.hidden)
+                        }
+                        else{
+                            Form{
+                                Section(header: Text("")){
+                                    if viewModel.is_error{
+                                        Label(viewModel.error, systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                    TextField("Code", text: $viewModel.code)
+                                    SecureField("Password", text: $viewModel.password)
+                                    if viewModel.is_match_error{
+                                        Label("Passwords must match", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                    if viewModel.is_password_error{
+                                        Label("Password can't be blank.", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                    SecureField("Confirm Password", text: $viewModel.c_password)
+                                    if viewModel.is_match_error{
+                                        Label("Passwords must match", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
                                 }
                             }
-                        }.scrollContentBackground(.hidden)
+                        }
                         Spacer()
                         if viewModel.submitted{
                             Label("New password saved successfully!", systemImage: "checkmark.seal.fill")
@@ -95,22 +122,42 @@ struct ForgotPasswordView: View {
                         Rectangle()
                             .fill(newCustomColorsModel.colorSchemeFour)
                             .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.01)
-                        Form{
-                            Section(header: Text("")){
-                                TextField("Phone number", text: $viewModel.phone_number)
-                                if viewModel.is_phone_error{
-                                    Label("Invalid phone number", systemImage: "xmark.octagon")
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                        if #available(iOS 16.0, *) {
+                            Form{
+                                Section(header: Text("")){
+                                    TextField("Phone number", text: $viewModel.phone_number)
+                                    if viewModel.is_phone_error{
+                                        Label("Invalid phone number", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
                                 }
-                            }
-                            Section(header: Text("")){
-                                TextField("Email address", text: $viewModel.email_address)
-                                if viewModel.is_email_error{
-                                    Label("Invalid email address", systemImage: "xmark.octagon")
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                Section(header: Text("")){
+                                    TextField("Email address", text: $viewModel.email_address)
+                                    if viewModel.is_email_error{
+                                        Label("Invalid email address", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
                                 }
-                            }
 
+                            }
+                            .scrollContentBackground(.hidden)
+                        }else{
+                            Form{
+                                Section(header: Text("")){
+                                    TextField("Phone number", text: $viewModel.phone_number)
+                                    if viewModel.is_phone_error{
+                                        Label("Invalid phone number", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                }
+                                Section(header: Text("")){
+                                    TextField("Email address", text: $viewModel.email_address)
+                                    if viewModel.is_email_error{
+                                        Label("Invalid email address", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                }
+                            }
                         }
                         Spacer()
                         if viewModel.is_error {
@@ -118,7 +165,6 @@ struct ForgotPasswordView: View {
                                 .foregroundColor(newCustomColorsModel.colorSchemeFive)
                         }
                         Spacer()
-                        .scrollContentBackground(.hidden)
 //                        NavigationLink(destination: {
 //                            SecurityQuestionsView()
 //                                .navigationBarBackButtonHidden(true)

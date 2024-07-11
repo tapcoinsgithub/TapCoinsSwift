@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-@available(iOS 17.0, *)
+//@available(iOS 17.0, *)
 struct HomePageButton : View {
     @AppStorage("darkMode") var darkMode: Bool?
     @AppStorage("haptics") var haptics_on:Bool?

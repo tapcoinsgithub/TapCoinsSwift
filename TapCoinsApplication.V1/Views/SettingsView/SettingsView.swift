@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-@available(iOS 17.0, *)
+//@available(iOS 17.0, *)
 struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel = SettingsViewModel()
@@ -33,64 +33,126 @@ struct SettingsView: View {
                     .foregroundColor(.black)
                     .background(newCustomColorsModel.colorSchemeTen)
                 Spacer()
-                List{
-                    Section(header: Text("View and edit your account information such as username, password, phone number, etc.")){
-                        NavigationLink(isActive: $viewModel.accountInfoNavIsActive, destination: {
-                            AccountInformationView()
-                                .navigationBarBackButtonHidden(true)
-                                .navigationBarItems(leading: BackButtonView())
-                        }, label: {
-                            Button(action: {
-                                if viewModel.haptics_on ?? true{
-                                    HapticManager.instance.impact(style: .medium)
-                                }
-                                viewModel.accountInfoNavIsActive = true
+                if #available(iOS 16.0, *) {
+                    List{
+                        Section(header: Text("View and edit your account information such as username, password, phone number, etc.")){
+                            NavigationLink(isActive: $viewModel.accountInfoNavIsActive, destination: {
+                                AccountInformationView()
+                                    .navigationBarBackButtonHidden(true)
+                                    .navigationBarItems(leading: BackButtonView())
                             }, label: {
-                                VStack{
-                                    Text("Account Information")
-                                        .font(.system(size: UIScreen.main.bounds.width * 0.05))
-                                        .fontWeight(.bold)
-                                        .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
-                                        .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
-                                    Rectangle()
-                                        .fill(darkMode ?? false ? Color(.white) : Color(.black))
-                                        .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
-                                }
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
+                                    viewModel.accountInfoNavIsActive = true
+                                }, label: {
+                                    VStack{
+                                        Text("Account Information")
+                                            .font(.system(size: UIScreen.main.bounds.width * 0.05))
+                                            .fontWeight(.bold)
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
+                                            .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
+                                        Rectangle()
+                                            .fill(darkMode ?? false ? Color(.white) : Color(.black))
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
+                                    }
+                                })
                             })
-                        })
-                    }
-                    .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
-                    .listRowBackground(Color.clear)
-                    Section(header: Text("Toggle app settings such as light mode, sound, and vibrations.")){
-                        NavigationLink(isActive: $viewModel.toggleViewNavIsActive, destination: {
-                            ToggleSettingsView()
-                                .navigationBarBackButtonHidden(true)
-                                .navigationBarItems(leading: BackButtonView())
-                        }, label: {
-                            Button(action: {
-                                if viewModel.haptics_on ?? true{
-                                    HapticManager.instance.impact(style: .medium)
-                                }
-                                viewModel.toggleViewNavIsActive = true
+                        }
+                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                        .listRowBackground(Color.clear)
+                        Section(header: Text("Toggle app settings such as light mode, sound, and vibrations.")){
+                            NavigationLink(isActive: $viewModel.toggleViewNavIsActive, destination: {
+                                ToggleSettingsView()
+                                    .navigationBarBackButtonHidden(true)
+                                    .navigationBarItems(leading: BackButtonView())
                             }, label: {
-                                VStack{
-                                    Text("Toggle Settings")
-                                        .font(.system(size: UIScreen.main.bounds.width * 0.05))
-                                        .fontWeight(.bold)
-                                        .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
-                                        .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
-                                    Rectangle()
-                                        .fill(darkMode ?? false ? Color(.white) : Color(.black))
-                                        .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
-                                }
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
+                                    viewModel.toggleViewNavIsActive = true
+                                }, label: {
+                                    VStack{
+                                        Text("Toggle Settings")
+                                            .font(.system(size: UIScreen.main.bounds.width * 0.05))
+                                            .fontWeight(.bold)
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
+                                            .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
+                                        Rectangle()
+                                            .fill(darkMode ?? false ? Color(.white) : Color(.black))
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
+                                    }
+                                })
                             })
-                        })
-                    }
-                    .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
-                    .listRowBackground(Color.clear)
-                } // List
-                .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
-                .scrollContentBackground(.hidden)
+                        }
+                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                        .listRowBackground(Color.clear)
+                    } // List
+                    .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
+                    .scrollContentBackground(.hidden)
+                }
+                else{
+                    List{
+                        Section(header: Text("View and edit your account information such as username, password, phone number, etc.")){
+                            NavigationLink(isActive: $viewModel.accountInfoNavIsActive, destination: {
+                                AccountInformationView()
+                                    .navigationBarBackButtonHidden(true)
+                                    .navigationBarItems(leading: BackButtonView())
+                            }, label: {
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
+                                    viewModel.accountInfoNavIsActive = true
+                                }, label: {
+                                    VStack{
+                                        Text("Account Information")
+                                            .font(.system(size: UIScreen.main.bounds.width * 0.05))
+                                            .fontWeight(.bold)
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
+                                            .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
+                                        Rectangle()
+                                            .fill(darkMode ?? false ? Color(.white) : Color(.black))
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
+                                    }
+                                })
+                            })
+                        }
+                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                        .listRowBackground(Color.clear)
+                        Section(header: Text("Toggle app settings such as light mode, sound, and vibrations.")){
+                            NavigationLink(isActive: $viewModel.toggleViewNavIsActive, destination: {
+                                ToggleSettingsView()
+                                    .navigationBarBackButtonHidden(true)
+                                    .navigationBarItems(leading: BackButtonView())
+                            }, label: {
+                                Button(action: {
+                                    if viewModel.haptics_on ?? true{
+                                        HapticManager.instance.impact(style: .medium)
+                                    }
+                                    viewModel.toggleViewNavIsActive = true
+                                }, label: {
+                                    VStack{
+                                        Text("Toggle Settings")
+                                            .font(.system(size: UIScreen.main.bounds.width * 0.05))
+                                            .fontWeight(.bold)
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, alignment: .leading)
+                                            .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
+                                        Rectangle()
+                                            .fill(darkMode ?? false ? Color(.white) : Color(.black))
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.001)
+                                    }
+                                })
+                            })
+                        }
+                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                        .listRowBackground(Color.clear)
+                    } // List
+                    .foregroundColor(darkMode ?? false ? Color(.white) : Color(.black))
+                }
+                
                 HStack{
                     Button(action: {
                         if viewModel.haptics_on ?? true{

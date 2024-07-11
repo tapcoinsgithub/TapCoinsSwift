@@ -60,12 +60,22 @@ struct ProfileView: View {
                                                 }
                                                 viewModel.showRequest = false
                                             }, label: {
-                                                Text("Exit")
-                                                    .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
-                                                    .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
-                                                    .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
-                                                    .fontWeight(.bold)
-                                                    .cornerRadius(8)
+                                                if #available(iOS 16.0, *){
+                                                    Text("Exit")
+                                                        .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
+                                                        .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
+                                                        .fontWeight(.bold)
+                                                        .cornerRadius(8)
+                                                }
+                                                else{
+                                                    Text("Exit")
+                                                        .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
+                                                        .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
+                                                        .cornerRadius(8)
+                                                }
+                                                
                                             }).padding()
                                         }
                                     }

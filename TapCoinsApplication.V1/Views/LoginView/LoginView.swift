@@ -28,22 +28,41 @@ struct LoginView: View {
                     Text("Login")
                         .font(.system(size: UIScreen.main.bounds.width * 0.16))
                         .foregroundColor(newCustomColorsModel.colorSchemeOne)
-                    Form{
-                        Section(header: Text("")){
-                            TextField("Username", text: $viewModel.username)
-                            if viewModel.is_error{
-                                Label(viewModel.user_error?.rawValue ?? "Something went wrong.", systemImage: "xmark.octagon")
-                                    .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                            }
-                            SecureField("Password", text: $viewModel.password)
-                            if viewModel.is_error {
-                                Label(viewModel.password_error?.rawValue ?? "Something went wrong.", systemImage: "xmark.octagon")
-                                    .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                    if #available(iOS 16.0, *) {
+                        Form{
+                            Section(header: Text("")){
+                                TextField("Username", text: $viewModel.username)
+                                if viewModel.is_error{
+                                    Label(viewModel.user_error?.rawValue ?? "Something went wrong.", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                                SecureField("Password", text: $viewModel.password)
+                                if viewModel.is_error {
+                                    Label(viewModel.password_error?.rawValue ?? "Something went wrong.", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
                             }
                         }
+                        .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
+                        .scrollContentBackground(.hidden)
                     }
-                    .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
-                    .scrollContentBackground(.hidden)
+                    else{
+                        Form{
+                            Section(header: Text("")){
+                                TextField("Username", text: $viewModel.username)
+                                if viewModel.is_error{
+                                    Label(viewModel.user_error?.rawValue ?? "Something went wrong.", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                                SecureField("Password", text: $viewModel.password)
+                                if viewModel.is_error {
+                                    Label(viewModel.password_error?.rawValue ?? "Something went wrong.", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                            }
+                        }
+                        .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
+                    }
                     Button(action: {viewModel.log_pressed ? nil : viewModel.loginTask()}, label: {
                         Text("Login")
                             .frame(width: 200, height: 50, alignment: .center)

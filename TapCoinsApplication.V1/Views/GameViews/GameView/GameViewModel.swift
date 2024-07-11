@@ -109,11 +109,28 @@ final class GameViewModel: ObservableObject {
     private var globalFunctions = GlobalFunctions()
     private var globalVariables = GlobalVariables()
     
+    func splitString(input: String) -> [String] {
+        let characters = input.map { String($0) }
+        var split_array:[String] = []
+        for char in characters{
+            split_array.append(char)
+        }
+        return split_array
+    }
+    
     func factorString(input:String) -> String{
         print("IN FACTOR STRING FUNCTION")
-        var inputSplit = input.split(separator: "")
+        var inputSplit:[String] = []
+        if #available(iOS 16.0, *) {
+            inputSplit = input.split(separator: "") as? [String] ?? ["None"]
+        } else {
+            inputSplit = splitString(input: input)
+        }
         var factoredStringOutput = ""
         var index = 10
+        if inputSplit[0] == "None"{
+            return "None"
+        }
         for char in inputSplit{
             if index == 0{
                 break
@@ -129,10 +146,6 @@ final class GameViewModel: ObservableObject {
         let convertedData = UserViewModel(self.userViewModel ?? Data())
         self.userModel = convertedData ?? UserViewModel(first_name: "NO FIRST NAME", last_name: "NO LAST NAME")
         self.curr_username = userModel.username ?? "NO USERNAME"
-        print("******************************")
-        print(fPoints)
-        print(sPoints)
-        print("******************************")
         if (from_queue ?? true){
             GameHandler.sharedInstance.establishConnection()
             from_gq = true
@@ -148,9 +161,19 @@ final class GameViewModel: ObservableObject {
                             if (self.gameId != "No Game Id"){
                                 var gClient_data = ""
                                 if self.first.count > 10 {
-                                    self.first = self.factorString(input: self.first)
+                                    let gettingFirst = self.factorString(input: self.first)
+                                    if gettingFirst == "None"{
+                                        self.returnHomeTask(exit: true)
+                                        return
+                                    }
+                                    self.first = gettingFirst
                                 }
                                 if self.second.count > 10 {
+                                    let gettingSecond = self.factorString(input: self.second)
+                                    if gettingSecond == "None"{
+                                        self.returnHomeTask(exit: true)
+                                        return
+                                    }
                                     self.second = self.factorString(input: self.second)
                                 }
                                 if (self.is_first ?? false){

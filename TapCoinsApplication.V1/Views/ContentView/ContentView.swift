@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 17.0, *)
+//@available(iOS 17.0, *)
 struct ContentView: View {
     @AppStorage("session") var logged_in_user: String?
     @AppStorage("pGame") var pGame: String?
