@@ -60,12 +60,22 @@ struct ProfileView: View {
                                                 }
                                                 viewModel.showRequest = false
                                             }, label: {
-                                                Text("Exit")
-                                                    .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
-                                                    .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
-                                                    .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
-                                                    .fontWeight(.bold)
-                                                    .cornerRadius(8)
+                                                if #available(iOS 16.0, *){
+                                                    Text("Exit")
+                                                        .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
+                                                        .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
+                                                        .fontWeight(.bold)
+                                                        .cornerRadius(8)
+                                                }
+                                                else{
+                                                    Text("Exit")
+                                                        .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
+                                                        .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
+                                                        .cornerRadius(8)
+                                                }
+                                                
                                             }).padding()
                                         }
                                     }
@@ -213,7 +223,8 @@ struct ProfileView: View {
                         .border(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour, width: UIScreen.main.bounds.width * 0.04)
                         .cornerRadius(UIScreen.main.bounds.width * 0.06)
                     Spacer()
-                    BannerAd(unitID: "ca-app-pub-3940256099942544/2435281174") // Fake Ad Unit
+                   // BannerAd(unitID: "ca-app-pub-3940256099942544/2435281174")  // Fake Ad Unit
+//                    BannerAd(unitID: "ca-app-pub-1452192881574944/4293163603")
                     Spacer()
                     HStack{
                         VStack(alignment: .leading, spacing: 0.0){

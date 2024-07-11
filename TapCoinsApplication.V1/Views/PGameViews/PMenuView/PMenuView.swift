@@ -39,14 +39,25 @@ struct PMenuView: View {
                             }
                             viewModel.easyModeNavIsActive = true
                         }, label: {
-                            Text("Easy")
-                                .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.1, alignment: .center)
-                                .fontWeight(.bold)
-                                .foregroundColor(newCustomColorsModel.colorSchemeFour)
-                                .font(.system(size: UIScreen.main.bounds.width * 0.07))
-                                .background(newCustomColorsModel.colorSchemeOne)
-                                .cornerRadius(8)
-                                .shadow(color: newCustomColorsModel.colorSchemeTen, radius: UIScreen.main.bounds.width * 0.02, x: 0, y: UIScreen.main.bounds.width * 0.04)
+                            if #available(iOS 16.0, *) {
+                                Text("Easy")
+                                    .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.1, alignment: .center)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(newCustomColorsModel.colorSchemeFour)
+                                    .font(.system(size: UIScreen.main.bounds.width * 0.07))
+                                    .background(newCustomColorsModel.colorSchemeOne)
+                                    .cornerRadius(8)
+                                    .shadow(color: newCustomColorsModel.colorSchemeTen, radius: UIScreen.main.bounds.width * 0.02, x: 0, y: UIScreen.main.bounds.width * 0.04)
+                            }
+                            else{
+                                Text("Easy")
+                                    .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.1, alignment: .center)
+                                    .foregroundColor(newCustomColorsModel.colorSchemeFour)
+                                    .font(.system(size: UIScreen.main.bounds.width * 0.07))
+                                    .background(newCustomColorsModel.colorSchemeOne)
+                                    .cornerRadius(8)
+                                    .shadow(color: newCustomColorsModel.colorSchemeTen, radius: UIScreen.main.bounds.width * 0.02, x: 0, y: UIScreen.main.bounds.width * 0.04)
+                            }
                         })
                     })
                     .simultaneousGesture(
@@ -65,14 +76,25 @@ struct PMenuView: View {
                             }
                             viewModel.mediumModeNavIsActive = true
                         }, label: {
-                            Text("Medium")
-                                .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.1, alignment: .center)
-                                .fontWeight(.bold)
-                                .foregroundColor(newCustomColorsModel.colorSchemeOne)
-                                .font(.system(size: UIScreen.main.bounds.width * 0.07))
-                                .background(newCustomColorsModel.colorSchemeFour)
-                                .cornerRadius(8)
-                                .shadow(color: newCustomColorsModel.colorSchemeTen, radius: UIScreen.main.bounds.width * 0.02, x: 0, y: UIScreen.main.bounds.width * 0.04)
+                            if #available(iOS 16.0, *) {
+                                Text("Medium")
+                                    .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.1, alignment: .center)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                                    .font(.system(size: UIScreen.main.bounds.width * 0.07))
+                                    .background(newCustomColorsModel.colorSchemeFour)
+                                    .cornerRadius(8)
+                                    .shadow(color: newCustomColorsModel.colorSchemeTen, radius: UIScreen.main.bounds.width * 0.02, x: 0, y: UIScreen.main.bounds.width * 0.04)
+                            }
+                            else{
+                                Text("Medium")
+                                    .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.1, alignment: .center)
+                                    .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                                    .font(.system(size: UIScreen.main.bounds.width * 0.07))
+                                    .background(newCustomColorsModel.colorSchemeFour)
+                                    .cornerRadius(8)
+                                    .shadow(color: newCustomColorsModel.colorSchemeTen, radius: UIScreen.main.bounds.width * 0.02, x: 0, y: UIScreen.main.bounds.width * 0.04)
+                            }
                         })
                     })
                     .simultaneousGesture(
@@ -91,14 +113,25 @@ struct PMenuView: View {
                             }
                             viewModel.hardModeNavIsActive = true
                         }, label: {
-                            Text("Hard")
-                                .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.1, alignment: .center)
-                                .fontWeight(.bold)
-                                .foregroundColor(newCustomColorsModel.colorSchemeOne)
-                                .font(.system(size: UIScreen.main.bounds.width * 0.07))
-                                .background(newCustomColorsModel.colorSchemeFive)
-                                .cornerRadius(8)
-                                .shadow(color: newCustomColorsModel.colorSchemeTen, radius: UIScreen.main.bounds.width * 0.02, x: 0, y: UIScreen.main.bounds.width * 0.04)
+                            if #available(iOS 16.0, *) {
+                                Text("Hard")
+                                    .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.1, alignment: .center)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                                    .font(.system(size: UIScreen.main.bounds.width * 0.07))
+                                    .background(newCustomColorsModel.colorSchemeFive)
+                                    .cornerRadius(8)
+                                    .shadow(color: newCustomColorsModel.colorSchemeTen, radius: UIScreen.main.bounds.width * 0.02, x: 0, y: UIScreen.main.bounds.width * 0.04)
+                            }
+                            else{
+                                Text("Hard")
+                                    .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.1, alignment: .center)
+                                    .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                                    .font(.system(size: UIScreen.main.bounds.width * 0.07))
+                                    .background(newCustomColorsModel.colorSchemeFive)
+                                    .cornerRadius(8)
+                                    .shadow(color: newCustomColorsModel.colorSchemeTen, radius: UIScreen.main.bounds.width * 0.02, x: 0, y: UIScreen.main.bounds.width * 0.04)
+                            }
                         })
                     })
                     .simultaneousGesture(

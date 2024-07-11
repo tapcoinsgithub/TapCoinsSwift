@@ -27,35 +27,68 @@ struct RegistrationView: View {
                         Text("Register")
                             .font(.system(size: UIScreen.main.bounds.width * 0.14))
                             .foregroundColor(newCustomColorsModel.colorSchemeFour)
-                        Form{
-                            Section(header: Text("")){
-                                TextField("First Name (optional)", text: $viewModel.first_name)
-                                TextField("Last Name (optional)", text: $viewModel.last_name)
-                            }
-                            if viewModel.register_error{
-                                Label(viewModel.register_error_string, systemImage: "info.circle")
-                                    .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                            }
-                            Section{
-                                TextField("Username", text: $viewModel.username).foregroundColor(.black)
-                                if viewModel.is_uName_error{
-                                    Label(viewModel.username_error?.rawValue ?? "", systemImage: "xmark.octagon")
+                        if #available(iOS 16.0, *) {
+                            Form{
+                                Section(header: Text("")){
+                                    TextField("First Name (optional)", text: $viewModel.first_name)
+                                    TextField("Last Name (optional)", text: $viewModel.last_name)
+                                }
+                                if viewModel.register_error{
+                                    Label(viewModel.register_error_string, systemImage: "info.circle")
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
-                                SecureField("Password", text: $viewModel.password).foregroundColor(.black)
-                                if viewModel.is_password_error{
-                                    Label(viewModel.password_error?.rawValue ?? "", systemImage: "xmark.octagon")
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                                }
-                                SecureField("Confirm password", text: $viewModel.confirm_password).foregroundColor(.black)
-                                if viewModel.is_password_error{
-                                    Label(viewModel.password_error?.rawValue ?? "", systemImage: "xmark.octagon")
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                Section{
+                                    TextField("Username", text: $viewModel.username).foregroundColor(.black)
+                                    if viewModel.is_uName_error{
+                                        Label(viewModel.username_error?.rawValue ?? "", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                    SecureField("Password", text: $viewModel.password).foregroundColor(.black)
+                                    if viewModel.is_password_error{
+                                        Label(viewModel.password_error?.rawValue ?? "", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                    SecureField("Confirm password", text: $viewModel.confirm_password).foregroundColor(.black)
+                                    if viewModel.is_password_error{
+                                        Label(viewModel.password_error?.rawValue ?? "", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
                                 }
                             }
+                            .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.6, alignment: .bottom)
+                            .scrollContentBackground(.hidden)
                         }
-                        .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.6, alignment: .bottom)
-                        .scrollContentBackground(.hidden)
+                        else{
+                            Form{
+                                Section(header: Text("")){
+                                    TextField("First Name (optional)", text: $viewModel.first_name)
+                                    TextField("Last Name (optional)", text: $viewModel.last_name)
+                                }
+                                if viewModel.register_error{
+                                    Label(viewModel.register_error_string, systemImage: "info.circle")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                                Section{
+                                    TextField("Username", text: $viewModel.username).foregroundColor(.black)
+                                    if viewModel.is_uName_error{
+                                        Label(viewModel.username_error?.rawValue ?? "", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                    SecureField("Password", text: $viewModel.password).foregroundColor(.black)
+                                    if viewModel.is_password_error{
+                                        Label(viewModel.password_error?.rawValue ?? "", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                    SecureField("Confirm password", text: $viewModel.confirm_password).foregroundColor(.black)
+                                    if viewModel.is_password_error{
+                                        Label(viewModel.password_error?.rawValue ?? "", systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                }
+                            }
+                            .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.6, alignment: .bottom)
+                        }
+                        
                         Button(action: {viewModel.reg_pressed ? nil : viewModel.registerTask()}, label: {
                             Text("Register")
                                 .frame(width: 200, height: 50, alignment: .center)

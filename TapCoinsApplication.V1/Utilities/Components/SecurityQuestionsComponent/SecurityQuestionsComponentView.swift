@@ -73,9 +73,15 @@ struct SecurityQuestionsComponentView: View {
                                             .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                     }
                                     Button(action: {viewModel.pressed_check_and_set_sqs ? nil : viewModel.check_and_set_sqs()}, label: {
-                                        Text("Save")
-                                            .foregroundStyle(newCustomColorsModel.colorSchemeOne)
-                                            .bold(true)
+                                        if #available(iOS 16.0, *){
+                                            Text("Save")
+                                                .foregroundStyle(newCustomColorsModel.colorSchemeOne)
+                                                .bold(true)
+                                        }
+                                        else{
+                                            Text("Save")
+                                                .foregroundStyle(newCustomColorsModel.colorSchemeOne)
+                                        }
                                     })
                                     .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
                                     .background(newCustomColorsModel.colorSchemeFour)
@@ -89,12 +95,21 @@ struct SecurityQuestionsComponentView: View {
                         }
                         else{
                             VStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.05){
-                                Text("Confirm Password to edit Security Questions")
-                                    .frame(width: UIScreen.main.bounds.width * 0.8, alignment: .center)
-                                    .font(.system(size: UIScreen.main.bounds.width * 0.037))
-                                    .foregroundColor(newCustomColorsModel.colorSchemeOne)
-                                    .bold()
-                                    .underline(true)
+                                if #available(iOS 16.0, *){
+                                    Text("Confirm Password to edit Security Questions")
+                                        .frame(width: UIScreen.main.bounds.width * 0.8, alignment: .center)
+                                        .font(.system(size: UIScreen.main.bounds.width * 0.037))
+                                        .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                                        .bold()
+                                        .underline(true)
+                                }
+                                else{
+                                    Text("Confirm Password to edit Security Questions")
+                                        .frame(width: UIScreen.main.bounds.width * 0.8, alignment: .center)
+                                        .font(.system(size: UIScreen.main.bounds.width * 0.037))
+                                        .foregroundColor(newCustomColorsModel.colorSchemeOne)
+                                }
+                                
                                 SecureField("Password", text: $viewModel.password)
                                     .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
                                     .foregroundColor(Color(.black))
@@ -104,12 +119,22 @@ struct SecurityQuestionsComponentView: View {
                                         .foregroundColor(newCustomColorsModel.colorSchemeFive)
                                 }
                                 Button(action: {viewModel.pressed_confirm_password ? nil : viewModel.confirmPasswordTask()}, label: {
-                                    Text("Confirm")
-                                        .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
-                                        .background(newCustomColorsModel.colorSchemeOne)
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFour)
-                                        .fontWeight(.bold)
-                                        .cornerRadius(8)
+                                    if #available(iOS 16.0, *){
+                                        Text("Confirm")
+                                            .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
+                                            .background(newCustomColorsModel.colorSchemeOne)
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFour)
+                                            .fontWeight(.bold)
+                                            .cornerRadius(8)
+                                    }
+                                    else{
+                                        Text("Confirm")
+                                            .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.04, alignment: .center)
+                                            .background(newCustomColorsModel.colorSchemeOne)
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFour)
+                                            .cornerRadius(8)
+                                    }
+                                    
                                 }).padding()
                             }
                             .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.25, alignment: .center)
@@ -155,9 +180,15 @@ struct SecurityQuestionsComponentView: View {
                                     .foregroundStyle(Color(.black))
                                 HStack{
                                     Button(action: {viewModel.pressed_check_and_set_sqs ? nil : viewModel.check_and_set_sqs()}, label: {
-                                        Text("Save")
-                                            .foregroundColor(.black)
-                                            .bold(true)
+                                        if #available(iOS 16.0, *){
+                                            Text("Save")
+                                                .foregroundColor(.black)
+                                                .bold(true)
+                                        }
+                                        else{
+                                            Text("Save")
+                                                .foregroundColor(.black)
+                                        }
                                     })
                                     .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
                                     .background(newCustomColorsModel.colorSchemeSeven)
@@ -167,9 +198,15 @@ struct SecurityQuestionsComponentView: View {
                                         print("Skipping")
                                         viewModel.show_security_questions = false
                                     }, label: {
-                                        Text("Skip")
-                                            .foregroundColor(.black)
-                                            .bold(true)
+                                        if #available(iOS 16.0, *){
+                                            Text("Skip")
+                                                .foregroundColor(.black)
+                                                .bold(true)
+                                        }
+                                        else{
+                                            Text("Skip")
+                                                .foregroundColor(.black)
+                                        }
                                     })
                                     .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.05, alignment: .center)
                                     .background(newCustomColorsModel.colorSchemeSix)

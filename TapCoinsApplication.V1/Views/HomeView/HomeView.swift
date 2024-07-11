@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-@available(iOS 17.0, *)
+//@available(iOS 17.0, *)
 struct HomeView: View {
     @AppStorage("in_queue") var in_queue: Bool?
     @AppStorage("darkMode") var darkMode: Bool?

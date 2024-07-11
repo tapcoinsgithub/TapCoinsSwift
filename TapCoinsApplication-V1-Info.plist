@@ -230,7 +230,7 @@
 			<string>https://tapcoins-queue-server-prod-1b6178d59504.herokuapp.com</string>
 		</array>
 		<key>ENV_SETTING</key>
-		<string>0</string>
+		<string>2</string>
 	</dict>
 </dict>
 </plist>

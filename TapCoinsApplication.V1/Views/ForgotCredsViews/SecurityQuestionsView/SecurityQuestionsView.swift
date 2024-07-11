@@ -27,45 +27,88 @@ struct SecurityQuestionsView: View {
                         .scaleEffect(UIScreen.main.bounds.width * 0.01)
                 }
                 else{
-                    Form{
-                        if viewModel.username_sent{
-                            if viewModel.valid_userename{
-                                Section(header: Text("")){
-                                    Text(viewModel.question_1)
-                                    TextField("Answer here", text: $viewModel.answer_1)
-                                    if viewModel.incorrect_answers_errors{
-                                        Label("Invalid answer", systemImage: "xmark.octagon")
-                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                    if #available(iOS 16.0, *){
+                        Form{
+                            if viewModel.username_sent{
+                                if viewModel.valid_userename{
+                                    Section(header: Text("")){
+                                        Text(viewModel.question_1)
+                                        TextField("Answer here", text: $viewModel.answer_1)
+                                        if viewModel.incorrect_answers_errors{
+                                            Label("Invalid answer", systemImage: "xmark.octagon")
+                                                .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                        }
+                                        Text(viewModel.question_2)
+                                        TextField("Answer here", text: $viewModel.answer_2)
+                                        if viewModel.incorrect_answers_errors{
+                                            Label("Invalid answer", systemImage: "xmark.octagon")
+                                                .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                        }
+                                        if viewModel.is_error{
+                                            Label("Something went wrong.", systemImage: "xmark.octagon")
+                                                .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                        }
                                     }
-                                    Text(viewModel.question_2)
-                                    TextField("Answer here", text: $viewModel.answer_2)
-                                    if viewModel.incorrect_answers_errors{
-                                        Label("Invalid answer", systemImage: "xmark.octagon")
-                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                                    }
-                                    if viewModel.is_error{
-                                        Label("Something went wrong.", systemImage: "xmark.octagon")
-                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                                    }
+                                }
+                                else{
+                                    Text("No security questions saved for this account.")
                                 }
                             }
                             else{
-                                Text("No security questions saved for this account.")
-                            }
-                        }
-                        else{
-                            Section(header: Text("")){
-                                Text("Enter username below.")
-                                TextField("Username", text: $viewModel._username)
-                                if viewModel.is_error{
-                                    Label(viewModel.username_error, systemImage: "xmark.octagon")
-                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                Section(header: Text("")){
+                                    Text("Enter username below.")
+                                    TextField("Username", text: $viewModel._username)
+                                    if viewModel.is_error{
+                                        Label(viewModel.username_error, systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
                                 }
                             }
                         }
+                        .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
+                        .scrollContentBackground(.hidden)
                     }
-                    .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
-                    .scrollContentBackground(.hidden)
+                    else{
+                        Form{
+                            if viewModel.username_sent{
+                                if viewModel.valid_userename{
+                                    Section(header: Text("")){
+                                        Text(viewModel.question_1)
+                                        TextField("Answer here", text: $viewModel.answer_1)
+                                        if viewModel.incorrect_answers_errors{
+                                            Label("Invalid answer", systemImage: "xmark.octagon")
+                                                .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                        }
+                                        Text(viewModel.question_2)
+                                        TextField("Answer here", text: $viewModel.answer_2)
+                                        if viewModel.incorrect_answers_errors{
+                                            Label("Invalid answer", systemImage: "xmark.octagon")
+                                                .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                        }
+                                        if viewModel.is_error{
+                                            Label("Something went wrong.", systemImage: "xmark.octagon")
+                                                .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                        }
+                                    }
+                                }
+                                else{
+                                    Text("No security questions saved for this account.")
+                                }
+                            }
+                            else{
+                                Section(header: Text("")){
+                                    Text("Enter username below.")
+                                    TextField("Username", text: $viewModel._username)
+                                    if viewModel.is_error{
+                                        Label(viewModel.username_error, systemImage: "xmark.octagon")
+                                            .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                    }
+                                }
+                            }
+                        }
+                        .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
+                    }
+                    
                 }
                 Button(action: {
                     print("SUBMITTING")

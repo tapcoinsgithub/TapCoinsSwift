@@ -29,11 +29,11 @@ struct QueueView: View {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint:newCustomColorsModel.colorSchemeOne))
                     .scaleEffect(UIScreen.main.bounds.width * 0.01)
-                BannerAd(unitID: "ca-app-pub-3940256099942544/2435281174")
-                    .onReceive(NotificationCenter.default.publisher(for: Notification.Name("AdLoadedNotification"))) { _ in
-                        viewModel.connect_to_queue()
-                    }
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.2)
+//                BannerAd(unitID: "ca-app-pub-3940256099942544/2435281174")
+//                    .onReceive(NotificationCenter.default.publisher(for: Notification.Name("AdLoadedNotification"))) { _ in
+//                        viewModel.connect_to_queue()
+//                    }
+//                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.2)
                 Button(action: {
                     if viewModel.haptics_on ?? true{
                         HapticManager.instance.impact(style: .medium)

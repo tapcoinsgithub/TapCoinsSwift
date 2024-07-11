@@ -39,7 +39,13 @@ struct TapDashSignUpView: View {
                                     HStack{
                                         Text("I agree to the ")
                                             .font(.system(size: UIScreen.main.bounds.width * 0.04))
-                                        Link("Terms and Conditions.", destination: URL(string: "https://app.websitepolicies.com/policies/view/rnacpu04") ?? URL(string: "")!).font(.system(size: UIScreen.main.bounds.width * 0.04)).underline(true)
+                                        if #available(iOS 16.0, *){
+                                            Link("Terms and Conditions.", destination: URL(string: "https://app.websitepolicies.com/policies/view/rnacpu04") ?? URL(string: "")!).font(.system(size: UIScreen.main.bounds.width * 0.04)).underline(true)
+                                        }
+                                        else{
+                                            Link("Terms and Conditions.", destination: URL(string: "https://app.websitepolicies.com/policies/view/rnacpu04") ?? URL(string: "")!).font(.system(size: UIScreen.main.bounds.width * 0.04))
+                                        }
+                                        
                                     }
                                   }
                                   .toggleStyle(CheckboxToggleStyle())
