@@ -120,12 +120,21 @@ struct FriendsListItemView: View {
                                 viewModel.show_hide_friend_request_actions(index:friend)
                             }, label:{
                                 HStack(spacing: 0){
-                                    Text(friend)
-                                        .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.05)
-                                        .font(.system(size: UIScreen.main.bounds.width * 0.045))
-                                        .fontWeight(.bold)
-                                        .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
-                                        .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                    if #available(iOS 16.0, *){
+                                        Text(friend)
+                                            .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.05)
+                                            .font(.system(size: UIScreen.main.bounds.width * 0.045))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
+                                            .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                    }
+                                    else{
+                                        Text(friend)
+                                            .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.05)
+                                            .font(.system(size: UIScreen.main.bounds.width * 0.045))
+                                            .foregroundColor(darkMode ?? false ? newCustomColorsModel.colorSchemeFour : newCustomColorsModel.colorSchemeOne)
+                                            .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)
+                                    }
                                     Image(systemName: viewModel.show_friend_request_actions_bool ? "envelope.open.fill" : "envelope.fill")
                                         .frame(width: UIScreen.main.bounds.width * 0.08, height: UIScreen.main.bounds.height * 0.05)
                                         .background(darkMode ?? false ? newCustomColorsModel.colorSchemeOne : newCustomColorsModel.colorSchemeFour)

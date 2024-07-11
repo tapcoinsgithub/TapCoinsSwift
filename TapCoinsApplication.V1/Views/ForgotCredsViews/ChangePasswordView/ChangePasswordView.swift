@@ -28,32 +28,61 @@ struct ChangePasswordView: View {
                         .scaleEffect(UIScreen.main.bounds.width * 0.01)
                 }
                 else{
-                    Form{
-                        Section(header: Text("")){
-                            if viewModel.is_error{
-                                Label(viewModel.error, systemImage: "xmark.octagon")
-                                    .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                            }
-                            Text("New Password:")
-                            SecureField("Password", text: $viewModel.password)
-                            if viewModel.is_match_error{
-                                Label("Passwords must match", systemImage: "xmark.octagon")
-                                    .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                            }
-                            if viewModel.is_password_error{
-                                Label("Password can't be blank.", systemImage: "xmark.octagon")
-                                    .foregroundColor(newCustomColorsModel.colorSchemeFive)
-                            }
-                            Text("Confirm New Password:")
-                            SecureField("Confirm Password", text: $viewModel.c_password)
-                            if viewModel.is_match_error{
-                                Label("Passwords must match", systemImage: "xmark.octagon")
-                                    .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                    if #available(iOS 16.0, *) {
+                        Form{
+                            Section(header: Text("")){
+                                if viewModel.is_error{
+                                    Label(viewModel.error, systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                                Text("New Password:")
+                                SecureField("Password", text: $viewModel.password)
+                                if viewModel.is_match_error{
+                                    Label("Passwords must match", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                                if viewModel.is_password_error{
+                                    Label("Password can't be blank.", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                                Text("Confirm New Password:")
+                                SecureField("Confirm Password", text: $viewModel.c_password)
+                                if viewModel.is_match_error{
+                                    Label("Passwords must match", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
                             }
                         }
+                        .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
+                        .scrollContentBackground(.hidden)
                     }
-                    .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
-                    .scrollContentBackground(.hidden)
+                    else{
+                        Form{
+                            Section(header: Text("")){
+                                if viewModel.is_error{
+                                    Label(viewModel.error, systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                                Text("New Password:")
+                                SecureField("Password", text: $viewModel.password)
+                                if viewModel.is_match_error{
+                                    Label("Passwords must match", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                                if viewModel.is_password_error{
+                                    Label("Password can't be blank.", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                                Text("Confirm New Password:")
+                                SecureField("Confirm Password", text: $viewModel.c_password)
+                                if viewModel.is_match_error{
+                                    Label("Passwords must match", systemImage: "xmark.octagon")
+                                        .foregroundColor(newCustomColorsModel.colorSchemeFive)
+                                }
+                            }
+                        }
+                        .frame(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height * 0.3, alignment: .bottom)
+                    }
                 }
                 if viewModel.submitted {
                     Text("New password saved!")

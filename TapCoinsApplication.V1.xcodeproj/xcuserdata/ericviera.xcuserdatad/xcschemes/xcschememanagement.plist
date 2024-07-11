@@ -4,18 +4,6 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>TapCoinsApplication.V1-DEV.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>isShown</key>
-			<true/>
-			<key>orderHint</key>
-			<integer>7</integer>
-		</dict>
-		<key>TapCoinsApplication.V1-QA.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>9</integer>
-		</dict>
 		<key>TapCoinsApplication.V1.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>isShown</key>

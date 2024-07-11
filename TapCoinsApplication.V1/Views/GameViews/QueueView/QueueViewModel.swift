@@ -56,6 +56,7 @@ final class QueueViewModel: ObservableObject{
     
     init() {
         self.custom_game = false
+        self.connect_to_queue()
     }//init
     
     func connect_to_queue(){
